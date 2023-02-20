@@ -1,5 +1,4 @@
 
-
 import { Navigate, Route, Routes } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
 import './App.css';
@@ -7,6 +6,9 @@ import AdminLayout from './Layout/AdminLayout';
 import AdminPage from './page/Admin/home/AdminPage';
 import Home from "./page/home";
 import NotFound from "./page/notFound";
+
+import ShopCart from "./page/cart/shop_cart";
+
 import NewProduct from './page/Admin/newProduct/NewProduct';
 import NewUser from './page/Admin/newUser/NewUser';
 import Product from './page/Admin/product/Product';
@@ -26,12 +28,14 @@ function App() {
         <Routes>
             {/* <Route path="/" 
 
+
             element={
                 <PrivateLayout>
                     <Layout/>
                 </PrivateLayout>
             }>
                 <Route index element={<Navigate to ="/"/>} /> */}
+
 
             <Route path="/" element={<Home />} />
             {/* </Route> */}
