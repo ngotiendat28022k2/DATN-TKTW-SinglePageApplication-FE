@@ -4,6 +4,10 @@ import Home from "./page/home";
 import NotFound from "./page/notFound";
 import PrivateLayout from "./Layout/privateLayout";
 import Layout from "./Layout/layout";
+import Profile from './page/profile';
+import OrderSearch from './page/orderSearch';
+import WishList from './page/wishList';
+
 
 
 function App() {
@@ -20,6 +24,11 @@ function App() {
             {/* </Route> */}
             {/*  */}
             <Route path="*" element={ <NotFound /> }/>
+            <Route path="/profile" element={ <Profile /> }/>
+            <Route path="/ordersearch" element={ <OrderSearch /> }/>
+            <Route path="/wishlist" element={ <WishList /> }/>
+
+
         </Routes>
 
     </div>;
