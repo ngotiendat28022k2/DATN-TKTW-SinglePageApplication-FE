@@ -1,3 +1,6 @@
+
+
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Route, Routes } from "react-router-dom";
 import './App.css';
 import AdminLayout from './Layout/AdminLayout';
@@ -12,6 +15,7 @@ import User from './page/Admin/user/User';
 import UserList from './page/Admin/userList/UserList';
 import PrivateLayout from "./Layout/privateLayout";
 import Layout from "./Layout/layout";
+import PayCart from "./page/payCart/payCart";
 import Login from './page/auth/login';
 import Register from './page/auth/register';
 
@@ -21,12 +25,14 @@ function App() {
     return <div className="App">
         <Routes>
             {/* <Route path="/" 
+
             element={
                 <PrivateLayout>
                     <Layout/>
                 </PrivateLayout>
             }>
                 <Route index element={<Navigate to ="/"/>} /> */}
+
             <Route path="/" element={<Home />} />
             {/* </Route> */}
             {/*  */}
@@ -51,6 +57,7 @@ function App() {
         </Routes>
 
     </div>;
+
 }
 
-export default App
+export default App;
