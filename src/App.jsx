@@ -1,6 +1,5 @@
 
 import { Navigate, Route, Routes } from "react-router-dom";
-import { Route, Routes } from "react-router-dom";
 import './App.css';
 import AdminLayout from './Layout/AdminLayout';
 import AdminPage from './page/Admin/home/AdminPage';
@@ -20,7 +19,7 @@ import Layout from "./Layout/layout";
 import PayCart from "./page/payCart/payCart";
 import Login from './page/auth/login';
 import Register from './page/auth/register';
-
+import BLOG from "./page/blog";
 
 
 function App() {
@@ -38,21 +37,22 @@ function App() {
 
 
             <Route path="/" element={<Home />} />
+            <Route path="/blog" element={<BLOG />} />
             {/* </Route> */}
             {/*  */}
 
-            
+
             {/* Router Admin */}
-            <Route path='/admin' element={<AdminLayout/>}>
-                <Route index element={<AdminPage/>}/>
-                <Route path='users' element={<UserList />}/>
-                <Route path='user/:userId' element={<User/>}/>
-                <Route path='newUser' element={<NewUser/>}/>
-                <Route path='products' element={<ProductList/>}/>
-                <Route path='product/:productId' element={<Product />}/>
-                <Route path='newproduct' element={<NewProduct />}/>
+            <Route path='/admin' element={<AdminLayout />}>
+                <Route index element={<AdminPage />} />
+                <Route path='users' element={<UserList />} />
+                <Route path='user/:userId' element={<User />} />
+                <Route path='newUser' element={<NewUser />} />
+                <Route path='products' element={<ProductList />} />
+                <Route path='product/:productId' element={<Product />} />
+                <Route path='newproduct' element={<NewProduct />} />
             </Route>
-            <Route path="*" element={ <NotFound /> }/>
+            <Route path="*" element={<NotFound />} />
 
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
