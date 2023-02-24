@@ -22,6 +22,7 @@ import Register from './page/auth/register';
 import BLOG from "./page/blog";
 import Profile from "./page/profile";
 import OrderSearch from "./page/orderSearch";
+import WishList from "./page/wishList";
 
 
 function App() {
@@ -57,7 +58,8 @@ function App() {
             <Route path="*" element={<NotFound />} />
 
             <Route path="/profile" element={<Profile />} />
-            <Route path="/profile" element={<OrderSearch />} />
+            <Route path="/wishlist" element={<WishList />} />
+            <Route path="/orderSearch" element={<OrderSearch />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="*" element={<NotFound />} />
