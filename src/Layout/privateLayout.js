@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 
 const PrivateLayout = ({ children }) => {
   const navigate = useNavigate();
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("User"));
   if (!user) {
-    navigate("/signin");
+    navigate("/login");
   }
   return children;
 };

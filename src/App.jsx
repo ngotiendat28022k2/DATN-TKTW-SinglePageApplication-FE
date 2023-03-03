@@ -10,17 +10,17 @@ import Register from './page/auth/register';
 
 function App() {
     return <div className="App">
-        <Routes>
-            {/* <Route path="/" 
+          <Routes>
+            <Route path="/" 
             element={
                 <PrivateLayout>
                     <Layout/>
                 </PrivateLayout>
             }>
-                <Route index element={<Navigate to ="/"/>} /> */}
+            <Route index element={<Navigate to ="/"/>} />
             <Route path="/" element={<Home />} />
-            {/* </Route> */}
-            {/*  */}
+            </Route>
+
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="*" element={<NotFound />} />

@@ -3,8 +3,8 @@ import React from 'react'
 const Register = () => {
   return (
     <>
-       <div className="py-6">
-        <div className="flex bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-4xl">
+       <div className="w-full h-[100vh] relative">
+        <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] max-w-[800px] w-full flex bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-4xl">
                 <div 
                     className="hidden lg:block lg:w-1/2 bg-cover h-[610px]" 
                     style={{
@@ -17,7 +17,7 @@ const Register = () => {
                 </div>
                 {/* scan form */}
                 <div className='w-full p-8 lg:w-1/2 flex justify-between items-start'>
-                  <div className="hidden w-full">
+                  <div className="w-full">
                       <div>
                           <img 
                               className='w-full max-w-[120px] m-auto'
@@ -25,9 +25,15 @@ const Register = () => {
                               alt="" 
                           />
                       </div>
+                      <div className='text-center'>
+                        <h2 className='uppercase text-[23px] font-medium'>register</h2>
+                      </div>
                       <div className="mt-4">
                           <label className="block text-gray-700 text-sm font-bold mb-2">Email Address</label>
-                          <input className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none" type="email"/>
+                          <input 
+                            className=" bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none" 
+                            type="email"
+                          />
                       </div>
                       <div className="mt-8">
                           <button className="bg-gray-700 text-white font-bold py-2 px-4 w-full rounded hover:bg-gray-600">Register</button>
@@ -38,7 +44,7 @@ const Register = () => {
                           <span className="border-b w-1/5 md:w-1/4"></span>
                       </div>
                   </div>
-                  <div className="block w-full">
+                  {/* <div className="block w-full">
                         <div className="relative bg-white px-6 pt-10 pb-9 mx-auto w-full max-w-lg rounded-2xl">
                           <div class="flex flex-col items-center justify-center text-center space-y-2">
                             <div class="font-semibold text-3xl">
@@ -83,7 +89,7 @@ const Register = () => {
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                   {/*  */}
                 </div>
                 
