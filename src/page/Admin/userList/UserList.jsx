@@ -86,9 +86,10 @@ export default function UserList() {
   // Render giao diện
   return (
     <div className="userList">
-      <Link to={"/admin/newUser/"}>
+      <button className="userListEdit" form='my-form'>ADD</button>
+      {/* <Link to={"/admin/newUser/"}>
               <button className="userListEdit">ADD</button>
-      </Link>
+      </Link> */}
       <DataGrid
         rows={data}
         disableSelectionOnClick
