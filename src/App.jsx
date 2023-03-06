@@ -30,9 +30,9 @@ function App() {
                 element={
                     <PrivateLayout>
                         <Layout/>
-                    </PrivateLayout>
-            }>
-                <Route index element={<Navigate to ="/"/>} />}
+                    </PrivateLayout>}
+            >
+                <Route index element={<Navigate to ="/"/>} />
                 <Route path="/" element={<HomePage />} />
                 <Route path="/blog" element={<Blog />} />
                  <Route path="/profile" element={<Profile />} />
