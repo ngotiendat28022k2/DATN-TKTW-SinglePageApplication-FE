@@ -49,6 +49,7 @@ function App() {
                 <Route path='product/:productId' element={<Product />} />
                 <Route path='newproduct' element={<NewProduct />} />
             </Route>
+    </Route>
             {/*  */}
     
             <Route path="/login" element={<Login />} />
