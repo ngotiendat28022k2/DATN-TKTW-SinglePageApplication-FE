@@ -3,7 +3,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import './App.css';
 import AdminLayout from './Layout/AdminLayout';
 import AdminPage from './page/Admin/home/AdminPage';
-import Home from "./page/home";
+import HomePage from './page/home/index'
 import NotFound from "./page/notFound";
 
 import ShopCart from "./page/cart/shop_cart";
@@ -19,7 +19,7 @@ import Layout from "./Layout/layout";
 import PayCart from "./page/payCart/payCart";
 import Login from './page/auth/login';
 import Register from './page/auth/register';
-import BLOG from "./page/blog";
+import Blog from "./page/blog";
 
 
 function App() {
@@ -36,8 +36,8 @@ function App() {
                 <Route index element={<Navigate to ="/"/>} /> */}
 
 
-            <Route path="/" element={<Home />} />
-            <Route path="/blog" element={<BLOG />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/blog" element={<Blog />} />
             {/* </Route> */}
             {/*  */}
 
