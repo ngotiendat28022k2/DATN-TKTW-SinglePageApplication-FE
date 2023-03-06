@@ -5,9 +5,7 @@ import AdminLayout from './Layout/AdminLayout';
 import AdminPage from './page/Admin/home/AdminPage';
 import HomePage from './page/home/index'
 import NotFound from "./page/notFound";
-
 import ShopCart from "./page/cart/shop_cart";
-
 import NewProduct from './page/Admin/newProduct/NewProduct';
 import NewUser from './page/Admin/newUser/NewUser';
 import Product from './page/Admin/product/Product';
@@ -19,7 +17,7 @@ import Layout from "./Layout/layout";
 import PayCart from "./page/payCart/payCart";
 import Login from './page/auth/login';
 import Register from './page/auth/register';
-import BLOG from "./page/blog";
+import Blog from "./page/blog";
 import Profile from "./page/profile";
 import OrderSearch from "./page/orderSearch";
 import WishList from "./page/wishList";
@@ -28,24 +26,20 @@ import WishList from "./page/wishList";
 function App() {
     return <div className="App">
         <Routes>
-            {/* <Route path="/" 
-
-
-            element={
-                <PrivateLayout>
-                    <Layout/>
-                </PrivateLayout>
+            <Route path="/" 
+                element={
+                    <PrivateLayout>
+                        <Layout/>
+                    </PrivateLayout>
             }>
-                <Route index element={<Navigate to ="/"/>} /> */}
-
-
-            <Route path="/" element={<HomePage />} />
-            <Route path="/blog" element={<Blog />} />
-            {/* </Route> */}
-            {/*  */}
-
-
-            {/* Router Admin */}
+                <Route index element={<Navigate to ="/"/>} />}
+                <Route path="/" element={<HomePage />} />
+                <Route path="/blog" element={<Blog />} />
+                 <Route path="/profile" element={<Profile />} />
+                <Route path="/wishlist" element={<WishList />} />
+                <Route path="/orderSearch" element={<OrderSearch />} />
+                
+             {/* Router Admin */}
             <Route path='/admin' element={<AdminLayout />}>
                 <Route index element={<AdminPage />} />
                 <Route path='users' element={<UserList />} />
@@ -55,11 +49,8 @@ function App() {
                 <Route path='product/:productId' element={<Product />} />
                 <Route path='newproduct' element={<NewProduct />} />
             </Route>
-            <Route path="*" element={<NotFound />} />
-
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/wishlist" element={<WishList />} />
-            <Route path="/orderSearch" element={<OrderSearch />} />
+            {/*  */}
+    
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="*" element={<NotFound />} />
