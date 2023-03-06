@@ -20,6 +20,7 @@ import PayCart from "./page/payCart/payCart";
 import Login from './page/auth/login';
 import Register from './page/auth/register';
 import BLOG from "./page/blog";
+import Profile from "./page/profile";
 
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
             </Route>
             <Route path="*" element={<NotFound />} />
 
+            <Route path="/profile" element={<Profile />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="*" element={<NotFound />} />
