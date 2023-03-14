@@ -3,7 +3,7 @@ import Header from '../../components/client/Header.component';
 import ToastContainer from '../../utiliti/toast/Toast';
 const HomePage = () => {
     const toast = () => {
-        ToastContainer("success", "hihi")
+        // ToastContainer("success", "hihi")
     }
     return (
         <div>

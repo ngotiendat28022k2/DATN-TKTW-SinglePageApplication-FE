@@ -1,6 +1,7 @@
 import React from 'react'
-
+import Slug from "../../../utiliti/slug/slug"
 const Login = () => {
+    
   return (
     <>
         <div className="py-6">
