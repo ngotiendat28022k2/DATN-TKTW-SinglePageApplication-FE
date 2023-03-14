@@ -32,4 +32,7 @@
 //   }
 // };
 
-// export default ToastContainer;
+const ToastContainer = () => {
+  console.log("toast");
+};
+export default ToastContainer;
