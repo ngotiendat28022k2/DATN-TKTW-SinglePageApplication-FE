@@ -15,6 +15,7 @@ import {
   Badge,
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 export default function Sidebar() {
   return (
@@ -22,12 +23,13 @@ export default function Sidebar() {
       <div className="sidebarWrapper">
         <div className="sidebarMenu">
           <h3 className="sidebarTitle">Dashboard</h3>
+          <p id="demo"></p>
           <ul className="sidebarList">
             <Link to="/admin" className="link">
-            <li className="sidebarListItem active">
-              <Home className="sidebarIcon" />
-              Home
-            </li>
+              <li className="sidebarListItem">
+                <Home className="sidebarIcon" />
+                Home
+              </li>
             </Link>
             <li className="sidebarListItem">
               <Timeline className="sidebarIcon" />

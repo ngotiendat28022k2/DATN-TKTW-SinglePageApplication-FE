@@ -14,8 +14,8 @@ const MyTable = styled("table")(({ theme }) => ({
   marginTop: theme.spacing(3),
   "& thead th": {
     fontWeight: "600",
-    color: theme.palette.primary.main,
-    backgroundColor: theme.palette.primary.light,
+    color: "#FFF",
+    backgroundColor: "#8baf67",
   },
   "& tbody td": {
     fontWeight: "300",

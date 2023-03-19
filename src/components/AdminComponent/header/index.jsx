@@ -16,7 +16,7 @@ import NotificationsPopover from "./NotificationsPopover";
 const HEADER_MOBILE = 64;
 
 const StyledRoot = styled(AppBar)(({ theme }) => ({
-  ...bgBlur({ color: theme.palette.background.default }),
+  backgroundColor: "#8baf67",
   boxShadow: "none",
   [theme.breakpoints.up("lg")]: {
     // width: `calc(100% - ${NAV_WIDTH + 1}px)`,
@@ -42,7 +42,7 @@ export default function Header({ onOpenNav }) {
   return (
     <StyledRoot>
       <StyledToolbar>
-        <IconButton
+        {/* <IconButton
           onClick={onOpenNav}
           sx={{
             mr: 1,
@@ -51,8 +51,10 @@ export default function Header({ onOpenNav }) {
           }}
         >
           <Iconify icon="eva:menu-2-fill" />
-        </IconButton>
-
+        </IconButton> */}
+        <a href="/home">
+          <h1 sx={{ fontSize: "20px" }}>LOGO</h1>
+        </a>
         <Box sx={{ flexGrow: 1 }} />
 
         <Stack
