@@ -17,10 +17,15 @@ import Layout from "./Layout/layout";
 import PayCart from "./page/payCart/payCart";
 import React from "react";
 import ClientLayout from "./Layout/ClientLayout";
-
+import AccountLayout from "./Layout/LayoutAccount"
 
 import Loader from "./utiliti/loader";
 import Slug from "./utiliti/slug/slug";
+import ProfileAddress from "./page/Profile-Address";
+import ProfileInfo from "./page/Profile-Info";
+import ProfileMyProduct from "./page/Profile-MyProduct";
+import ProfileNotification from "./page/Profile-Notification";
+import ProfileVoucher from "./page/Profile-Voucher";
 const HomePage = React.lazy(() => import('./page/home'));
 const Blog = React.lazy(() => import('./page/blog'));
 const Profile = React.lazy(() => import('./page/profile'));
@@ -41,18 +46,27 @@ function App() {
                         </PrivateLayout>}
                 >
                     <Route path='/' element={<ClientLayout />}>
-                        <Route index element={<Navigate to ="/home"/>} />
-                        <Route path="/home" element={<HomePage />} />
-                        <Route path="/blog" element={<Blog />} />
-                        <Route path="/profile" element={<Profile />} />
-                        <Route path="/wishlist" element={<WishList />} />
+                        <Route index element={<Navigate to ="home"/>} />
+                        <Route path="home" element={<HomePage />} />
+                        <Route path="blog" element={<Blog />} />
+                        <Route path="profile123" element={<Profile />} />
+                        <Route path="wishlist" element={<WishList />} />
+
+                        <Route path="/" element={<AccountLayout />} >
+                            <Route index path="account/edit" element={<ProfileInfo />} />
+                            <Route path="account/address" element={<ProfileAddress />} />
+                            <Route path="account/order" element={<ProfileMyProduct />} />
+                            <Route path="account/voucher" element={<ProfileVoucher />} />
+                            <Route path="account/notification" element={<ProfileNotification />} />
+                        </Route>
+
                         {/* <Route path="/orderSearch" element={<OrderSearch />} /> */}
                         <Route path={Slug("quyển sách này thật tuyệt")} element={<OrderSearch />} />
                         {/* <Route path="/paycart" element={<PayCart />} /> */}
                     </Route>
 
                     {/* Router Admin */}
-                    <Route path='/admin' element={<AdminLayout />}>
+                    <Route path='admin/' element={<AdminLayout />}>
                         <Route index element={<AdminPage />} />
                         <Route path='users' element={<UserList />} />
                         <Route path='user/:userId' element={<User />} />
