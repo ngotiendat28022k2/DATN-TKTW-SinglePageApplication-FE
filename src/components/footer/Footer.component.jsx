@@ -58,12 +58,12 @@ const Footer = () => {
                             </ul>
                         </li>
                         <li>
-                            <div className='flex justify-between items-center mt-[10px] lg:justify-start'>
+                            <div className='flex justify-start lg:justify-between items-center mt-[10px] lg:justify-start'>
                                 <img 
-                                    className='max-w-[200px] lg:max-w-[150px]'
+                                    className='max-w-[100px] lg:max-w-[150px] w-full'
                                     src="https://cdn0.fahasa.com/media/wysiwyg/Logo-NCC/android1.png" alt="" />
                                 <img 
-                                    className='max-w-[200px] lg:max-w-[150px] lg:ml-[10px]'
+                                    className='max-w-[100px] lg:max-w-[150px] w-full lg:ml-[10px]'
                                     src="https://cdn0.fahasa.com/media/wysiwyg/Logo-NCC/appstore1.png" alt="" />
                             </div>
                         </li>
@@ -123,7 +123,7 @@ const Footer = () => {
                 </div>
             </div>
 
-            <div className='py-[20px] text-[#6e6e6e] text-center font-medium'>
+            <div className='py-[20px] px-[10px] text-[#6e6e6e] text-center font-medium'>
                 <p>Giấy chứng nhận Đăng ký Kinh doanh số 0304132047 do Sở Kế hoạch và Đầu tư Thành phố Hồ Chí Minh cấp ngày 20/12/2005, đăng ký thay đổi lần thứ 10, ngày 20/05/2022.</p>
             </div>
         </footer>
