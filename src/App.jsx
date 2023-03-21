@@ -11,16 +11,15 @@ import AccountLayout from "./Layout/LayoutAccount"
 
 import Loader from "./utiliti/loader";
 import Slug from "./utiliti/slug/slug";
-// 
+//
+
 const AdminPage = React.lazy(() => import('./page/Admin/home/AdminPage'));
-const newEmployees = React.lazy(() => import('./page/Admin/newEmployees'));
-const EmployeesList = React.lazy(() => import('./page/Admin/EmployeesList'));
+const NewProduct = React.lazy(() => import('./page/Admin/newEmployees'));
+const ProductList = React.lazy(() => import('./page/Admin/EmployeesList'));
 const NewUser = React.lazy(() => import('./page/Admin/newUser/NewUser'));
 const User = React.lazy(() => import('./page/Admin/user/User'));
 const UserList = React.lazy(() => import('./page/Admin/userList/UserList'));
 // 
-const ShopCart = React.lazy(() => import('./page/cart/shop_cart));
-const PayCart = React.lazy(() => import('./page/payCart/payCart));
 const ProfileAddress = React.lazy(() => import('./page/Profile-Address'));
 const ProfileInfo = React.lazy(() => import('./page/Profile-Info'));
 const ProfileMyProduct = React.lazy(() => import('./page/Profile-MyProduct'));
@@ -73,7 +72,7 @@ function App() {
                         <Route path='user/:userId' element={<User />} />
                         <Route path='newUser' element={<NewUser />} />
                         <Route path='products' element={<ProductList />} />
-                        <Route path='product/:productId' element={<Product />} />
+                        {/* <Route path='product/:productId' element={<Product />} /> */}
                         <Route path='newproduct' element={<NewProduct />} />
                     </Route>
                 </Route>
