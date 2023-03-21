@@ -1,29 +1,31 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import "./App.css";
 
-import AdminLayout from "./Layout/adminLayout/AdminLayout";
-import AdminPage from "./page/Admin/home/AdminPage";
-import NotFound from "./page/notFound";
-import ShopCart from "./page/cart/shop_cart";
-import newEmployees from "./page/Admin/newEmployees";
-import EmployeesList from "./page/Admin/EmployeesList";
-import NewUser from "./page/Admin/newUser/NewUser";
-import User from "./page/Admin/user/User";
-import UserList from "./page/Admin/userList/UserList";
-import PrivateLayout from "./Layout/privateLayout";
-import Layout from "./Layout/layout";
-import PayCart from "./page/payCart/payCart";
 import React from "react";
+import Layout from "./Layout/layout";
+import AdminLayout from "./Layout/adminLayout/AdminLayout";
+import PrivateLayout from "./Layout/privateLayout";
+import NotFound from "./page/notFound";
+
 import ClientLayout from "./Layout/ClientLayout";
 import AccountLayout from "./Layout/LayoutAccount"
 
 import Loader from "./utiliti/loader";
 import Slug from "./utiliti/slug/slug";
-import ProfileAddress from "./page/Profile-Address";
-import ProfileInfo from "./page/Profile-Info";
-import ProfileMyProduct from "./page/Profile-MyProduct";
-import ProfileNotification from "./page/Profile-Notification";
-import ProfileVoucher from "./page/Profile-Voucher";
+// 
+const AdminPage = React.lazy(() => import('./page/Admin/home/AdminPage'));
+const newEmployees = React.lazy(() => import('./page/Admin/newEmployees'));
+const EmployeesList = React.lazy(() => import('./page/Admin/EmployeesList'));
+const NewUser = React.lazy(() => import('./page/Admin/newUser/NewUser'));
+const User = React.lazy(() => import('./page/Admin/user/User'));
+const UserList = React.lazy(() => import('./page/Admin/userList/UserList'));
+// 
+const ShopCart = React.lazy(() => import('./page/cart/shop_cart));
+const PayCart = React.lazy(() => import('./page/payCart/payCart));
+const ProfileAddress = React.lazy(() => import('./page/Profile-Address'));
+const ProfileInfo = React.lazy(() => import('./page/Profile-Info'));
+const ProfileMyProduct = React.lazy(() => import('./page/Profile-MyProduct'));
+const ProfileNotification = React.lazy(() => import('./page/Profile-Notification'));
+const ProfileVoucher = React.lazy(() => import('./page/Profile-Voucher'));
 const HomePage = React.lazy(() => import('./page/home'));
 const Blog = React.lazy(() => import('./page/blog'));
 const Profile = React.lazy(() => import('./page/profile'));
