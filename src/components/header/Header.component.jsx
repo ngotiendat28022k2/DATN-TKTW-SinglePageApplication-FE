@@ -21,7 +21,7 @@ const Header = () => {
                     </div>
                 </div>
                <div className="absolute lg:top-[40px] lg:left-[-270px] dropdown-menu hidden pt-[60px] ">
-                    <ClientMenu />
+//                     <ClientMenu />
                </div>
             </div>
             <div className="flex md:mt-0 mt-3">
