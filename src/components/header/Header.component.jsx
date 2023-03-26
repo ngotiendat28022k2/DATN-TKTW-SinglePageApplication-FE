@@ -10,8 +10,8 @@ const Header = () => {
                 </a>
             </div>
             <div className="relative dropdown">
-               <div className="flex md:mt-3 mt-4 float-left md:float-none pr-5 md:pr-0">
-                <div>
+                <div className="flex md:mt-3 mt-4 float-left md:float-none pr-5 md:pr-0">
+                    <div>
                         <img className="md:h-[36px] h-[36px]" src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_menu.svg" alt="" />
                     </div>
                     <div className="m-0 pt-3 pl-1 md:block hidden">
@@ -20,9 +20,9 @@ const Header = () => {
                         </svg>
                     </div>
                 </div>
-               <div className="absolute lg:top-[40px] lg:left-[-270px] dropdown-menu hidden pt-[60px] ">
-//                     <ClientMenu />
-               </div>
+                <div className="absolute md:top-[40px] md:left-[-242px] dropdown-menu hidden pt-[60px] ">
+                    <ClientMenu />
+                </div>
             </div>
             <div className="flex md:mt-0 mt-3">
                 <div className="flex items-center justify-center md:mr-28 mr-12">
