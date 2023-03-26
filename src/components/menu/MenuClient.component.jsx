@@ -130,7 +130,6 @@ const ClientMenu = () => {
                     </div>
                 </div>
             </div>
-
         </div>
     )
 }
