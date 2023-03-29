@@ -25,7 +25,7 @@ class SlideShow extends Component {
             "https://i.imgur.com/Ood0kMi.png",
         ];
         return (
-            <div className="md:mt-4 flex">
+            <div className="md:mt-4 flex z-0">
                 <div className="mr-0 w-[100%] md:w-[70%] p-2" style={{ height: "1%", paddingBottom: "10px" }}>
                     <Slide ref={this.slideRef} {...properties}>
                         {slideImages.map((each, index) => (

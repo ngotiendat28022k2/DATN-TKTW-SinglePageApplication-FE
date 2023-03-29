@@ -85,8 +85,8 @@ export default function Header() {
           sm: 1,
         }}
       >
-        <LanguagePopover />
-        <NotificationsPopover />
+        {/* <LanguagePopover /> */}
+        {/* <NotificationsPopover /> */}
         <AccountPopover />
       </Stack>
     </div>
