@@ -19,6 +19,7 @@ const ProductList = React.lazy(() => import('./page/Admin/EmployeesList'));
 const NewUser = React.lazy(() => import('./page/Admin/newUser/NewUser'));
 const User = React.lazy(() => import('./page/Admin/user/User'));
 const UserList = React.lazy(() => import('./page/Admin/userList/UserList'));
+const ProfileAdmin = React.lazy(() => import('./page/Admin/Profile/Profile.admin'));
 // 
 const ProfileAddress = React.lazy(() => import('./page/Profile-Address'));
 const ProfileInfo = React.lazy(() => import('./page/Profile-Info'));
@@ -77,6 +78,7 @@ function App() {
                         <Route path='products' element={<ProductList />} />
                         {/* <Route path='product/:productId' element={<Product />} /> */}
                         <Route path='newproduct' element={<NewProduct />} />
+                        <Route path='profile' element={<ProfileAdmin />} />
 
                     </Route>
                 </Route>
