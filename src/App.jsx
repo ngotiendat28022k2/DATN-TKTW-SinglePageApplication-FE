@@ -11,6 +11,8 @@ import AccountLayout from "./Layout/LayoutAccount"
 
 import Loader from "./utiliti/loader";
 import Slug from "./utiliti/slug/slug";
+import DetailProduct from "./page/Detail";
+import CheckoutCart from "./page/checkout-cart";
 //
 
 const AdminPage = React.lazy(() => import('./page/Admin/home/AdminPage'));
@@ -52,7 +54,8 @@ function App() {
                         <Route path="blog" element={<Blog />} />
                         <Route path="profile123" element={<Profile />} />
                         <Route path="wishlist" element={<WishList />} />
-
+                        <Route path="/detail" element={<DetailProduct />} />
+                        <Route path="/checkout" element={<CheckoutCart />} />
                         <Route path="/" element={<AccountLayout />} >
                             <Route index path="account/edit" element={<ProfileInfo />} />
                             <Route path="account/address" element={<ProfileAddress />} />
