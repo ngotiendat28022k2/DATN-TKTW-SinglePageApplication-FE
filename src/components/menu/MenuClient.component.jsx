@@ -2,7 +2,7 @@ import React from 'react'
 
 const ClientMenu = () => {
     return (
-        <div>
+        <div className=''>
             <div className="md:w-[1280px] md:m-auto flex justify-between bg-white">
                 <div className="md:mt-4 md:w-[25%] w-[40%]">
                     <div className="font-bold md:text-2xl md:text-gray-500 md:text-left md:mr-0  mb-4 flex md:ml-9 ml-6 md:w-[90%] w-[230%] text-lg text-center justify-between">
