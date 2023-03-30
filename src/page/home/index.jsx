@@ -5,7 +5,7 @@ const HomePage = () => {
         <div>
             <div className=''>
                 <SlideShow/>
-                {/* <div className='grid md:grid-cols-10 md:gap-4 grid-cols-5 gap-3 bg-white'>
+                <div className='grid md:grid-cols-10 md:gap-4 grid-cols-5 gap-3 bg-white'>
                     <div className='col-span-1 p-4'>
                         <a href="">
                             <div className=''>
@@ -86,9 +86,9 @@ const HomePage = () => {
                             <div className='md:text-sm text-xs text-center pt-3'>Kinh Tế</div>
                         </a>
                     </div>
-                </div> */}
+                </div>
             </div>
-            {/* <div className='my-5'>
+            <div className='my-5'>
                 <div className='bg-[#FCDAB0]'>
                     <div className='flex md:py-5 py-3 px-3'>
                         <div className='mr-3'>
@@ -467,7 +467,7 @@ const HomePage = () => {
                         </div>
                     </div>
                 </div>
-            </div> */}
+            </div>
         </div>
     );
 };

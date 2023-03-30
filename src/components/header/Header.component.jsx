@@ -20,7 +20,7 @@ const Header = () => {
                         </svg>
                     </div>
                 </div>
-                <div className="absolute md:top-[25px] md:left-[-242px] dropdown-menu hidden pt-[60px] z-10">
+                <div className="absolute z-10 md:top-[40px] md:left-[-242px] dropdown-menu hidden pt-[30px] ">
                     <ClientMenu />
                 </div>
             </div>
