@@ -2,7 +2,7 @@ import React from 'react'
 const Footer = () => {
   return (
     <>
-        <footer className='max-w-[1280px] w-full m-auto'>
+        <footer className='max-w-[1280px] w-full m-auto bg-[#fff]'>
             <div className='bg-PK-client p-[20px] lg:flex lg:justify-center lg:items-center text-center'>
                 <div className='flex items-center justify-between max-w-[230px] w-full m-auto text-[#e9e9e9]'>
                     <i className="fa-solid fa-envelope text-[20px]"></i>
