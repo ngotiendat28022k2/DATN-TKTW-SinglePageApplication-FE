@@ -13,21 +13,14 @@ import {
 } from "@mui/material";
 // mocks_
 import account from "../../../_mock/account";
-
+import {Link} from "react-router-dom"
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
   {
-    label: "Home",
-    icon: "eva:home-fill",
-  },
-  {
     label: "Profile",
     icon: "eva:person-fill",
-  },
-  {
-    label: "Settings",
-    icon: "eva:settings-2-fill",
+    link:"/admin/profile"
   },
 ];
 
@@ -98,9 +91,11 @@ export default function AccountPopover() {
 
         <Stack sx={{ p: 1 }}>
           {MENU_OPTIONS.map((option) => (
-            <MenuItem key={option.label} onClick={handleClose}>
-              {option.label}
-            </MenuItem>
+              <Link to={option.link}>
+                  <MenuItem key={option.label} onClick={handleClose}>
+                    {option.label}
+                  </MenuItem>
+              </Link>
           ))}
         </Stack>
 

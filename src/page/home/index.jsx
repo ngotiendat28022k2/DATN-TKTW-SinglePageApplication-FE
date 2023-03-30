@@ -1,5 +1,3 @@
-import Footer from '../../components/footer/Footer.component';
-import Header from '../../components/header/Header.component';
 import SlideShow from '../../components/slide-show/SlideShow.component';
 const HomePage = () => {
 
