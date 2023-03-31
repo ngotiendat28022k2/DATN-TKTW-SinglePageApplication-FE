@@ -4,15 +4,15 @@ import "./home.css";
 import { userData } from "../../../dummyData";
 import WidgetSm from "../../../components/AdminComponent/widgetSm/WidgetSm";
 import WidgetLg from "../../../components/AdminComponent/widgetLg/WidgetLg";
+import helper from "../../../utiliti/helper/helper";
 
-// import { toast } from "react-toastify";
 export default function AdminPage() {
-  // const hihi = () => {
-  //   toast("Wow so easy !");
-  // }
+  const hihi = () => {
+    helper.toast("success", "error")
+  }
   return (
     <div className="home">
-      {/* <button onClick={hihi}>hihi</button> */}
+      <button onClick={hihi}>hihi</button>
       <FeaturedInfo />
       <Chart
         data={userData}
