@@ -23,14 +23,7 @@ export default function ProductList() {
   const [dataSearch, setDataSearch] = React.useState([])
   const [rowId, setRowId] = useState(null)
   const [rowsData, setRowsData] = useState([])
-  const addOrEdit = (employee, resetForm) => {
-    if (employee.id == 0) employeeService.insertEmployee(employee);
-    else employeeService.updateEmployee(employee);
-    resetForm();
-    setRecordForEdit(null);
-    setOpenPopup(false);
-    setRecords(employeeService.getAllEmployees());
-  };
+
   const handleSearch = (e) => {
     console.log("e.target.value", e.target.value)
   };
@@ -88,7 +81,7 @@ export default function ProductList() {
         </Toolbar>
         
         <div className="mt-[30px]">
-          <CustomPaginationActionsTable {...{rowsData, columnsData, rowId, setRowId}}/>
+          <CustomPaginationActionsTable {...{rowsData, columnsData, rowId, setRowId, dataSearch}}/>
         </div>
       </Paper>
       
@@ -97,7 +90,6 @@ export default function ProductList() {
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
-        <NewProduct recordForEdit={recordForEdit} addOrEdit={addOrEdit} />
       </Popup>
     </>
   );
