@@ -139,8 +139,8 @@ function AdminLayout() {
             </Toolbar>
           </AppBar>
           <Drawer variant="permanent" open={open}>
-            <DrawerHeader>
-              Không biết thêm j vào đây
+            <DrawerHeader sx={{background:"#8baf67"}}>
+              
               <IconButton onClick={handleDrawerClose}>
                 {theme.direction === "rtl" ? (
                   <ChevronRightIcon />

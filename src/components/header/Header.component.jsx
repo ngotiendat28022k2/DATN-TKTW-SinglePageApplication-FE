@@ -1,5 +1,5 @@
 import ClientMenu from "../menu/MenuClient.component";
-import "./headerClient.style.css"
+import "./headerClient.model.css"
 
 const Header = () => {
     return (

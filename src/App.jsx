@@ -5,19 +5,17 @@ import Layout from "./Layout/layout";
 import AdminLayout from "./Layout/adminLayout/AdminLayout";
 import PrivateLayout from "./Layout/privateLayout";
 import NotFound from "./page/notFound";
-
-import ClientLayout from "./Layout/ClientLayout";
-import AccountLayout from "./Layout/LayoutAccount"
-
 import Loader from "./utiliti/loader";
 import Slug from "./utiliti/slug/slug";
+// 
+import ClientLayout from "./Layout/ClientLayout";
+import AccountLayout from "./Layout/LayoutAccount"
 import DetailProduct from "./page/Detail";
 import CheckoutCart from "./page/checkout-cart";
+import ProductList from "./page/Admin/EmployeesList";
 //
-
 const AdminPage = React.lazy(() => import('./page/Admin/home/AdminPage'));
 const NewProduct = React.lazy(() => import('./page/Admin/newEmployees'));
-const ProductList = React.lazy(() => import('./page/Admin/EmployeesList'));
 const NewUser = React.lazy(() => import('./page/Admin/newUser/NewUser'));
 const User = React.lazy(() => import('./page/Admin/user/User'));
 const UserList = React.lazy(() => import('./page/Admin/userList/UserList'));
@@ -52,7 +50,7 @@ function App() {
                         <Route index element={<Navigate to ="home"/>} />
                         <Route path="home" element={<HomePage />} />
                         <Route path="blog" element={<Blog />} />
-                        <Route path="profile123" element={<Profile />} />
+                        <Route path="profile" element={<Profile />} />
                         <Route path="wishlist" element={<WishList />} />
                         <Route path="/detail" element={<DetailProduct />} />
                         <Route path="/checkout" element={<CheckoutCart />} />
