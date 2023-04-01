@@ -6,13 +6,13 @@ import SlideShow from '../components/slide-show/SlideShow.component'
 const ClientLayout = () => {
   return (
     <>
-      <header>
+      <header className='bg-[#fff]'>
         <Header />
       </header>
       <div className='max-w-[1280px] w-full m-auto'>
         <Outlet />
       </div>
-      <div>
+      <div className='bg-[#fff] py-[20px]'>
         <Footer/>
       </div>
     </>

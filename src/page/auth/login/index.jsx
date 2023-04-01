@@ -1,7 +1,34 @@
-import React from 'react'
-import Slug from "../../../utiliti/slug/slug"
+import React, { useState } from 'react'
+import {Link, useNavigate} from "react-router-dom"
+import { useDispatch } from "react-redux";
+import { login } from '../../../slice/userSlice';
+import hepler from "../../../utiliti/helper/helper"
+import local from "../../../utiliti/local/local"
 const Login = () => {
-    
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const [user, setUser] = useState({
+        email: "",
+        password: "",
+    })
+    const [showPassWord, setShowPassWord] = useState(false)
+    const handleSubmit =async (event) => {
+        event.preventDefault()
+        try {
+            const { payload } =await dispatch(login(user))
+            if(payload?.data){
+                local.set("user", JSON.stringify(payload?.data))
+                hepler.toast("success", "Login Success")
+                setTimeout(() => {
+                    navigate("/home")
+                }, 2000);
+            }else{
+                hepler.toast("error", "Login False")
+            }
+        } catch (error) {
+            hepler.toast("error", error)
+        }
+    }
   return (
     <>
         <div className="py-6">
@@ -16,7 +43,7 @@ const Login = () => {
                     }}
                 >
                 </div>
-                <div className="w-full p-8 lg:w-1/2">
+                <form className="w-full p-8 lg:w-1/2" onSubmit={handleSubmit}>
                     <div>
                         <img 
                             className='w-full max-w-[120px] m-auto'
@@ -43,24 +70,46 @@ const Login = () => {
                     </div>
                     <div className="mt-4">
                         <label className="block text-gray-700 text-sm font-bold mb-2">Email Address</label>
-                        <input className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none" type="email"/>
+                        <input 
+                            className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none" 
+                            type="email"
+                            onChange={(event) => setUser(prev => ({...prev, email:event.target.value})) }
+                        />
                     </div>
-                    <div className="mt-4">
+                    <div className="mt-4 relative">
                         <div className="flex justify-between">
                             <label className="block text-gray-700 text-sm font-bold mb-2">Password</label>
-                            <a href="#" className="text-xs text-gray-500">Forget Password?</a>
+                            <Link href="forget-password" className="text-xs text-gray-500">Forget Password?</Link>
                         </div>
-                        <input className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none" type="password"/>
+                        <input 
+                            className=" bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none" 
+                            type={showPassWord ? "text" : "password"}
+                            onChange={(event) => setUser(prev => ({...prev, password:event.target.value})) }
+                        />
+                        <div className='absolute right-[10px] top-[50%]'>
+                            {
+                                showPassWord ? <i className="fa-solid fa-eye text-gray-700" onClick={() => {
+                                    setShowPassWord(false)
+                                }}></i> :  <i className="fa-solid fa-eye-slash text-gray-700" onClick={() => {
+                                    setShowPassWord(true)
+                                }}></i>
+                            }
+                        </div>
                     </div>
                     <div className="mt-8">
-                        <button className="bg-gray-700 text-white font-bold py-2 px-4 w-full rounded hover:bg-gray-600">Login</button>
+                        <button 
+                            className="bg-gray-700 text-white font-bold py-2 px-4 w-full rounded hover:bg-gray-600"
+                            onClick={handleSubmit}
+                        >
+                            Login
+                        </button>
                     </div>
                     <div className="mt-4 flex items-center justify-between">
                         <span className="border-b w-1/5 md:w-1/4"></span>
-                        <a href="#" className="text-xs text-gray-500 uppercase">or sign up</a>
+                        <Link to="/register" className="text-xs text-gray-500 uppercase">or sign up</Link>
                         <span className="border-b w-1/5 md:w-1/4"></span>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </>

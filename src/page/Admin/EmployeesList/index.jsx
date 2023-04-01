@@ -27,15 +27,6 @@ export default function ProductList() {
   const handleSearch = (e) => {
     console.log("e.target.value", e.target.value)
   };
-
-  const addOrEdit = (employee, resetForm) => {
-    if (employee.id == 0) employeeService.insertEmployee(employee);
-    else employeeService.updateEmployee(employee);
-    resetForm();
-    setRecordForEdit(null);
-    setOpenPopup(false);
-    // setRecords(employeeService.getAllEmployees());
-  };
   
   const columnsData = [
     { field: '_id', headerName: 'ID', width: 200, },
@@ -101,8 +92,7 @@ export default function ProductList() {
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
-        <NewProduct addOrEdit={addOrEdit}/>
-        
+
         {/* ném component vào */}
         {/* <NewProduct recordForEdit={recordForEdit} addOrEdit={addOrEdit} /> */}
       </Popup>

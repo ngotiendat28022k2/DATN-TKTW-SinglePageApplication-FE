@@ -23,7 +23,8 @@ const initialFValues = {
 };
 
 export default function NewProduct(props) {
-  // const { addOrEdit, recordForEdit } = props;
+
+  useForm(initialFValues, true, validate);
 
   // const validate = (fieldValues = values) => {
   //   let temp = { ...errors };
@@ -123,7 +124,6 @@ export default function NewProduct(props) {
   //           value={values.isPermanent}
   //           onChange={handleInputChange}
   //         />
-
   //         <div>
   //           <Controls.Button type="submit" text="Submit" />
   //           <Controls.Button text="Reset" onClick={resetForm} />
