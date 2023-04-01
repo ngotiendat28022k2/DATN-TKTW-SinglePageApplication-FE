@@ -1,6 +1,17 @@
-const Local = (item) => {
-  if (!item) return null;
-  JSON.parse(localStorage.getItem(item));
-};
+let local = {};
 
-export default Local;
+local.get = (key) => {
+  let t = sessionStorage.getItem(key);
+  try {
+    return JSON.parse(t);
+  } catch (err) {
+    return t;
+  }
+};
+local.set = (key, val) => {
+  sessionStorage.setItem(key, val);
+};
+local.clear = () => {
+  sessionStorage.clear();
+};
+export default local;

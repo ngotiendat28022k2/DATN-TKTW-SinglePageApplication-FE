@@ -132,9 +132,10 @@ function AdminLayout() {
               >
                 <MenuIcon />
               </IconButton>
-              <Typography variant="h6" noWrap component="div" color="secondary">
-                LOGO
-              </Typography>
+                <img 
+                  src="https://logos.textgiraffe.com/logos/logo-name/Niki-designstyle-smoothie-m.png" 
+                  className="w-full max-w-[60px]"
+                />
               <Header />
             </Toolbar>
           </AppBar>

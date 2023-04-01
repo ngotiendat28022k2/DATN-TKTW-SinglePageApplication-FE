@@ -41,10 +41,7 @@ function App() {
         <Routes>
                 <Route 
                     path="/"
-                    element={
-                        <PrivateLayout>
-                            <Layout/>
-                        </PrivateLayout>}
+                    element={<Layout/>}
                 >
                     <Route path='/' element={<ClientLayout />}>
                         <Route index element={<Navigate to ="home"/>} />
@@ -68,7 +65,7 @@ function App() {
                     </Route>
 
                     {/* Router Admin */}
-                    <Route path='admin/' element={<AdminLayout />}>
+                    <Route path='admin/' element={<PrivateLayout><AdminLayout /></PrivateLayout>}>
                         <Route index element={<AdminPage />} />
                         <Route path='users' element={<UserList />} />
                         <Route path='user/:userId' element={<User />} />
