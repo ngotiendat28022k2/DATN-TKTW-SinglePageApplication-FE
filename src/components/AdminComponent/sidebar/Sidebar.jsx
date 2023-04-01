@@ -15,6 +15,7 @@ import {
   Badge,
 } from "@mui/icons-material";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
+import CategoryIcon from "@mui/icons-material/Category";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
@@ -53,6 +54,12 @@ export default function Sidebar() {
               <li className={styles.sidebarListItem}>
                 <Storefront className={styles.sidebarIcon} />
                 Products
+              </li>
+            </Link>
+            <Link to="/admin/categories" className={styles.link}>
+              <li className={styles.sidebarListItem}>
+                <CategoryIcon className={styles.sidebarIcon} />
+                Categories
               </li>
             </Link>
             <Link to="/admin/employees" className={styles.link}>

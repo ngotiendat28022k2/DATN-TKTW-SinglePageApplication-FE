@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import Controls from "../../../components/AdminComponent/controls/Controls";
 import { useForm, Form } from "../../../components/AdminComponent/useForm";
 import * as employeeService from "../../../services/employeeService";
@@ -7,26 +7,26 @@ import * as employeeService from "../../../services/employeeService";
 const initialFValues = {
   id: 0,
   name: "",
-  email: "",
-  phone: "",
-  address: "",
+  image: "",
+  icon: "",
+  banner: "",
 };
 
-export default function NewPublishing(props) {
+export default function NewCategory(props) {
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
     if ("name" in fieldValues)
       temp.name = fieldValues.name ? "" : "This field is required.";
-    if ("email" in fieldValues)
-      temp.email = /$^|.+@.+..+/.test(fieldValues.email)
-        ? ""
-        : "Email is not valid.";
-    if ("phone" in fieldValues)
-      temp.phone =
-        fieldValues.phone.length > 9 ? "" : "Minimum 10 numbers required.";
-    if ("address" in fieldValues)
-      temp.address =
-        fieldValues.address.length != 0 ? "" : "This field is required.";
+    // if ("image" in fieldValues)
+    //   temp.image = /$^|.+@.+..+/.test(fieldValues.image)
+    //     ? ""
+    //     : "image is not valid.";
+    // if ("icon" in fieldValues)
+    //   temp.icon =
+    //     fieldValues.icon.length > 9 ? "" : "Minimum 10 numbers required.";
+    // if ("banner" in fieldValues)
+    //   temp.banner =
+    //     fieldValues.banner.length != 0 ? "" : "This field is required.";
     setErrors({
       ...temp,
     });
@@ -56,23 +56,23 @@ export default function NewPublishing(props) {
             error={errors.name}
           />
           <Controls.Input
-            label="Email"
-            name="email"
-            value={values.email}
+            label="image"
+            name="image"
+            value={values.image}
             onChange={handleInputChange}
-            error={errors.email}
+            error={errors.image}
           />
           <Controls.Input
-            label="phone"
-            name="phone"
-            value={values.phone}
+            label="icon"
+            name="icon"
+            value={values.icon}
             onChange={handleInputChange}
-            error={errors.phone}
+            error={errors.icon}
           />
           <Controls.Input
-            label="Address"
-            name="address"
-            value={values.address}
+            label="banner"
+            name="banner"
+            value={values.banner}
             onChange={handleInputChange}
           />
 

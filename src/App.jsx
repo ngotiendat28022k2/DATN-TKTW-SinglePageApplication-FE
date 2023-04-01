@@ -16,7 +16,8 @@ import ProductList from "./page/Admin/EmployeesList";
 //
 const AdminPage = React.lazy(() => import("./page/Admin/home/AdminPage"));
 const NewProduct = React.lazy(() => import("./page/Admin/newEmployees"));
-const PublishingList = React.lazy(() => import("./page/Admin/publish"));
+const PublishingList = React.lazy(() => import("./page/Admin/publishingList"));
+const CategoryList = React.lazy(() => import("./page/Admin/categoryList"));
 const NewUser = React.lazy(() => import("./page/Admin/newUser/NewUser"));
 const User = React.lazy(() => import("./page/Admin/user/User"));
 const UserList = React.lazy(() => import("./page/Admin/userList/UserList"));
@@ -86,7 +87,7 @@ function App() {
               <Route path="user/:userId" element={<User />} />
               <Route path="newUser" element={<NewUser />} />
               <Route path="pushlishings" element={<PublishingList />} />
-              {/* <Route path='product/:productId' element={<Product />} /> */}
+              <Route path="categories" element={<CategoryList />} />
               {/* <Route path='newproduct' element={<NewProduct />} /> */}
               <Route path="products" element={<ProductList />} />
               {/* <Route path='product/:productId' element={<Product />} /> */}
