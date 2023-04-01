@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { Add, EditOutlined, Close } from "@mui/icons-material";
 import {
   Button,
@@ -7,6 +8,7 @@ import {
 } from "@mui/material";
 import Controls from "../../../components/AdminComponent/controls/Controls";
 import Popup from "../../../components/AdminComponent/MyPopup/MyPopup";
+import NewCategory from "./form";
 // Services
 import * as employeeService from "../../../services/employeeService";
 import InputSearch from "../../../components/AdminComponent/inputSearch/inputSearch.component";
@@ -16,16 +18,26 @@ import ActionDelete from "./ActionDelete";
 import ActionUpdate from "./ActionUpdate";
 import { getAllProduct } from "../../../slice/productsSlice";
 import { useDispatch, useSelector } from "react-redux";
-import NewProduct from "./FormAdd";
+import NewProduct from "../products/";
 
 export default function ProductList() {
   const [openPopup, setOpenPopup] = useState(false);
   const [dataSearch, setDataSearch] = React.useState([])
   const [rowId, setRowId] = useState(null)
   const [rowsData, setRowsData] = useState([])
+  const {register, handleSubmit, watch, formState: { errors }} = useForm();
 
   const handleSearch = (e) => {
     console.log("e.target.value", e.target.value)
+  };
+
+  const addOrEdit = (employee, resetForm) => {
+    if (employee.id == 0) employeeService.insertEmployee(employee);
+    else employeeService.updateEmployee(employee);
+    resetForm();
+    setRecordForEdit(null);
+    setOpenPopup(false);
+    setRecords(employeeService.getAllEmployees());
   };
   
   const columnsData = [
@@ -92,7 +104,8 @@ export default function ProductList() {
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
-
+        <NewCategory addOrEdit={addOrEdit}/>
+        
         {/* ném component vào */}
         {/* <NewProduct recordForEdit={recordForEdit} addOrEdit={addOrEdit} /> */}
       </Popup>
