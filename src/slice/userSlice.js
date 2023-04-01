@@ -11,7 +11,7 @@ const initialState = {
   isLogin: false,
 };
 
-export const counterSlice = createSlice({
+export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
@@ -27,7 +27,13 @@ export const counterSlice = createSlice({
       if (!state.value.length) return;
       state.isLogin = true;
     });
+    builder.addCase(login.rejected, (state, action) => {
+      state.value = action.payload;
+      state.isLogin = false;
+    });
   },
 });
 
-export default counterSlice.reducer;
+export const { logOut } = userSlice.actions;
+
+export default userSlice.reducer;

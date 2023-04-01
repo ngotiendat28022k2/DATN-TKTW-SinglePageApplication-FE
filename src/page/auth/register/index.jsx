@@ -1,5 +1,5 @@
 import React from 'react'
-
+import {Link} from "react-router-dom"
 const Register = () => {
   return (
     <>
@@ -17,7 +17,7 @@ const Register = () => {
                 </div>
                 {/* scan form */}
                 <div className='w-full p-8 lg:w-1/2 flex justify-between items-start'>
-                  <div className="hidden w-full">
+                  <div className="w-full">
                       <div>
                           <img 
                               className='w-full max-w-[120px] m-auto'
@@ -34,11 +34,11 @@ const Register = () => {
                       </div>
                       <div className="mt-4 flex items-center justify-between">
                           <span className="border-b w-1/5 md:w-1/4"></span>
-                          <a href="#" className="text-xs text-gray-500 uppercase">or login</a>
+                          <Link to="/login" className="text-xs text-gray-500 uppercase">or login</Link>
                           <span className="border-b w-1/5 md:w-1/4"></span>
                       </div>
                   </div>
-                  <div className="block w-full">
+                  {/* <div className="hidden w-full">
                         <div className="relative bg-white px-6 pt-10 pb-9 mx-auto w-full max-w-lg rounded-2xl">
                           <div class="flex flex-col items-center justify-center text-center space-y-2">
                             <div class="font-semibold text-3xl">
@@ -83,7 +83,7 @@ const Register = () => {
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
                   {/*  */}
                 </div>
                 

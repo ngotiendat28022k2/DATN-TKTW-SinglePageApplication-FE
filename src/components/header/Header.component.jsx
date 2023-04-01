@@ -3,7 +3,7 @@ import "./headerClient.model.css"
 
 const Header = () => {
     return (
-        <div className="md:flex md:m-auto md:justify-between md:w-[1280px] md:h-16 bg-[#fff] px-[20px]">
+        <div className="md:flex md:m-auto md:justify-between md:w-[1280px] md:h-16 bg-[#fff]">
             <div className="mt-3 mr-8 flex justify-center">
                 <a href="">
                     <img className="md:h-[36px] h-[20px] " src="https://i.imgur.com/SmXRS7C.png" alt="" />
