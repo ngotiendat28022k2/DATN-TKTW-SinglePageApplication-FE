@@ -9,8 +9,8 @@ const PrivateLayout = ({ children }) => {
   if (!user) {
     location.href = "/login";
   }
-  if (user.role > 0) {
-    location.href = "/admin";
+  if (user.role <= 0) {
+    location.href = "/home";
   }
   return children;
 };
