@@ -20,7 +20,11 @@ const Login = () => {
                 local.set("user", JSON.stringify(payload?.data))
                 hepler.toast("success", "Login Success")
                 setTimeout(() => {
-                    navigate("/home")
+                    if(payload.data.role > 0){
+                        navigate("/admin")
+                    }else{
+                        navigate("/home")
+                    }
                 }, 2000);
             }else{
                 hepler.toast("error", "Login False")
@@ -99,7 +103,7 @@ const Login = () => {
                     <div className="mt-8">
                         <button 
                             className="bg-gray-700 text-white font-bold py-2 px-4 w-full rounded hover:bg-gray-600"
-                            onClick={handleSubmit}
+                            type='submit'
                         >
                             Login
                         </button>
