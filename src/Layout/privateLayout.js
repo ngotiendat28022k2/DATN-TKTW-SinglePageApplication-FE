@@ -7,8 +7,10 @@ const PrivateLayout = ({ children }) => {
   const user = local.get("user");
   console.log("user", user);
   if (!user) {
-    navigate("/login");
     location.href = "/login";
+  }
+  if (user.role > 0) {
+    location.href = "/admin";
   }
   return children;
 };
