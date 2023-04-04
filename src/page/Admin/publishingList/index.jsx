@@ -3,7 +3,6 @@ import { Add, EditOutlined, Close } from "@mui/icons-material";
 import { Button, Paper, Toolbar } from "@mui/material";
 import Controls from "../../../components/AdminComponent/controls/Controls";
 import Popup from "../../../components/AdminComponent/MyPopup/MyPopup";
-import NewPublish from "../newEmployees";
 // Services
 import * as employeeService from "../../../services/employeeService";
 import InputSearch from "../../../components/AdminComponent/inputSearch/inputSearch.component";
@@ -11,7 +10,7 @@ import CustomPaginationActionsTable from "../../../components/AdminComponent/tab
 import ActionSave from "./ActionSave";
 import ActionDelete from "./ActionDelete";
 import ActionUpdate from "./ActionUpdate";
-import { getAllPublish } from "../../../slice/publishsSlice";
+import { getAllPublish } from "../../../slice/publishSlice";
 import { useDispatch, useSelector } from "react-redux";
 import NewPublishing from "./AddOrEdit";
 
@@ -36,10 +35,10 @@ export default function PublishList() {
 
   const columnsData = [
     { field: "_id", headerName: "ID", width: 200 },
-    { field: "name", headerName: "Name", width: 200, editable: true },
-    { field: "phone", headerName: "Phone", width: 200, editable: true },
-    { field: "email", headerName: "Email", width: 200, editable: true },
-    { field: "address", headerName: "Address", width: 200, editable: true },
+    { field: "name", headerName: "Name", width: 200 },
+    { field: "phone", headerName: "Phone", width: 200 },
+    { field: "email", headerName: "Email", width: 200 },
+    { field: "address", headerName: "Address", width: 200 },
     {
       field: "actions",
       headerName: "Actions",

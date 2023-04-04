@@ -68,7 +68,7 @@ export default function Sidebar() {
                 Employees
               </li>
             </Link>
-            <Link to="/admin/pushlishings" className={styles.link}>
+            <Link to="/admin/publishs" className={styles.link}>
               <li className={styles.sidebarListItem}>
                 <BusinessCenterIcon className={styles.sidebarIcon} />
                 Publishing
