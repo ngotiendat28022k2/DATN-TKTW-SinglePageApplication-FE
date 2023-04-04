@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { Add, EditOutlined, Close } from "@mui/icons-material";
 import { Button, Paper, Toolbar } from "@mui/material";
 import Controls from "../../../components/AdminComponent/controls/Controls";
 import Popup from "../../../components/AdminComponent/MyPopup/MyPopup";
-import NewProduct from "../newEmployees";
+import NewCategory from "./AddOrEdit";
 // Services
 import * as employeeService from "../../../services/employeeService";
 import InputSearch from "../../../components/AdminComponent/inputSearch/inputSearch.component";
@@ -11,16 +12,20 @@ import CustomPaginationActionsTable from "../../../components/AdminComponent/tab
 import ActionSave from "./ActionSave";
 import ActionDelete from "./ActionDelete";
 import ActionUpdate from "./ActionUpdate";
-import { fetchs } from "../../../slice/productsSlice";
+import { getAllProduct } from "../../../slice/productsSlice";
 import { useDispatch, useSelector } from "react-redux";
-import NewPublishing from "../newPulishing/NewPublishing";
-import NewCategory from "../newCategory";
 
-export default function CategoryList() {
+export default function ProductList() {
   const [openPopup, setOpenPopup] = useState(false);
   const [dataSearch, setDataSearch] = React.useState([]);
   const [rowId, setRowId] = useState(null);
   const [rowsData, setRowsData] = useState([]);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
 
   const handleSearch = (e) => {
     console.log("e.target.value", e.target.value);
@@ -39,8 +44,6 @@ export default function CategoryList() {
     { field: "_id", headerName: "ID", width: 200 },
     { field: "name", headerName: "Name", width: 200, editable: true },
     { field: "image", headerName: "Image", width: 200, editable: true },
-    { field: "icon", headerName: "Icon", width: 200, editable: true },
-    { field: "banner", headerName: "Banner", width: 200, editable: true },
     {
       field: "actions",
       headerName: "Actions",
@@ -60,13 +63,14 @@ export default function CategoryList() {
   const dispatch = useDispatch();
   useEffect(() => {
     (async () => {
-      const data = await dispatch(fetchs());
+      const data = await dispatch(getAllProduct());
       setRowsData(data.payload.data);
     })();
   }, []);
   // useEffect(() => {
   //   setRowsData(data)
   // }, [data])
+
   return (
     <>
       <Paper
@@ -91,17 +95,20 @@ export default function CategoryList() {
 
         <div className="mt-[30px]">
           <CustomPaginationActionsTable
-            {...{ rowsData, columnsData, rowId, setRowId, dataSearch }}
+            {...{ rowsData, columnsData, rowId, setRowId }}
           />
         </div>
       </Paper>
 
       <Popup
-        title="Category Form"
+        title="Add New Product"
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
         <NewCategory addOrEdit={addOrEdit} />
+
+        {/* ném component vào */}
+        {/* <NewProduct recordForEdit={recordForEdit} addOrEdit={addOrEdit} /> */}
       </Popup>
     </>
   );
