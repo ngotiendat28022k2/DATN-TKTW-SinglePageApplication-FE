@@ -16,7 +16,11 @@ const Login = () => {
         event.preventDefault()
         try {
             const { payload } =await dispatch(login(user))
-            if(payload?.data){
+            console.log("payload", payload)
+            if(payload?.data.errorCode){
+                return hepler.toast("error", payload?.data.message)
+            }
+            if(payload?.data.successCode){
                 local.set("user", JSON.stringify(payload?.data))
                 hepler.toast("success", "Login Success")
                 setTimeout(() => {
@@ -26,8 +30,6 @@ const Login = () => {
                         navigate("/home")
                     }
                 }, 2000);
-            }else{
-                hepler.toast("error", "Login False")
             }
         } catch (error) {
             hepler.toast("error", error)

@@ -58,7 +58,14 @@ export default function ProductList() {
   // useEffect(() => {
   //   setRowsData(data)
   // }, [data])
-
+  const addOrEdit = (employee, resetForm) => {
+    if (employee.id == 0) employeeService.insertEmployee(employee);
+    else employeeService.updateEmployee(employee);
+    resetForm();
+    setRecordForEdit(null);
+    setOpenPopup(false);
+    setRecords(employeeService.getAllEmployees());
+  };
 
   return (
     <>

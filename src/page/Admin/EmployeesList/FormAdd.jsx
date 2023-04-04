@@ -6,11 +6,6 @@ import * as employeeService from "../../../services/employeeService";
 // import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 
-const genderItems = [
-  { id: "male", title: "Male" },
-  { id: "female", title: "Female" },
-  { id: "other", title: "Other" },
-];
 
 const initialFValues = {
   id: 0,

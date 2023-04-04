@@ -1,7 +1,7 @@
 import React from 'react'
 const SidebarProfile = () => {
   return (
-    <div className='container-sidebarProfile border border-solid border-[#e6e6e6] rounded-[2px] bg-[white]'>
+    <div className='max-w-[200px] w-full border border-solid border-[#e6e6e6] rounded-[2px] bg-[white]'>
         <div className=''>
             <div className='px-[20px] pt-[18px] border-b-[2px] border-solid border-[#f6f6f6]'>
                <p className='uppercase text-[20px] text-[#C92127] font-bold pt-[10px] pr-[15px] pb-[10px]'>tài khoản</p>

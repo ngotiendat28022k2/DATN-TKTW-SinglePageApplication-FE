@@ -1,6 +1,8 @@
 import ClientMenu from "../menu/MenuClient.component";
 import "./headerClient.model.css"
-
+import { Link } from "react-router-dom"
+import local from "../../utiliti/local/local";
+import SidebarProfile from "../sidebar-profile/sidebar_profile"
 const Header = () => {
     return (
         <div className="md:flex md:m-auto md:justify-between md:w-[1280px] md:h-16 bg-[#fff]">
@@ -20,7 +22,7 @@ const Header = () => {
                         </svg>
                     </div>
                 </div>
-                <div className="absolute z-10 md:top-[40px] md:left-[-242px] dropdown-menu hidden pt-[30px] ">
+                <div className="absolute z-10 md:top-[40px] md:left-[-242px] dropdown-menu hidden pt-[30px]">
                     <ClientMenu />
                 </div>
             </div>
@@ -37,7 +39,7 @@ const Header = () => {
                         </button>
                     </div>
                 </div>
-                <div className="md:mt-3 md:w-24 hidden md:block">
+                <div className="md:mt-3 md:w-24 hidden md:block cursor-pointer">
                     <div className="flex justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
                             <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z" />
@@ -45,21 +47,33 @@ const Header = () => {
                     </div>
                     <div className="text-center">Thông báo</div>
                 </div>
-                <div className="md:mt-3 md:w-24 w-24">
+                <div className="md:mt-3 md:w-24 w-24 cursor-pointer">
                     <div className="flex justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-cart2 md:w-[19px] md:h-[19px] w-[24px] h-[24px] mt-2 md:mt-0" viewBox="0 0 16 16">
                             <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
                         </svg>
                     </div>
-                    <div className="text-center hidden md:block">Giỏ hàng</div>
+                    <div className="text-center hidden md:block">
+                        <Link to="/checkout">Giỏ hàng</Link>
+                    </div>
                 </div>
                 <div className="md:mt-3 md:w-24 w-20">
-                    <div className="flex justify-center">
+                    {/* <div className="flex justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-person md:w-[19px] md:h-[19px] w-[24px] h-[24px] mt-2 md:mt-0" viewBox="0 0 16 16">
                             <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
                         </svg>
                     </div>
-                    <div className="text-center hidden md:block">Tài khoản</div>
+                    <div className="text-center hidden md:block">
+                        <span>Tài khoản</span>
+                    </div> */}
+                        <div className="relative">
+                            <div className="max-w-[40px] shadow-lg rounded-md overflow-hidden ml-[20px] cursor-pointer">
+                                <img className="w-full" src="https://i1.wp.com/i.imgur.com/a5rfZ9Q.jpg?resize=502%2C504&ssl=1" alt="" />
+                            </div>
+                            <div className="z-10 absolute hidden">
+                                <SidebarProfile />
+                            </div>
+                        </div>
                 </div>
             </div>
         </div>

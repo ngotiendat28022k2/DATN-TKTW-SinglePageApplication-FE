@@ -17,18 +17,18 @@ const Register = () => {
       const {payload} =await dispatch(register(email))
       console.log(payload)
       if(payload.data.element){
-        helper.toast("success", "Successful registration, please check code by email")
+        helper.toast("success", "Please check code by email")
         setOpenPopup(true)
-      }elseƠ
-      helper.toast("error", "Registration failed")
+      }
+      if(payload.data.code >= 400){
+        helper.toast("error", payload.data.message)
+      }
     } catch (error) {
       helper.toast("error", error)
     }
   }   
 
   return (
-
-
     <>
       <div className="py-6">
         <div className="flex bg-white rounded-lg shadow-lg overflow-hidden mx-auto max-w-sm lg:max-w-4xl">

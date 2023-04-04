@@ -1,20 +1,19 @@
-import { styled, useTheme, StyledEngineProvider } from "@mui/material/styles";
+import { styled, useTheme } from "@mui/material/styles";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import CssBaseline from "@mui/material/CssBaseline";
-import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Outlet } from "react-router-dom";
 import Sidebar from "../../components/AdminComponent/sidebar/Sidebar";
 import Header from "../../components/AdminComponent/header";
+import {Link} from "react-router-dom"
 import "./../../app.css";
 
 const myTheme = createTheme({
@@ -132,10 +131,12 @@ function AdminLayout() {
               >
                 <MenuIcon />
               </IconButton>
-                <img 
-                  src="https://logos.textgiraffe.com/logos/logo-name/Niki-designstyle-smoothie-m.png" 
-                  className="w-full max-w-[60px]"
-                />
+               <Link to="/admin">
+                  <img 
+                    src="https://logos.textgiraffe.com/logos/logo-name/Niki-designstyle-smoothie-m.png" 
+                    className="w-full max-w-[60px]"
+                  />
+                </Link>
               <Header />
             </Toolbar>
           </AppBar>

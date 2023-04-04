@@ -2,7 +2,7 @@ import {useState, useEffect, useRef} from 'react'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import helper from '../../../../utiliti/helper/helper'
-import { sendOtp } from '../../../../slice/userSlice'
+import { register, sendOtp } from '../../../../slice/userSlice'
 let indexOTP  = 0
 const FormOtp = (props) => {
     const [email, setEMail] = useState(props.email || "")
@@ -45,28 +45,30 @@ const FormOtp = (props) => {
         otp: otpString.replaceAll(",","")
       }  
       try {
-        await dispatch(sendOtp(valOTP)).then(({payload}) => {
-          console.log(payload)
-          if(payload.data.element){
-            helper.toast("success", "Successfully OTP")
-            setTimeout(() => {
-              navigate("/login")
-            }, 1500);
-          }
-          helper.toast("error", error)
-        }).catch((error) => {
-          helper.toast("error", error)
-        })
+        // console.log(valOTP)
+        const {payload} = await dispatch(sendOtp(valOTP))
+        if(payload.data.element){
+          helper.toast("success", "Successfully OTP")
+          setTimeout(() => {
+            navigate("/login")
+          }, 1500);
+        }
+        if(payload.data.code >= 400){
+           helper.toast("error", payload.data.message)
+        }
       } catch (error) {
         helper.toast("error", error)
       }
   }
   const handleResend =async () => {
-    const emailOTP = email
-     const {payload} = await dispatch(createOtp(emailOTP))
-     if(payload.resultOtp){
-       alert(`otp has been sent back to gmail ${user.email}`)
+     const {payload} = await dispatch(register(email))
+     console.log(payload);
+     if(payload.data.element){
+       helper.toast("success", "Reset otp success")
      }
+     if(payload.data.code >= 400) {
+      helper.toast("error", payload.data.message)
+    }
   }
 
   return (
@@ -114,7 +116,7 @@ const FormOtp = (props) => {
                                     <div className="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
                                       <p>Didn't recieve code?</p> 
                                       <span 
-                                        className="flex flex-row items-center text-blue-600" href="http://" target="_blank" rel="noopener noreferrer"
+                                        className="cursor-pointer flex flex-row items-center text-blue-600" href="http://" target="_blank" rel="noopener noreferrer"
                                         onClick={() => handleResend()}
                                       >
                                         Resend

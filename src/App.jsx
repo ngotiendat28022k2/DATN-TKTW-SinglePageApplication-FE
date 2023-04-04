@@ -21,16 +21,13 @@ const User = React.lazy(() => import('./page/Admin/user/User'));
 const UserList = React.lazy(() => import('./page/Admin/userList/UserList'));
 const ProfileAdmin = React.lazy(() => import('./page/Admin/Profile/Profile.admin'));
 // 
-const ProfileAddress = React.lazy(() => import('./page/Profile-Address'));
-const ProfileInfo = React.lazy(() => import('./page/Profile-Info'));
-const ProfileMyProduct = React.lazy(() => import('./page/Profile-MyProduct'));
-const ProfileNotification = React.lazy(() => import('./page/Profile-Notification'));
-const ProfileVoucher = React.lazy(() => import('./page/Profile-Voucher'));
+const ProfileAddress = React.lazy(() => import('./page/profile/Profile-Address'));
+const ProfileInfo = React.lazy(() => import('./page/profile/Profile-Info'));
+const ProfileMyProduct = React.lazy(() => import('./page/profile/Profile-MyProduct'));
+const ProfileNotification = React.lazy(() => import('./page/profile/Profile-Notification'));
+const ProfileVoucher = React.lazy(() => import('./page/profile/Profile-Voucher'));
 const HomePage = React.lazy(() => import('./page/home'));
 const Blog = React.lazy(() => import('./page/blog'));
-const Profile = React.lazy(() => import('./page/profile'));
-const WishList = React.lazy(() => import('./page/wishList'));
-const OrderSearch = React.lazy(() => import('./page/orderSearch'));
 const Login = React.lazy(() => import('./page/auth/login'));
 const Register = React.lazy(() => import('./page/auth/register'));
 
@@ -47,8 +44,6 @@ function App() {
                         <Route index element={<Navigate to ="home"/>} />
                         <Route path="home" element={<HomePage />} />
                         <Route path="blog" element={<Blog />} />
-                        <Route path="profile" element={<Profile />} />
-                        <Route path="wishlist" element={<WishList />} />
                         <Route path="/detail" element={<DetailProduct />} />
                         <Route path="/checkout" element={<CheckoutCart />} />
                         <Route path="/" element={<AccountLayout />} >
@@ -59,8 +54,6 @@ function App() {
                             <Route path="account/notification" element={<ProfileNotification />} />
                         </Route>
 
-                        {/* <Route path="/orderSearch" element={<OrderSearch />} /> */}
-                        <Route path={Slug("quyển sách này thật tuyệt")} element={<OrderSearch />} />
                         {/* <Route path="/paycart" element={<PayCart />} /> */}
                     </Route>
 
