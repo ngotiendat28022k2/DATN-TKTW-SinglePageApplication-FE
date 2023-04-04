@@ -7,6 +7,9 @@ const userApi = {
   register: async (data) => {
     return await instance.post("register", data);
   },
+  sendOtp: async (data) => {
+    return await instance.post("verifyotp", data);
+  },
 };
 
 export default userApi;

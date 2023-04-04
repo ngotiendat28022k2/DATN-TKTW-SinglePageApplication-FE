@@ -6,9 +6,20 @@ export const login = createAsyncThunk("user/login", async (data) => {
   return response;
 });
 
+export const register = createAsyncThunk("user/register", async (data) => {
+  const response = await userApi.register(data);
+  return response;
+});
+
+export const sendOtp = createAsyncThunk("user/sendOtp", async (data) => {
+  const response = await userApi.sendOtp(data);
+  return response;
+});
+
 const initialState = {
   value: [],
   isLogin: false,
+  otp: [],
 };
 
 export const userSlice = createSlice({
@@ -28,8 +39,24 @@ export const userSlice = createSlice({
       state.isLogin = true;
     });
     builder.addCase(login.rejected, (state, action) => {
-      state.value = action.payload;
+      throw new Error();
       state.isLogin = false;
+    });
+
+    builder.addCase(register.fulfilled, (state, action) => {
+      state.otp = action.payload;
+      state.isLogin = false;
+    });
+    builder.addCase(register.rejected, (state, action) => {
+      throw new Error();
+    });
+
+    builder.addCase(sendOtp.fulfilled, (state, action) => {
+      state.otp = action.payload;
+      state.isLogin = false;
+    });
+    builder.addCase(sendOtp.rejected, (state, action) => {
+      throw new Error();
     });
   },
 });
