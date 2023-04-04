@@ -3,7 +3,7 @@ import { Add, EditOutlined, Close } from "@mui/icons-material";
 import { Button, Paper, Toolbar } from "@mui/material";
 import Controls from "../../../components/AdminComponent/controls/Controls";
 import Popup from "../../../components/AdminComponent/MyPopup/MyPopup";
-import NewProduct from "../newEmployees";
+import NewPublish from "../newEmployees";
 // Services
 import * as employeeService from "../../../services/employeeService";
 import InputSearch from "../../../components/AdminComponent/inputSearch/inputSearch.component";
@@ -11,11 +11,11 @@ import CustomPaginationActionsTable from "../../../components/AdminComponent/tab
 import ActionSave from "./ActionSave";
 import ActionDelete from "./ActionDelete";
 import ActionUpdate from "./ActionUpdate";
-import { fetchs } from "../../../slice/productsSlice";
+import { getAllPublish } from "../../../slice/publishsSlice";
 import { useDispatch, useSelector } from "react-redux";
-import NewPublishing from "../newPulishing/NewPublishing";
+import NewPublishing from "./AddOrEdit";
 
-export default function ProductList() {
+export default function PublishList() {
   const [openPopup, setOpenPopup] = useState(false);
   const [dataSearch, setDataSearch] = React.useState([]);
   const [rowId, setRowId] = useState(null);
@@ -59,7 +59,7 @@ export default function ProductList() {
   const dispatch = useDispatch();
   useEffect(() => {
     (async () => {
-      const data = await dispatch(fetchs());
+      const data = await dispatch(getAllPublish());
       setRowsData(data.payload.data);
     })();
   }, []);

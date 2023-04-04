@@ -12,15 +12,11 @@ import ClientLayout from "./Layout/ClientLayout";
 import AccountLayout from "./Layout/LayoutAccount";
 import DetailProduct from "./page/Detail";
 import CheckoutCart from "./page/checkout-cart";
-import ProductList from "./page/Admin/EmployeesList";
 //
 const AdminPage = React.lazy(() => import("./page/Admin/home/AdminPage"));
-const NewProduct = React.lazy(() => import("./page/Admin/newEmployees"));
 const PublishingList = React.lazy(() => import("./page/Admin/publishingList"));
 const CategoryList = React.lazy(() => import("./page/Admin/categoryList"));
-const NewUser = React.lazy(() => import("./page/Admin/newUser/NewUser"));
-const User = React.lazy(() => import("./page/Admin/user/User"));
-const UserList = React.lazy(() => import("./page/Admin/userList/UserList"));
+const ProductList = React.lazy(() => import("./page/Admin/ProductList"));
 const ProfileAdmin = React.lazy(() =>
   import("./page/Admin/Profile/Profile.admin")
 );
@@ -45,46 +41,48 @@ function App() {
     <div className="App">
       <React.Suspense fallback={<Loader />}>
         <Routes>
-                <Route 
-                    path="/"
-                    element={<Layout/>}
-                >
-                    <Route path='/' element={<ClientLayout />}>
-                        <Route index element={<Navigate to ="home"/>} />
-                        <Route path="home" element={<HomePage />} />
-                        <Route path="blog" element={<Blog />} />
-                        <Route path="profile" element={<Profile />} />
-                        <Route path="wishlist" element={<WishList />} />
-                        <Route path="/detail" element={<DetailProduct />} />
-                        <Route path="/checkout" element={<CheckoutCart />} />
-                        <Route path="/" element={<AccountLayout />} >
-                            <Route index path="account/edit" element={<ProfileInfo />} />
-                            <Route path="account/address" element={<ProfileAddress />} />
-                            <Route path="account/order" element={<ProfileMyProduct />} />
-                            <Route path="account/voucher" element={<ProfileVoucher />} />
-                            <Route path="account/notification" element={<ProfileNotification />} />
-                        </Route>
-
-              {/* <Route path="/orderSearch" element={<OrderSearch />} /> */}
-              <Route
-                path={Slug("quyển sách này thật tuyệt")}
-                element={<OrderSearch />}
-              />
-              {/* <Route path="/paycart" element={<PayCart />} /> */}
+          <Route path="/" element={<Layout />}>
+            <Route path="/" element={<ClientLayout />}>
+              <Route index element={<Navigate to="home" />} />
+              <Route path="home" element={<HomePage />} />
+              <Route path="blog" element={<Blog />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="wishlist" element={<WishList />} />
+              <Route path="/detail" element={<DetailProduct />} />
+              <Route path="/checkout" element={<CheckoutCart />} />
+              <Route path="/" element={<AccountLayout />}>
+                <Route index path="account/edit" element={<ProfileInfo />} />
+                <Route path="account/address" element={<ProfileAddress />} />
+                <Route path="account/order" element={<ProfileMyProduct />} />
+                <Route path="account/voucher" element={<ProfileVoucher />} />
+                <Route
+                  path="account/notification"
+                  element={<ProfileNotification />}
+                />
+              </Route>
             </Route>
-                    {/* Router Admin */}
-                    <Route path='admin/' element={<PrivateLayout><AdminLayout /></PrivateLayout>}>
-                        <Route index element={<AdminPage />} />
-                        <Route path='users' element={<UserList />} />
-                        <Route path='user/:userId' element={<User />} />
-                        <Route path='newUser' element={<NewUser />} />
-                        {/* <Route path='products' element={<ProductList />} /> */}
-                        {/* <Route path='product/:productId' element={<Product />} /> */}
-                        {/* <Route path='newproduct' element={<NewProduct />} /> */}
-                        <Route path='products' element={<ProductList />} />
-                        {/* <Route path='product/:productId' element={<Product />} /> */}
-                        <Route path='newproduct' element={<NewProduct />} />
-                        <Route path='profile' element={<ProfileAdmin />} />
+            {/* <Route path="/orderSearch" element={<OrderSearch />} /> */}
+            <Route
+              path={Slug("quyển sách này thật tuyệt")}
+              element={<OrderSearch />}
+            />
+            {/* <Route path="/paycart" element={<PayCart />} /> */}
+          </Route>
+          {/* Router Admin */}
+          <Route
+            path="admin/"
+            element={
+              <PrivateLayout>
+                <AdminLayout />
+              </PrivateLayout>
+            }
+          >
+            <Route index element={<AdminPage />} />
+            <Route path="publishs" element={<PublishingList />} />
+            <Route path="categories" element={<CategoryList />} />
+            <Route path="products" element={<ProductList />} />
+            <Route path="profile" element={<ProfileAdmin />} />
+          </Route>
 
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
