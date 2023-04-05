@@ -48,7 +48,7 @@ function App() {
               <Route path="blog" element={<Blog />} />
               <Route path="profile" element={<Profile />} />
               <Route path="wishlist" element={<WishList />} />
-              <Route path="/detail" element={<DetailProduct />} />
+              <Route path="/detail/:id" element={<DetailProduct />} />
               <Route path="/checkout" element={<CheckoutCart />} />
               <Route path="/" element={<AccountLayout />}>
                 <Route index path="account/edit" element={<ProfileInfo />} />

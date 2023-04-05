@@ -1,10 +1,24 @@
+import { useDispatch, useSelector } from 'react-redux';
 import SlideShow from '../../components/slide-show/SlideShow.component';
+import React,{ useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { getAllProduct } from '../../slice/productsSlice';
+import { getAllCategory } from '../../slice/category';
 const HomePage = () => {
 
+    const dispatch = useDispatch();
+    const products = useSelector((state) => state.product.value);
+    const category = useSelector((state) => state.category.value);
+    console.log("category", category);
+    console.log("products", products);
+    useEffect(() => {
+        dispatch(getAllProduct()),
+            dispatch(getAllCategory())
+    }, [])
     return (
         <div>
             <div className=''>
-                <SlideShow/>
+                <SlideShow />
                 <div className='grid md:grid-cols-10 md:gap-4 grid-cols-5 gap-3 bg-white'>
                     <div className='col-span-1 p-4'>
                         <a href="">
@@ -99,96 +113,27 @@ const HomePage = () => {
                 </div>
                 <div className='bg-white p-2'>
                     <div className='grid md:grid-cols-5 grid-cols-3 gap-2 md:mx-2'>
-                        <div className='relative hover:border-2 hover:shadow-md'>
-                            <div className='flex bg-[#F7941E] md:w-[44px] md:h-[44px] w-12 h-12 md:rounded-3xl rounded-[22px] justify-center items-center absolute top-[10px] right-[10px]'>
-                                <span className='text-white font-semibold'>35%</span>
+                        {products.data?.slice(0,5).map((itemProduct) => (
+                            <div className='relative hover:border-2 hover:shadow-md'>
+                                <div className='flex bg-[#F7941E] md:w-[44px] md:h-[44px] w-12 h-12 md:rounded-3xl rounded-[22px] justify-center items-center absolute top-[10px] right-[10px]'>
+                                    <span className='text-white font-semibold'>{((itemProduct.price - itemProduct.sale) / itemProduct.price * 100).toFixed(0)}%</span>
+                                </div>
+                                <div className='md:m-2 m-2'>
+                                    <Link to={`/detail/${itemProduct._id}`}>
+                                        <img src={itemProduct.images} alt="" />
+                                    </Link>
+                                </div>
+                                <div className="mb-3">
+                                    <Link to={`/detail/${itemProduct._id}`}>
+                                        <h4 className='text-[#333333] md:text-lg text-base md:px-5 px-3'>{itemProduct.name}</h4>
+                                        <span className='block md:px-5 px-3 text-base md:text-xl text-[#F7941E] font-semibold'>{itemProduct.sale.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</span>
+                                        <span className='block md:px-5 px-3 text-sm md:text-base text-[#888888] line-through'>{itemProduct.price.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</span>
+                                        <span className='block md:px-5 px-3 text-sm md:text-xs'>Lượt xem: {itemProduct.view}</span>
+                                    </Link>
+                                </div>
                             </div>
-                            <div className='md:m-2 m-2'>
-                                <a href="">
-                                    <img src="https://cdn0.fahasa.com/media/catalog/product/n/x/nxbtre_full_27402023_084042.jpg" alt="" />
-                                </a>
-                            </div>
-                            <div className="mb-3">
-                                <a href="">
-                                    <h4 className='text-[#333333] md:text-lg text-base md:px-5 px-3'>Chainsaw Man - Tập 8</h4>
-                                    <span className='block md:px-5 px-3 text-base md:text-xl text-[#F7941E] font-semibold'>29.250</span>
-                                    <span className='block md:px-5 px-3 text-sm md:text-base text-[#888888] line-through'>45.000</span>
-                                    <span className='block md:px-5 px-3 text-sm md:text-xs'>Đã Bán 12</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div className='relative hover:border-2 hover:shadow-md'>
-                            <div className='flex bg-[#F7941E] md:w-[44px] md:h-[44px] w-12 h-12 md:rounded-3xl rounded-[22px] justify-center items-center absolute top-[10px] right-[10px]'>
-                                <span className='text-white font-semibold'>35%</span>
-                            </div>
-                            <div className='md:m-2 m-2'>
-                                <a href="">
-                                    <img src="https://cdn0.fahasa.com/media/catalog/product/n/x/nxbtre_full_27402023_084042.jpg" alt="" />
-                                </a>
-                            </div>
-                            <div className="mb-3">
-                                <a href="">
-                                    <h4 className='text-[#333333] md:text-lg text-base md:px-5 px-3'>Chainsaw Man - Tập 8</h4>
-                                    <span className='block md:px-5 px-3 text-base md:text-xl text-[#F7941E] font-semibold'>29.250</span>
-                                    <span className='block md:px-5 px-3 text-sm md:text-base text-[#888888] line-through'>45.000</span>
-                                    <span className='block md:px-5 px-3 text-sm md:text-xs'>Đã Bán 12</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div className='relative hover:border-2 hover:shadow-md'>
-                            <div className='flex bg-[#F7941E] md:w-[44px] md:h-[44px] w-12 h-12 md:rounded-3xl rounded-[22px] justify-center items-center absolute top-[10px] right-[10px]'>
-                                <span className='text-white font-semibold'>35%</span>
-                            </div>
-                            <div className='md:m-2 m-2'>
-                                <a href="">
-                                    <img src="https://cdn0.fahasa.com/media/catalog/product/n/x/nxbtre_full_27402023_084042.jpg" alt="" />
-                                </a>
-                            </div>
-                            <div className="mb-3">
-                                <a href="">
-                                    <h4 className='text-[#333333] md:text-lg text-base md:px-5 px-3'>Chainsaw Man - Tập 8</h4>
-                                    <span className='block md:px-5 px-3 text-base md:text-xl text-[#F7941E] font-semibold'>29.250</span>
-                                    <span className='block md:px-5 px-3 text-sm md:text-base text-[#888888] line-through'>45.000</span>
-                                    <span className='block md:px-5 px-3 text-sm md:text-xs'>Đã Bán 12</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div className='relative hover:border-2 hover:shadow-md'>
-                            <div className='flex bg-[#F7941E] md:w-[44px] md:h-[44px] w-12 h-12 md:rounded-3xl rounded-[22px] justify-center items-center absolute top-[10px] right-[10px]'>
-                                <span className='text-white font-semibold'>35%</span>
-                            </div>
-                            <div className='md:m-2 m-2'>
-                                <a href="">
-                                    <img src="https://cdn0.fahasa.com/media/catalog/product/n/x/nxbtre_full_27402023_084042.jpg" alt="" />
-                                </a>
-                            </div>
-                            <div className="mb-3">
-                                <a href="">
-                                    <h4 className='text-[#333333] md:text-lg text-base md:px-5 px-3'>Chainsaw Man - Tập 8</h4>
-                                    <span className='block md:px-5 px-3 text-base md:text-xl text-[#F7941E] font-semibold'>29.250</span>
-                                    <span className='block md:px-5 px-3 text-sm md:text-base text-[#888888] line-through'>45.000</span>
-                                    <span className='block md:px-5 px-3 text-sm md:text-xs'>Đã Bán 12</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div className='relative hover:border-2 hover:shadow-md'>
-                            <div className='flex bg-[#F7941E] md:w-[44px] md:h-[44px] w-12 h-12 md:rounded-3xl rounded-[22px] justify-center items-center absolute top-[10px] right-[10px]'>
-                                <span className='text-white font-semibold'>35%</span>
-                            </div>
-                            <div className='md:m-2 m-2'>
-                                <a href="">
-                                    <img src="https://cdn0.fahasa.com/media/catalog/product/n/x/nxbtre_full_27402023_084042.jpg" alt="" />
-                                </a>
-                            </div>
-                            <div className="mb-3">
-                                <a href="">
-                                    <h4 className='text-[#333333] md:text-lg text-base md:px-5 px-3'>Chainsaw Man - Tập 8</h4>
-                                    <span className='block md:px-5 px-3 text-base md:text-xl text-[#F7941E] font-semibold'>29.250</span>
-                                    <span className='block md:px-5 px-3 text-sm md:text-base text-[#888888] line-through'>45.000</span>
-                                    <span className='block md:px-5 px-3 text-sm md:text-xs'>Đã Bán 12</span>
-                                </a>
-                            </div>
-                        </div>
+                        ))}
+
                         <div className='relative md:hidden block py-[100%] px-5'>
                             <div className='border-2 rounded-2xl text-center p-1 border-teal-400'>
                                 <button className='text-teal-500 hover:text-orange-400'>Xem Thêm</button>
@@ -207,86 +152,17 @@ const HomePage = () => {
                     </div>
                 </div>
                 <div className='grid md:grid-cols-10 md:gap-2 grid-cols-5 gap-3 bg-white pb-4 px-2'>
-                    <div className='col-span-1'>
-                        <a href="">
-                            <div className=''>
-                                <img className='md:w-[100px] md:h-[100px] w-11 h-11 m-auto' src="https://cdn0.fahasa.com/media/wysiwyg/Duy-VHDT/Danh-muc-san-pham/Luyen_Thi.jpg" alt="" />
-                            </div>
-                            <div className='md:text-sm text-xs text-center pt-3'>Sách Luyện Thi</div>
-                        </a>
-                    </div>
-                    <div className='col-span-1'>
-                        <a href="">
-                            <div className=''>
-                                <img className='md:w-[100px] md:h-[100px] w-11 h-11 m-auto' src="https://cdn0.fahasa.com/media/wysiwyg/Duy-VHDT/Danh-muc-san-pham/Manga.jpg" alt="" />
-                            </div>
-                            <div className='md:text-sm text-xs text-center pt-3'>Manga</div>
-                        </a>
-                    </div>
-                    <div className='col-span-1'>
-                        <a href="">
-                            <div className=''>
-                                <img className='md:w-[100px] md:h-[100px] w-11 h-11 m-auto' src="https://cdn0.fahasa.com/media/wysiwyg/Duy-VHDT/Danh-muc-san-pham/T_m_linh.jpg" alt="" />
-                            </div>
-                            <div className='md:text-sm text-xs text-center pt-3'>Tâm Linh Luân Hồi</div>
-                        </a>
-                    </div>
-                    <div className='col-span-1'>
-                        <a href="">
-                            <div className=''>
-                                <img className='md:w-[100px] md:h-[100px] w-11 h-11 m-auto' src="https://cdn0.fahasa.com/media/wysiwyg/Duy-VHDT/Danh-muc-san-pham/Thao_t_ng.jpg" alt="" />
-                            </div>
-                            <div className='md:text-sm text-xs text-center pt-3'>Thao Túng Tâm Lý</div>
-                        </a>
-                    </div>
-                    <div className='col-span-1'>
-                        <a href="">
-                            <div className=''>
-                                <img className='md:w-[100px] md:h-[100px] w-11 h-11 m-auto' src="https://cdn0.fahasa.com/media/wysiwyg/Duy-VHDT/Danh-muc-san-pham/Th_c_T_nh.jpg" alt="" />
-                            </div>
-                            <div className='md:text-sm text-xs text-center pt-3'>Đối Mặt Thức Tỉnh</div>
-                        </a>
-                    </div>
-                    <div className='col-span-1'>
-                        <a href="">
-                            <div className=''>
-                                <img className='md:w-[100px] md:h-[100px] w-11 h-11 m-auto' src="https://cdn0.fahasa.com/media/wysiwyg/Duy-VHDT/Danh-muc-san-pham/Ti_u_Thuy_t.jpg" alt="" />
-                            </div>
-                            <div className='md:text-sm text-xs text-center pt-3'>Tiểu Thuyết</div>
-                        </a>
-                    </div>
-                    <div className='col-span-1'>
-                        <a href="">
-                            <div className=''>
-                                <img className='md:w-[100px] md:h-[100px] w-11 h-11 m-auto' src="https://cdn0.fahasa.com/media/wysiwyg/Duy-VHDT/Danh-muc-san-pham/lightnovel.jpg" alt="" />
-                            </div>
-                            <div className='md:text-sm text-xs text-center pt-3'>Light Novel</div>
-                        </a>
-                    </div>
-                    <div className='col-span-1'>
-                        <a href="">
-                            <div className=''>
-                                <img className='md:w-[100px] md:h-[100px] w-11 h-11 m-auto' src="https://cdn0.fahasa.com/media/wysiwyg/Duy-VHDT/Danh-muc-san-pham/_u_t_.jpg" alt="" />
-                            </div>
-                            <div className='md:text-sm text-xs text-center pt-3'>Đầu Tư Bền Vững</div>
-                        </a>
-                    </div>
-                    <div className='col-span-1'>
-                        <a href="">
-                            <div className=''>
-                                <img className='md:w-[100px] md:h-[100px] w-11 h-11 m-auto' src="https://cdn0.fahasa.com/media/wysiwyg/Duy-VHDT/Danh-muc-san-pham/K_n_ng_cho_tr_.jpg" alt="" />
-                            </div>
-                            <div className='md:text-sm text-xs text-center pt-3'>Kỹ Năng Sống Cho Trẻ</div>
-                        </a>
-                    </div>
-                    <div className='col-span-1'>
-                        <a href="">
-                            <div className=''>
-                                <img className='md:w-[100px] md:h-[100px] w-11 h-11 m-auto' src="https://cdn0.fahasa.com/media/wysiwyg/Duy-VHDT/Danh-muc-san-pham/_am_m_.jpg" alt="" />
-                            </div>
-                            <div className='md:text-sm text-xs text-center pt-3'>Đam Mỹ Ngôn Tình</div>
-                        </a>
-                    </div>
+                    {category.data?.map((itemCategory) => (
+                        <div className='col-span-1'>
+                            <a href="">
+                                <div className=''>
+                                    <img className='md:w-[100px] md:h-[100px] w-11 h-11 m-auto' src={itemCategory.image} alt="" />
+                                </div>
+                                <div className='md:text-sm text-xs text-center pt-3'>{itemCategory.name}</div>
+                            </a>
+                        </div>
+                    ))}
+
                 </div>
             </div>
             <div className='my-5'>
@@ -297,81 +173,23 @@ const HomePage = () => {
                 </div>
                 <div className='bg-white p-2'>
                     <div className='grid md:grid-cols-5 grid-cols-3 gap-2 md:mx-2'>
-                        <div className='relative hover:border-2 hover:shadow-md'>
-                            <div className='md:m-2 m-2'>
-                                <a href="">
-                                    <img src="https://cdn0.fahasa.com/media/catalog/product/n/x/nxbtre_full_27402023_084042.jpg" alt="" />
-                                </a>
+                        {products.data?.map((product) =>
+                            <div className='relative hover:border-2 hover:shadow-md'>
+                                <div className='md:m-2 m-2'>
+                                    <Link to={`/detail/${itemProduct._id}`}>
+                                        <img src={product.images} alt="" />
+                                    </Link>
+                                </div>
+                                <div className="mb-3">
+                                    <Link to={`/detail/${itemProduct._id}`}>
+                                        <h4 className='text-[#333333] md:text-lg text-base md:px-5 px-3'>{product.name}</h4>
+                                        <span className='block md:px-5 px-3 text-base md:text-xl text-[#F7941E] font-semibold'>{product.sale.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</span>
+                                        <span className='block md:px-5 px-3 text-sm md:text-base text-[#888888] line-through'>{product.price.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</span>
+                                        <span className='block md:px-5 px-3 text-sm md:text-xs'>Lượt xem: {product.view}</span>
+                                    </Link>
+                                </div>
                             </div>
-                            <div className="mb-3">
-                                <a href="">
-                                    <h4 className='text-[#333333] md:text-lg text-base md:px-5 px-3'>Chainsaw Man - Tập 8</h4>
-                                    <span className='block md:px-5 px-3 text-base md:text-xl text-[#F7941E] font-semibold'>29.250</span>
-                                    <span className='block md:px-5 px-3 text-sm md:text-base text-[#888888] line-through'>45.000</span>
-                                    <span className='block md:px-5 px-3 text-sm md:text-xs'>Đã Bán 12</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div className='relative hover:border-2 hover:shadow-md'>
-                            <div className='md:m-2 m-2'>
-                                <a href="">
-                                    <img src="https://cdn0.fahasa.com/media/catalog/product/n/x/nxbtre_full_27402023_084042.jpg" alt="" />
-                                </a>
-                            </div>
-                            <div className="mb-3">
-                                <a href="">
-                                    <h4 className='text-[#333333] md:text-lg text-base md:px-5 px-3'>Chainsaw Man - Tập 8</h4>
-                                    <span className='block md:px-5 px-3 text-base md:text-xl text-[#F7941E] font-semibold'>29.250</span>
-                                    <span className='block md:px-5 px-3 text-sm md:text-base text-[#888888] line-through'>45.000</span>
-                                    <span className='block md:px-5 px-3 text-sm md:text-xs'>Đã Bán 12</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div className='relative hover:border-2 hover:shadow-md'>
-                            <div className='md:m-2 m-2'>
-                                <a href="">
-                                    <img src="https://cdn0.fahasa.com/media/catalog/product/n/x/nxbtre_full_27402023_084042.jpg" alt="" />
-                                </a>
-                            </div>
-                            <div className="mb-3">
-                                <a href="">
-                                    <h4 className='text-[#333333] md:text-lg text-base md:px-5 px-3'>Chainsaw Man - Tập 8</h4>
-                                    <span className='block md:px-5 px-3 text-base md:text-xl text-[#F7941E] font-semibold'>29.250</span>
-                                    <span className='block md:px-5 px-3 text-sm md:text-base text-[#888888] line-through'>45.000</span>
-                                    <span className='block md:px-5 px-3 text-sm md:text-xs'>Đã Bán 12</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div className='relative hover:border-2 hover:shadow-md'>
-                            <div className='md:m-2 m-2'>
-                                <a href="">
-                                    <img src="https://cdn0.fahasa.com/media/catalog/product/n/x/nxbtre_full_27402023_084042.jpg" alt="" />
-                                </a>
-                            </div>
-                            <div className="mb-3">
-                                <a href="">
-                                    <h4 className='text-[#333333] md:text-lg text-base md:px-5 px-3'>Chainsaw Man - Tập 8</h4>
-                                    <span className='block md:px-5 px-3 text-base md:text-xl text-[#F7941E] font-semibold'>29.250</span>
-                                    <span className='block md:px-5 px-3 text-sm md:text-base text-[#888888] line-through'>45.000</span>
-                                    <span className='block md:px-5 px-3 text-sm md:text-xs'>Đã Bán 12</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div className='relative hover:border-2 hover:shadow-md'>
-                            <div className='md:m-2 m-2'>
-                                <a href="">
-                                    <img src="https://cdn0.fahasa.com/media/catalog/product/n/x/nxbtre_full_27402023_084042.jpg" alt="" />
-                                </a>
-                            </div>
-                            <div className="mb-3">
-                                <a href="">
-                                    <h4 className='text-[#333333] md:text-lg text-base md:px-5 px-3'>Chainsaw Man - Tập 8</h4>
-                                    <span className='block md:px-5 px-3 text-base md:text-xl text-[#F7941E] font-semibold'>29.250</span>
-                                    <span className='block md:px-5 px-3 text-sm md:text-base text-[#888888] line-through'>45.000</span>
-                                    <span className='block md:px-5 px-3 text-sm md:text-xs'>Đã Bán 12</span>
-                                </a>
-                            </div>
-                        </div>
+                        )}
                         <div className='relative md:hidden block py-[100%] px-5'>
                             <div className='border-2 rounded-2xl text-center p-1 border-teal-400'>
                                 <button className='text-teal-500 hover:text-orange-400'>Xem Thêm</button>
