@@ -7,12 +7,11 @@ import PrivateLayout from "./Layout/privateLayout";
 import NotFound from "./page/notFound";
 import Loader from "./utiliti/loader";
 import Slug from "./utiliti/slug/slug";
-// 
+//
 import ClientLayout from "./Layout/ClientLayout";
-import AccountLayout from "./Layout/LayoutAccount"
+import AccountLayout from "./Layout/LayoutAccount";
 import DetailProduct from "./page/Detail";
 import CheckoutCart from "./page/checkout-cart";
-import ProductList from "./page/Admin/EmployeesList";
 //
 const AdminPage = React.lazy(() => import('./page/Admin/home/AdminPage'));
 const NewProduct = React.lazy(() => import('./page/Admin/newEmployees'));
@@ -70,14 +69,9 @@ function App() {
                         {/* <Route path='product/:productId' element={<Product />} /> */}
                         <Route path='newproduct' element={<NewProduct />} />
                         <Route path='profile' element={<ProfileAdmin />} />
-
-                    </Route>
-                </Route>
-                {/*  */}
-        
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="*" element={<NotFound />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </React.Suspense>
     </div>

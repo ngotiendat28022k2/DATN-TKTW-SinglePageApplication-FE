@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 import { Add, EditOutlined, Close } from "@mui/icons-material";
-import {
-  Button,
-  Paper,
-  Toolbar,
-} from "@mui/material";
+import { Button, Paper, Toolbar } from "@mui/material";
 import Controls from "../../../components/AdminComponent/controls/Controls";
 import Popup from "../../../components/AdminComponent/MyPopup/MyPopup";
-import NewCategory from "./form";
 // Services
 import * as employeeService from "../../../services/employeeService";
 import InputSearch from "../../../components/AdminComponent/inputSearch/inputSearch.component";
@@ -16,19 +10,18 @@ import CustomPaginationActionsTable from "../../../components/AdminComponent/tab
 import ActionSave from "./ActionSave";
 import ActionDelete from "./ActionDelete";
 import ActionUpdate from "./ActionUpdate";
-import { getAllProduct } from "../../../slice/productsSlice";
+import { getAllPublish } from "../../../slice/publishSlice";
 import { useDispatch, useSelector } from "react-redux";
-import NewProduct from "../products/";
+import NewPublishing from "./AddOrEdit";
 
-export default function ProductList() {
+export default function PublishList() {
   const [openPopup, setOpenPopup] = useState(false);
-  const [dataSearch, setDataSearch] = React.useState([])
-  const [rowId, setRowId] = useState(null)
-  const [rowsData, setRowsData] = useState([])
-  const {register, handleSubmit, watch, formState: { errors }} = useForm();
+  const [dataSearch, setDataSearch] = React.useState([]);
+  const [rowId, setRowId] = useState(null);
+  const [rowsData, setRowsData] = useState([]);
 
   const handleSearch = (e) => {
-    console.log("e.target.value", e.target.value)
+    console.log("e.target.value", e.target.value);
   };
 
   const addOrEdit = (employee, resetForm) => {
@@ -39,11 +32,13 @@ export default function ProductList() {
     setOpenPopup(false);
     setRecords(employeeService.getAllEmployees());
   };
-  
+
   const columnsData = [
-    { field: '_id', headerName: 'ID', width: 200, },
-    { field: 'name', headerName: 'Name', width: 200, editable: true },
-    { field: 'image', headerName: 'Image', width: 200, editable: true },
+    { field: "_id", headerName: "ID", width: 200 },
+    { field: "name", headerName: "Name", width: 200 },
+    { field: "phone", headerName: "Phone", width: 200 },
+    { field: "email", headerName: "Email", width: 200 },
+    { field: "address", headerName: "Address", width: 200 },
     {
       field: "actions",
       headerName: "Actions",
@@ -51,27 +46,25 @@ export default function ProductList() {
       width: 230,
       renderCell: (params) => {
         return (
-          <div className='w-full flex justify-between items-center'>
+          <div className="w-full flex justify-between items-center">
             <ActionSave {...{ params, rowId, setRowId }} />
             <ActionUpdate params={params} />
             <ActionDelete params={params} />
           </div>
-        )
-      }
-    }
+        );
+      },
+    },
   ];
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   useEffect(() => {
     (async () => {
-      const data = await dispatch(getAllProduct())
-      setRowsData(data.payload.data)
-    })()
-  }, [])
+      const data = await dispatch(getAllPublish());
+      setRowsData(data.payload.data);
+    })();
+  }, []);
   // useEffect(() => {
   //   setRowsData(data)
   // }, [data])
-
-
   return (
     <>
       <Paper
@@ -95,19 +88,18 @@ export default function ProductList() {
         </Toolbar>
 
         <div className="mt-[30px]">
-          <CustomPaginationActionsTable {...{ rowsData, columnsData, rowId, setRowId }} />
+          <CustomPaginationActionsTable
+            {...{ rowsData, columnsData, rowId, setRowId, dataSearch }}
+          />
         </div>
       </Paper>
 
       <Popup
-        title="Add New Product"
+        title="Publish Form"
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
-        <NewCategory addOrEdit={addOrEdit}/>
-        
-        {/* ném component vào */}
-        {/* <NewProduct recordForEdit={recordForEdit} addOrEdit={addOrEdit} /> */}
+        <NewPublishing addOrEdit={addOrEdit} />
       </Popup>
     </>
   );
