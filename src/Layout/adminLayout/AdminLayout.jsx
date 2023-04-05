@@ -147,7 +147,7 @@ function AdminLayout() {
                 {theme.direction === "rtl" ? (
                   <ChevronRightIcon />
                 ) : (
-                  <ChevronLeftIcon />
+                  <ChevronLeftIcon sx={{color:"#fff", fontSize:"40px"}}/>
                 )}
               </IconButton>
             </DrawerHeader>

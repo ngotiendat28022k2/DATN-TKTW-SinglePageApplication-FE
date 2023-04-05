@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import userApi from "../api/user";
+import local from "../utiliti/local/local";
 
 export const login = createAsyncThunk("user/login", async (data) => {
   const response = await userApi.login(data);
@@ -29,6 +30,7 @@ export const userSlice = createSlice({
     logOut: (state) => {
       state.value = [];
       state.isLogin = false;
+      local.clear();
       return state;
     },
   },

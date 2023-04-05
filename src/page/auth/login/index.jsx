@@ -17,11 +17,11 @@ const Login = () => {
         try {
             const { payload } =await dispatch(login(user))
             console.log("payload", payload)
-            if(payload?.data.errorCode){
+            if(payload.data?.errorCode){
                 return hepler.toast("error", payload?.data.message)
             }
-            if(payload?.data.successCode){
-                local.set("user", JSON.stringify(payload?.data))
+            if(payload.data?.successCode){
+                local.set("user", JSON.stringify(payload?.data.data))
                 hepler.toast("success", "Login Success")
                 setTimeout(() => {
                     if(payload.data.role > 0){

@@ -57,23 +57,6 @@ export default function Header() {
     setOpen(true);
   };
   return (
-    // <StyledRoot open={open}>
-    //   <StyledToolbar>
-    //     <IconButton
-    //       color="inherit"
-    //       aria-label="open drawer"
-    //       onClick={handleDrawerOpen}
-    //       edge="start"
-    //       sx={{
-    //         marginRight: 5,
-    //         ...(open && { display: "none" }),
-    //       }}
-    //     >
-    //       <MenuIcon />
-    //     </IconButton>
-    //     <a href="/home">
-    //       <h1 sx={{ fontSize: "20px" }}>LOGO</h1>
-    //     </a>
     <div>
       <Box sx={{ flexGrow: 1 }} />
 

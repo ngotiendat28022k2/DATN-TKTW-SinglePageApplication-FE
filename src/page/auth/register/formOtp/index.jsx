@@ -64,10 +64,11 @@ const FormOtp = (props) => {
      const {payload} = await dispatch(register(email))
      console.log(payload);
      if(payload.data.element){
+        setOtp(new Array(6).fill(""))
        helper.toast("success", "Reset otp success")
      }
      if(payload.data.code >= 400) {
-      helper.toast("error", payload.data.message)
+      helper.toast("error", payload.data.message  )
     }
   }
 
