@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import userApi from "../api/user";
+import local from "../utiliti/local/local";
 
 export const login = createAsyncThunk("user/login", async (data) => {
   const response = await userApi.login(data);
@@ -13,13 +14,13 @@ export const register = createAsyncThunk("user/register", async (data) => {
 
 export const sendOtp = createAsyncThunk("user/sendOtp", async (data) => {
   const response = await userApi.sendOtp(data);
+  console.log("response", response);
   return response;
 });
 
 const initialState = {
   value: [],
   isLogin: false,
-  otp: [],
 };
 
 export const userSlice = createSlice({
@@ -29,18 +30,18 @@ export const userSlice = createSlice({
     logOut: (state) => {
       state.value = [];
       state.isLogin = false;
+      local.clear();
       return state;
     },
   },
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, action) => {
-      state.value = action.payload;
+      state.value.push(action.payload.data);
       if (!state.value.length) return;
       state.isLogin = true;
     });
     builder.addCase(login.rejected, (state, action) => {
       throw new Error();
-      state.isLogin = false;
     });
 
     builder.addCase(register.fulfilled, (state, action) => {
@@ -52,11 +53,7 @@ export const userSlice = createSlice({
     });
 
     builder.addCase(sendOtp.fulfilled, (state, action) => {
-      state.otp = action.payload;
-      state.isLogin = false;
-    });
-    builder.addCase(sendOtp.rejected, (state, action) => {
-      throw new Error();
+      console.log("user slice", action.payload);
     });
   },
 });

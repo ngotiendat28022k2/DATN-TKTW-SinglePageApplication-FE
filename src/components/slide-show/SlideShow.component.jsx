@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Slide } from "react-slideshow-image";
-// import "./styles.css";
 import "react-slideshow-image/dist/styles.css";
 
 class SlideShow extends Component {
@@ -25,7 +24,7 @@ class SlideShow extends Component {
             "https://i.imgur.com/Ood0kMi.png",
         ];
         return (
-            <div className="md:mt-4 flex">
+            <div className="z-1 md:mt-4 flex">
                 <div className="w-[100%] md:w-[70%] p-2 rounded-md md:rounded-lg overflow-hidden">
                     <Slide ref={this.slideRef} {...properties}>
                         {slideImages.map((each, index) => (
