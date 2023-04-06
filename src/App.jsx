@@ -12,6 +12,7 @@ import ClientLayout from "./Layout/ClientLayout";
 import AccountLayout from "./Layout/LayoutAccount";
 import DetailProduct from "./page/Detail";
 import CheckoutCart from "./page/checkout-cart";
+import PagePay from "./page/pay/index"
 //
 const AdminPage = React.lazy(() => import("./page/Admin/home/AdminPage"));
 const PublishingList = React.lazy(() => import("./page/Admin/publishingList"));
@@ -50,6 +51,7 @@ function App() {
               <Route path="wishlist" element={<WishList />} />
               <Route path="/detail/:id" element={<DetailProduct />} />
               <Route path="/checkout" element={<CheckoutCart />} />
+              <Route path="/pay" element={<PagePay />} />
               <Route path="/" element={<AccountLayout />}>
                 <Route index path="account/edit" element={<ProfileInfo />} />
                 <Route path="account/address" element={<ProfileAddress />} />

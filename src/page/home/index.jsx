@@ -176,12 +176,12 @@ const HomePage = () => {
                         {products.data?.map((product) =>
                             <div className='relative hover:border-2 hover:shadow-md'>
                                 <div className='md:m-2 m-2'>
-                                    <Link to={`/detail/${itemProduct._id}`}>
+                                    <Link to={`/detail/${product._id}`}>
                                         <img src={product.images} alt="" />
                                     </Link>
                                 </div>
                                 <div className="mb-3">
-                                    <Link to={`/detail/${itemProduct._id}`}>
+                                    <Link to={`/detail/${product._id}`}>
                                         <h4 className='text-[#333333] md:text-lg text-base md:px-5 px-3'>{product.name}</h4>
                                         <span className='block md:px-5 px-3 text-base md:text-xl text-[#F7941E] font-semibold'>{product.sale.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</span>
                                         <span className='block md:px-5 px-3 text-sm md:text-base text-[#888888] line-through'>{product.price.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</span>
