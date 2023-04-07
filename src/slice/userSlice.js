@@ -36,7 +36,10 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, action) => {
-      state.value.push(action.payload.data);
+      if (action.payload.errorCode) {
+        return (state.value = []);
+      }
+      state.value = action.payload.data.data;
       if (!state.value.length) return;
       state.isLogin = true;
     });

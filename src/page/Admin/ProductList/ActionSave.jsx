@@ -2,20 +2,40 @@ import { Check, Save } from '@mui/icons-material'
 import { Box, Button, CircularProgress, Fab } from '@mui/material'
 import { green } from '@mui/material/colors'
 import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { UpdateProduct } from '../../../slice/productsSlice'
+import helper from '../../../utiliti/helper/helper'
 
 const ActionSave = ({params, rowId, setRowId}) => {
+  const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
-  const handleSave =async () => {
+  const handleSave = () => {
     try {
       setLoading(true)
-      // callAPI
-      const result = true
-      if(result){
-        setSuccess(true)
-        setRowId(null)
+      // console.log("params", params)
+      const {name, image, category} = params.row
+      const data = {
+        id:params.id,
+        name, 
+        image,
+        category
       }
-      setLoading(false)
+      setTimeout(async() => {
+        const {payload} =await dispatch(UpdateProduct(data))
+        if(payload.data?.successCode){
+          helper.toast("success", "Update successful")
+          setSuccess(true)
+          setRowId(null)
+          setTimeout(() => {
+            setSuccess(false)
+          }, 3000)
+        }
+        if(payload.data?.errorCode){
+          helper.toast("error", "Ppdate failed")
+        }
+        setLoading(false)
+      }, 300)
     } catch (error) {
       console.log(error);
     }
@@ -24,6 +44,7 @@ const ActionSave = ({params, rowId, setRowId}) => {
   useEffect(() => {
     if(rowId === params.id && success) setSuccess(false)
   }, [rowId])
+
   return (
     <Box
       sx={{

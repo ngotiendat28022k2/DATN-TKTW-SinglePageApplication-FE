@@ -13,9 +13,8 @@ import AccountLayout from "./Layout/LayoutAccount";
 import DetailProduct from "./page/Detail";
 import CheckoutCart from "./page/checkout-cart";
 //
-const AdminPage = React.lazy(() => import('./page/Admin/home/AdminPage'));
-const ProductList = React.lazy(() => import('./page/Admin/ProductList'));
-const User = React.lazy(() => import('./page/Admin/user/User'));
+import AdminPage from './page/Admin/home/AdminPage'
+import ProductList from './page/Admin/ProductList'
 const UserList = React.lazy(() => import('./page/Admin/userList/UserList'));
 const ProfileAdmin = React.lazy(() => import('./page/Admin/Profile/Profile.admin'));
 // 
