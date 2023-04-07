@@ -15,7 +15,6 @@ import CheckoutCart from "./page/checkout-cart";
 //
 import AdminPage from './page/Admin/home/AdminPage'
 import ProductList from './page/Admin/ProductList'
-const User = React.lazy(() => import('./page/Admin/user/User'));
 const UserList = React.lazy(() => import('./page/Admin/userList/UserList'));
 const ProfileAdmin = React.lazy(() => import('./page/Admin/Profile/Profile.admin'));
 // 
