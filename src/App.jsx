@@ -13,9 +13,8 @@ import AccountLayout from "./Layout/LayoutAccount";
 import DetailProduct from "./page/Detail";
 import CheckoutCart from "./page/checkout-cart";
 //
-const AdminPage = React.lazy(() => import('./page/Admin/home/AdminPage'));
-const NewProduct = React.lazy(() => import('./page/Admin/newEmployees'));
-const NewUser = React.lazy(() => import('./page/Admin/newUser/NewUser'));
+import AdminPage from './page/Admin/home/AdminPage'
+import ProductList from './page/Admin/ProductList'
 const User = React.lazy(() => import('./page/Admin/user/User'));
 const UserList = React.lazy(() => import('./page/Admin/userList/UserList'));
 const ProfileAdmin = React.lazy(() => import('./page/Admin/Profile/Profile.admin'));
@@ -61,17 +60,16 @@ function App() {
                         <Route index element={<AdminPage />} />
                         <Route path='users' element={<UserList />} />
                         <Route path='user/:userId' element={<User />} />
-                        <Route path='newUser' element={<NewUser />} />
-                        {/* <Route path='products' element={<ProductList />} /> */}
-                        {/* <Route path='product/:productId' element={<Product />} /> */}
-                        {/* <Route path='newproduct' element={<NewProduct />} /> */}
+                        {/* <Route path='newUser' element={<NewUser />} /> */}
                         <Route path='products' element={<ProductList />} />
-                        {/* <Route path='product/:productId' element={<Product />} /> */}
-                        <Route path='newproduct' element={<NewProduct />} />
+                        {/* <Route path='product/:id' element={<Product />} /> */}
                         <Route path='profile' element={<ProfileAdmin />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="*" element={<NotFound />} />
+                    </Route>
+                    
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route path="*" element={<NotFound />} />
+          </Route>
         </Routes>
       </React.Suspense>
     </div>

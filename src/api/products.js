@@ -4,18 +4,18 @@ const productApi = {
   ProductList: async () => {
     return await instance.get("product");
   },
-  ProductDetail: async(id)=>{
-    return await instance.get(`product/${id}`)
+  ProductDetail: async (id) => {
+    return await instance.get(`product/${id}`);
   },
-  ProductAdd: async(product)=>{
-    return await instance.post("product", product)
+  ProductAdd: async (product) => {
+    return await instance.post("product", product);
   },
-  ProductUpdate: async(product)=>{
-    return await instance.put(`product/${product.id}`,product)
+  ProductUpdate: async (product) => {
+    return await instance.put(`product/${product.id}`, product);
   },
-  RemoveProduct: async(id)=>{
-    return await instance.delete(`product/${id}`)
-  }
+  RemoveProduct: async (id) => {
+    return await instance.delete(`product/${id}`);
+  },
 };
 
 export default productApi;

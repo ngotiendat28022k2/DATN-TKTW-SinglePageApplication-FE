@@ -24,10 +24,10 @@ const Login = () => {
                 local.set("user", JSON.stringify(payload?.data.data))
                 hepler.toast("success", "Login Success")
                 setTimeout(() => {
-                    if(payload.data.role > 0){
-                        navigate("/admin")
-                    }else{
+                    if(payload.data.data.role < 0){
                         navigate("/home")
+                    }else{
+                        navigate("/admin")
                     }
                 }, 2000);
             }
