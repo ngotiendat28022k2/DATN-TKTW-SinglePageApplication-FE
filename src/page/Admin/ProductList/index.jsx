@@ -13,6 +13,7 @@ import ActionUpdate from "./ActionUpdate";
 import { getAllProduct } from "../../../slice/productsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import NewProduct from "./FormAdd";
+import UploadImage from "../../../components/AdminComponent/uploadImg/upload";
 
 export default function ProductList() {
   const [openPopup, setOpenPopup] = useState(false);
@@ -96,7 +97,6 @@ export default function ProductList() {
           />
         </div>
       </Paper>
-
       <Popup
         title="Add New Product"
         openPopup={openPopup}
