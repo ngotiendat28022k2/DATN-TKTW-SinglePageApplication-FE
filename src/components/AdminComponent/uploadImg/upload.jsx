@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-// import Controls from "../controls/Controls";
 import {
   getDownloadURL,
   listAll,
@@ -9,10 +8,8 @@ import {
 import { storage } from "../../../api/firebase";
 import { useEffect } from "react";
 import { v4 } from "uuid";
-import { bg } from "date-fns/locale";
 
 const UploadImage = () => {
-  // const [imgUploads, setImgUploads] = useState(null);
   const [imageUrls, setImageUrls] = useState([]);
 
   const imgListRef = ref(storage, "images/");
@@ -39,7 +36,10 @@ const UploadImage = () => {
       });
     }, imageUrls);
   };
-  console.log(imageUrls);
+  function RemomeImg(url) {
+    const newArrImg = imageUrls.filter((item) => item !== url);
+    setImageUrls(newArrImg);
+  }
   return (
     <div className="w-[580px] h-auto bg-white grid grid-cols-4 gap-3 p-5 rounded-md">
       <div class="flex w-full">
@@ -72,9 +72,28 @@ const UploadImage = () => {
           />
         </label>
       </div>
-      {/* <input className="w-[150px] h-" type="file" onChange={changImg} /> */}
       {imageUrls.map((url) => {
-        return <img src={url} alt="" />;
+        return (
+          <div
+            style={{ backgroundImage: `url(${url})`, backgroundSize: "cover" }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6 flex justify-items-end text-gray-500 bg-white rounded-lg shadow-xl "
+              onClick={() => RemomeImg(url)}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </div>
+        );
       })}
     </div>
   );
