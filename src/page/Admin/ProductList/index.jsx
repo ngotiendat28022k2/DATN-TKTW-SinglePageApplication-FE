@@ -97,6 +97,7 @@ export default function ProductList() {
           />
         </div>
       </Paper>
+      <UploadImage />
       <Popup
         title="Add New Product"
         openPopup={openPopup}
