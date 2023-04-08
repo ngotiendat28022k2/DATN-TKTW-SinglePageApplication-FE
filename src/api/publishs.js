@@ -8,10 +8,10 @@ const publishApi = {
     return await instance.get(`publishs/${id}`)
   },
   PublishAdd: async(publish)=>{
-    return await instance.post("publish", publish)
+    return await instance.post("publishs", publish)
   },
   PublishUpdate: async(publish)=>{
-    return await instance.put(`publishs/${publish.id}`,publish)
+    return await instance.put(`publishs/${publish._id}`,publish)
   },
   RemovePublish: async(id)=>{
     return await instance.delete(`publishs/${id}`)

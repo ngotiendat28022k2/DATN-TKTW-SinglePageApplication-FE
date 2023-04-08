@@ -13,61 +13,84 @@ import AccountLayout from "./Layout/LayoutAccount";
 import DetailProduct from "./page/Detail";
 import CheckoutCart from "./page/checkout-cart";
 //
-import AdminPage from './page/Admin/home/AdminPage'
-import ProductList from './page/Admin/ProductList'
-const UserList = React.lazy(() => import('./page/Admin/userList/UserList'));
-const ProfileAdmin = React.lazy(() => import('./page/Admin/Profile/Profile.admin'));
-// 
-const ProfileAddress = React.lazy(() => import('./page/profile/Profile-Address'));
-const ProfileInfo = React.lazy(() => import('./page/profile/Profile-Info'));
-const ProfileMyProduct = React.lazy(() => import('./page/profile/Profile-MyProduct'));
-const ProfileNotification = React.lazy(() => import('./page/profile/Profile-Notification'));
-const ProfileVoucher = React.lazy(() => import('./page/profile/Profile-Voucher'));
-const HomePage = React.lazy(() => import('./page/home'));
-const Blog = React.lazy(() => import('./page/blog'));
-const Login = React.lazy(() => import('./page/auth/login'));
-const Register = React.lazy(() => import('./page/auth/register'));
+import AdminPage from "./page/Admin/home/AdminPage";
+import ProductList from "./page/Admin/ProductList";
+import PublishList from "./page/Admin/publishingList";
+import CategoryList from "./page/Admin/categoryList";
+import SupplierList from "./page/Admin/supplieresList";
+const UserList = React.lazy(() => import("./page/Admin/userList/UserList"));
+const ProfileAdmin = React.lazy(() =>
+  import("./page/Admin/Profile/Profile.admin")
+);
+//
+const ProfileAddress = React.lazy(() =>
+  import("./page/profile/Profile-Address")
+);
+const ProfileInfo = React.lazy(() => import("./page/profile/Profile-Info"));
+const ProfileMyProduct = React.lazy(() =>
+  import("./page/profile/Profile-MyProduct")
+);
+const ProfileNotification = React.lazy(() =>
+  import("./page/profile/Profile-Notification")
+);
+const ProfileVoucher = React.lazy(() =>
+  import("./page/profile/Profile-Voucher")
+);
+const HomePage = React.lazy(() => import("./page/home"));
+const Blog = React.lazy(() => import("./page/blog"));
+const Login = React.lazy(() => import("./page/auth/login"));
+const Register = React.lazy(() => import("./page/auth/register"));
 
 function App() {
   return (
     <div className="App">
       <React.Suspense fallback={<Loader />}>
         <Routes>
-                <Route 
-                    path="/"
-                    element={<Layout/>}
-                >
-                    <Route path='/' element={<ClientLayout />}>
-                        <Route index element={<Navigate to ="home"/>} />
-                        <Route path="home" element={<HomePage />} />
-                        <Route path="blog" element={<Blog />} />
-                        <Route path="/detail" element={<DetailProduct />} />
-                        <Route path="/checkout" element={<CheckoutCart />} />
-                        <Route path="/" element={<AccountLayout />} >
-                            <Route index path="account/edit" element={<ProfileInfo />} />
-                            <Route path="account/address" element={<ProfileAddress />} />
-                            <Route path="account/order" element={<ProfileMyProduct />} />
-                            <Route path="account/voucher" element={<ProfileVoucher />} />
-                            <Route path="account/notification" element={<ProfileNotification />} />
-                        </Route>
+          <Route path="/" element={<Layout />}>
+            <Route path="/" element={<ClientLayout />}>
+              <Route index element={<Navigate to="home" />} />
+              <Route path="home" element={<HomePage />} />
+              <Route path="blog" element={<Blog />} />
+              <Route path="/detail" element={<DetailProduct />} />
+              <Route path="/checkout" element={<CheckoutCart />} />
+              <Route path="/" element={<AccountLayout />}>
+                <Route index path="account/edit" element={<ProfileInfo />} />
+                <Route path="account/address" element={<ProfileAddress />} />
+                <Route path="account/order" element={<ProfileMyProduct />} />
+                <Route path="account/voucher" element={<ProfileVoucher />} />
+                <Route
+                  path="account/notification"
+                  element={<ProfileNotification />}
+                />
+              </Route>
 
-                        {/* <Route path="/paycart" element={<PayCart />} /> */}
-                    </Route>
+              {/* <Route path="/paycart" element={<PayCart />} /> */}
+            </Route>
 
-                    {/* Router Admin */}
-                    <Route path='admin/' element={<PrivateLayout><AdminLayout /></PrivateLayout>}>
-                        <Route index element={<AdminPage />} />
-                        <Route path='users' element={<UserList />} />
-                        <Route path='user/:userId' element={<User />} />
-                        {/* <Route path='newUser' element={<NewUser />} /> */}
-                        <Route path='products' element={<ProductList />} />
-                        {/* <Route path='product/:id' element={<Product />} /> */}
-                        <Route path='profile' element={<ProfileAdmin />} />
-                    </Route>
-                    
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="*" element={<NotFound />} />
+            {/* Router Admin */}
+            <Route
+              path="admin/"
+              element={
+                <PrivateLayout>
+                  <AdminLayout />
+                </PrivateLayout>
+              }
+            >
+              <Route index element={<AdminPage />} />
+              {/* <Route path='users' element={<UserList />} />
+                        <Route path='user/:userId' element={<User />} /> */}
+              {/* <Route path='newUser' element={<NewUser />} /> */}
+              <Route path="products" element={<ProductList />} />
+              <Route path="publishs" element={<PublishList />} />
+              <Route path="categories" element={<CategoryList />} />
+              <Route path="Supplieres" element={<SupplierList />} />
+              {/* <Route path='product/:id' element={<Product />} /> */}
+              <Route path="profile" element={<ProfileAdmin />} />
+            </Route>
+
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>
       </React.Suspense>
