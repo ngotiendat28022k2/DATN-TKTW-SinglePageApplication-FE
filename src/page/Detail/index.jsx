@@ -1,19 +1,37 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProduct } from "../../slice/productsSlice";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import helper from "../../utiliti/helper/helper";
 
 const DetailProduct = () => {
-  const {id} = useParams();
-  console.log("id", id);
+  const { id } = useParams();
   const dispatch = useDispatch();
-  const product = useSelector((state)=> state.product.value)
-  console.log("detail", product.data);
+  console.log("id", id)
+  const [product, setProduct] = useState(null)
+  console.log("product",product)
   useEffect(() => {
-    dispatch(getProduct(id))
-}, [id])
+    try {
+      (async() => {
+       const {payload} = await dispatch(getProduct(id));
+       console.log(payload)
+       if(payload.data?.successCode){
+        //  setProduct(payload.data.data)
+       }
+       if(payload?.errorCode){
+        helper.toast("error", payload.message)
+        setTimeout(() => {
+          location.href = "/"
+        }, 1500);
+       }
+      })()
+    } catch (error) {
+      helper.toast("error", "fetching product false")
+    }
+  }, [id]);
   return (
-    <div className="">
+   <>
+     <div className="">
       {/* Tiêu đề link đến sản phẩm */}
       <div className="uppercase text-[#000] text-[13px] flex gap-[5px] py-[10px]">
         <span className="">Sách tiếng việt</span>
@@ -22,26 +40,25 @@ const DetailProduct = () => {
         <span className="text-[#737373]">&gt;</span>
         <span className="">Tâm lý</span>
       </div>
-
       <div className="bg-[white] flex px-[20px] py-[40px] rounded-[7px]">
         {/* Hình ảnh sản phẩm */}
         <div className="">
           <div className="flex">
             <div className=" object-contain items-center">
               <div className="">
-                <img
+                {/* <img
                   className="max-w-[76px] max-h-[76px] mt-[5px]"
-                  src={product.data.images}
+                  src={product?.productImage[0]}
                   alt=""
-                />
+                /> */}
               </div>
             </div>
             <div className=" object-contain p-[6px]">
-              <img
+              {/* <img
                 className="max-w-[608px] max-h-[468px] w-full h-full "
-                src={product.data.images}
+                src={product?.productImage[1]}
                 alt=""
-              />
+              /> */}
             </div>
           </div>
           <div className="flex justify-center gap-[10px] mt-[25px]">
@@ -60,7 +77,7 @@ const DetailProduct = () => {
         <div className="w-[70%]">
           <div className="pb-[16px]">
             <span className="text-[23px] text-[#000] font-medium">
-              {product.data.name}
+              {product?.name}
             </span>
           </div>
           <div className="flex justify-between">
@@ -105,15 +122,28 @@ const DetailProduct = () => {
             <div className="flex justify-center items-center">
               <div className="pr-[20px]">
                 <span className="text-[33px] text-[#C92127] font-bold ">
-                {product.data.sale?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}
+                  {product?.sale.toLocaleString("vi", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
                 </span>
               </div>
               <div className="pr-[20px]">
-                <span className="text-[17px] line-through">{product.data.price?.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</span>
+                <span className="text-[17px] line-through">
+                  {product?.price.toLocaleString("vi", {
+                    style: "currency",
+                    currency: "VND",
+                  })}
+                </span>
               </div>
               <div className="">
                 <span className="text-[17px] p-[5px] bg-[#C92127] rounded-[5px] text-[white] font-medium">
-                {((product.data.price - product.data.sale) / product.data.price * 100).toFixed(0)}%
+                  {(
+                    ((product?.price - product?.sale) /
+                      product?.price) *
+                    100
+                  ).toFixed(0)}
+                  %
                 </span>
               </div>
             </div>
@@ -441,7 +471,6 @@ const DetailProduct = () => {
         </div>
       </div>
       <br />
-
       {/* Block 3: Thông tin chi tiết về sản phẩm */}
       <div className="bg-[white] px-[20px] py-[15px] rounded-[7px] text-[15px]">
         <div className="">
@@ -530,11 +559,11 @@ const DetailProduct = () => {
             </div>
             <div className="pt-[20px]">
               <div className="">
-                <span className="text-[15px] font-semibold">{product.data.name}</span>
+                <span className="text-[15px] font-semibold">
+                  {product?.name}
+                </span>
               </div>
-              <div className="pt-[10px]">
-                {product.data.description}
-              </div>
+              <div className="pt-[10px]">{product?.description}</div>
               <div className="items-center justify-center flex cursor-pointer pt-[15px] pb-[8px]">
                 <div className="max-w-[220px] w-full border-[2px] border-solid border-[#C92127] rounded-[10px] px-[30px] py-[10px] items-center justify-center flex">
                   <span className="text-[#C92127] font-semibold">Xem Thêm</span>
@@ -566,101 +595,112 @@ const DetailProduct = () => {
             </div>
             {/* Block 2 đánh giá */}
             <div className="grid grid-cols-1 w-[35%]">
-            <div className="flex w-[100%] justify-start items-center gap-[10px]">
-              <div className="">
-                <span className="text-[18px]">5 sao</span>
+              <div className="flex w-[100%] justify-start items-center gap-[10px]">
+                <div className="">
+                  <span className="text-[18px]">5 sao</span>
+                </div>
+                <div className="max-w-[250px] max-h-[6px] h-full w-full bg-[#e6e6e6]">
+                  <span className=""></span>
+                </div>
+                <div className="text-[18px]">
+                  <span className="">0%</span>
+                </div>
               </div>
-              <div className="max-w-[250px] max-h-[6px] h-full w-full bg-[#e6e6e6]">
-                <span className=""></span>
+              <div className="flex w-[100%] justify-start items-center gap-[10px]">
+                <div className="">
+                  <span className="text-[18px]">4 sao</span>
+                </div>
+                <div className="max-w-[250px] max-h-[6px] h-full w-full bg-[#e6e6e6]">
+                  <span className=""></span>
+                </div>
+                <div className="text-[18px]">
+                  <span className="">0%</span>
+                </div>
               </div>
-              <div className="text-[18px]">
-                <span className="">0%</span>
+              <div className="flex w-[100%] justify-start items-center gap-[10px]">
+                <div className="">
+                  <span className="text-[18px]">3 sao</span>
+                </div>
+                <div className="max-w-[250px] max-h-[6px] h-full w-full bg-[#e6e6e6]">
+                  <span className=""></span>
+                </div>
+                <div className="text-[18px]">
+                  <span className="">0%</span>
+                </div>
               </div>
-            </div>
-            <div className="flex w-[100%] justify-start items-center gap-[10px]">
-              <div className="">
-                <span className="text-[18px]">4 sao</span>
+              <div className="flex w-[100%] justify-start items-center gap-[10px]">
+                <div className="">
+                  <span className="text-[18px]">2 sao</span>
+                </div>
+                <div className="max-w-[250px] max-h-[6px] h-full w-full bg-[#e6e6e6]">
+                  <span className=""></span>
+                </div>
+                <div className="text-[18px]">
+                  <span className="">0%</span>
+                </div>
               </div>
-              <div className="max-w-[250px] max-h-[6px] h-full w-full bg-[#e6e6e6]">
-                <span className=""></span>
+              <div className="flex w-[100%] justify-start items-center gap-[10px]">
+                <div className="">
+                  <span className="text-[18px]">1 sao</span>
+                </div>
+                <div className="max-w-[250px] max-h-[6px] h-full w-full bg-[#e6e6e6]">
+                  <span className=""></span>
+                </div>
+                <div className="text-[18px]">
+                  <span className="">0%</span>
+                </div>
               </div>
-              <div className="text-[18px]">
-                <span className="">0%</span>
-              </div>
-            </div>
-            <div className="flex w-[100%] justify-start items-center gap-[10px]">
-              <div className="">
-                <span className="text-[18px]">3 sao</span>
-              </div>
-              <div className="max-w-[250px] max-h-[6px] h-full w-full bg-[#e6e6e6]">
-                <span className=""></span>
-              </div>
-              <div className="text-[18px]">
-                <span className="">0%</span>
-              </div>
-            </div>
-            <div className="flex w-[100%] justify-start items-center gap-[10px]">
-              <div className="">
-                <span className="text-[18px]">2 sao</span>
-              </div>
-              <div className="max-w-[250px] max-h-[6px] h-full w-full bg-[#e6e6e6]">
-                <span className=""></span>
-              </div>
-              <div className="text-[18px]">
-                <span className="">0%</span>
-              </div>
-            </div>
-            <div className="flex w-[100%] justify-start items-center gap-[10px]">
-              <div className="">
-                <span className="text-[18px]">1 sao</span>
-              </div>
-              <div className="max-w-[250px] max-h-[6px] h-full w-full bg-[#e6e6e6]">
-                <span className=""></span>
-              </div>
-              <div className="text-[18px]">
-                <span className="">0%</span>
-              </div>
-            </div>
             </div>
             {/* Button viết đánh giá */}
             <div className=" max-w-[50%] w-full items-center justify-center flex">
-                <div className="max-w-[60%] w-full border-[2px] border-solid border-[#C92127] rounded-[10px] px-[30px] py-[10px] items-center justify-center flex font-bold cursor-pointer">
-                  <span className="text-[#C92127]  text-[17px]">Viết đánh giá</span>
-                </div>
+              <div className="max-w-[60%] w-full border-[2px] border-solid border-[#C92127] rounded-[10px] px-[30px] py-[10px] items-center justify-center flex font-bold cursor-pointer">
+                <span className="text-[#C92127]  text-[17px]">
+                  Viết đánh giá
+                </span>
+              </div>
             </div>
           </div>
-          
         </div>
       </div>
       <br />
       <div className="bg-[white] px-[20px] py-[15px] rounded-[7px] text-[15px] flex justify-around ">
-      <div className="flex px-[27px] py-[10px]">
-        <div className="flex justify-center items-center">
-            <img src="https://cdn0.fahasa.com/media/wysiwyg/Thang-1-2020/icon/ico_shop_1.png" alt="" />
+        <div className="flex px-[27px] py-[10px]">
+          <div className="flex justify-center items-center">
+            <img
+              src="https://cdn0.fahasa.com/media/wysiwyg/Thang-1-2020/icon/ico_shop_1.png"
+              alt=""
+            />
+          </div>
+          <div className="flex justify-center items-center pl-[10px] font-bold text-[#646464]">
+            <span className="text-[17px]">Chính Sách Khách Sỉ</span>
+          </div>
         </div>
-        <div className="flex justify-center items-center pl-[10px] font-bold text-[#646464]">
-           <span className="text-[17px]">Chính Sách Khách Sỉ</span>
+        <div className="flex">
+          <div className="flex justify-center items-center">
+            <img
+              src="https://cdn0.fahasa.com/media/wysiwyg/Thang-1-2020/icon/ico_truck.png"
+              alt=""
+            />
+          </div>
+          <div className="flex justify-center items-center pl-[10px] font-bold text-[#646464]">
+            <span className="text-[17px]">Thời Gian Giao Hàng</span>
+          </div>
         </div>
-      </div>
-      <div className="flex">
-        <div className="flex justify-center items-center">
-            <img src="https://cdn0.fahasa.com/media/wysiwyg/Thang-1-2020/icon/ico_truck.png" alt="" />
+        <div className="flex">
+          <div className="flex justify-center items-center">
+            <img
+              src="https://cdn0.fahasa.com/media/wysiwyg/Thang-1-2020/icon/ico_transfer.png"
+              alt=""
+            />
+          </div>
+          <div className="flex justify-center items-center pl-[10px] font-bold text-[#646464]">
+            <span className="text-[17px]">Chính Sách Đổi Trả</span>
+          </div>
         </div>
-        <div className="flex justify-center items-center pl-[10px] font-bold text-[#646464]">
-           <span className="text-[17px]">Thời Gian Giao Hàng</span>
-        </div>
-      </div>
-      <div className="flex">
-        <div className="flex justify-center items-center">
-            <img src="https://cdn0.fahasa.com/media/wysiwyg/Thang-1-2020/icon/ico_transfer.png" alt="" />
-        </div>
-        <div className="flex justify-center items-center pl-[10px] font-bold text-[#646464]">
-           <span className="text-[17px]">Chính Sách Đổi Trả</span>
-        </div>
-      </div>
       </div>
       <br /> <br />
     </div>
+   </>
   );
 };
 

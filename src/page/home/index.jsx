@@ -1,20 +1,47 @@
 import { useDispatch, useSelector } from 'react-redux';
 import SlideShow from '../../components/slide-show/SlideShow.component';
-import React,{ useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getAllProduct } from '../../slice/productsSlice';
-import { getAllCategory } from '../../slice/category';
-const HomePage = () => {
+import { getAllCategory } from '../../slice/categorySlice';
+import helper from '../../utiliti/helper/helper';
 
+const HomePage = () => {
+    const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
     const dispatch = useDispatch();
-    const products = useSelector((state) => state.product.value);
+    const product = useSelector((state) => state.product.value);
     const category = useSelector((state) => state.category.value);
-    console.log("category", category);
+    console.log("category", categories);
     console.log("products", products);
     useEffect(() => {
-        dispatch(getAllProduct()),
-            dispatch(getAllCategory())
+        (async () => {
+            try {
+                const product = await dispatch(getAllProduct());
+                const category = await dispatch(getAllCategory());
+
+                if (product.payload.data?.successCode) {
+                    setProducts([...products,product.payload.data.data])
+                }
+                if (product.payload.data?.errorCode) {
+                    helper.toast("error", product.payload.data.message)
+                }
+                if (category.payload.data?.successCode) {
+                    setCategories([...categories, category.payload.data.data])
+                }
+                if (category.payload.data?.errorCode) {
+                    helper.toast("error", category.payload.data.message)
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        })();
     }, [])
+
+    useEffect(() => {
+        setProducts(product)
+        setCategories(category)
+    }, [product, category])
     return (
         <div>
             <div className=''>
@@ -113,14 +140,14 @@ const HomePage = () => {
                 </div>
                 <div className='bg-white p-2'>
                     <div className='grid md:grid-cols-5 grid-cols-3 gap-2 md:mx-2'>
-                        {products.data?.slice(0,5).map((itemProduct) => (
+                        {product?.map((itemProduct) => (
                             <div className='relative hover:border-2 hover:shadow-md'>
                                 <div className='flex bg-[#F7941E] md:w-[44px] md:h-[44px] w-12 h-12 md:rounded-3xl rounded-[22px] justify-center items-center absolute top-[10px] right-[10px]'>
                                     <span className='text-white font-semibold'>{((itemProduct.price - itemProduct.sale) / itemProduct.price * 100).toFixed(0)}%</span>
                                 </div>
                                 <div className='md:m-2 m-2'>
                                     <Link to={`/detail/${itemProduct._id}`}>
-                                        <img src={itemProduct.images} alt="" />
+                                        <img src={itemProduct.productImage[0]} alt="" />
                                     </Link>
                                 </div>
                                 <div className="mb-3">
@@ -152,7 +179,7 @@ const HomePage = () => {
                     </div>
                 </div>
                 <div className='grid md:grid-cols-10 md:gap-2 grid-cols-5 gap-3 bg-white pb-4 px-2'>
-                    {category.data?.map((itemCategory) => (
+                    {categories?.map((itemCategory) => (
                         <div className='col-span-1'>
                             <a href="">
                                 <div className=''>
@@ -173,11 +200,11 @@ const HomePage = () => {
                 </div>
                 <div className='bg-white p-2'>
                     <div className='grid md:grid-cols-5 grid-cols-3 gap-2 md:mx-2'>
-                        {products.data?.map((product) =>
+                        {product?.map((product) =>
                             <div className='relative hover:border-2 hover:shadow-md'>
                                 <div className='md:m-2 m-2'>
                                     <Link to={`/detail/${product._id}`}>
-                                        <img src={product.images} alt="" />
+                                        <img src={product.productImage[0]} alt="" />
                                     </Link>
                                 </div>
                                 <div className="mb-3">
