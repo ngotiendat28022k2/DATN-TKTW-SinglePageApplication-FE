@@ -12,6 +12,7 @@ import ClientLayout from "./Layout/ClientLayout";
 import AccountLayout from "./Layout/LayoutAccount";
 import DetailProduct from "./page/Detail";
 import CheckoutCart from "./page/checkout-cart";
+import PageSearch from "./page/pageSearch";
 //
 const AdminPage = React.lazy(() => import('./page/Admin/home/AdminPage'));
 const ProductList = React.lazy(() => import('./page/Admin/ProductList'));
@@ -28,6 +29,7 @@ const HomePage = React.lazy(() => import('./page/home'));
 const Blog = React.lazy(() => import('./page/blog'));
 const Login = React.lazy(() => import('./page/auth/login'));
 const Register = React.lazy(() => import('./page/auth/register'));
+const Search = React.lazy(() => import('./page/pageSearch'));
 
 function App() {
   return (
@@ -51,6 +53,7 @@ function App() {
                             <Route path="account/voucher" element={<ProfileVoucher />} />
                             <Route path="account/notification" element={<ProfileNotification />} />
                         </Route>
+                        <Route path="/pageSearch" element={<Search />} ></Route>
 
                         {/* <Route path="/paycart" element={<PayCart />} /> */}
                     </Route>
