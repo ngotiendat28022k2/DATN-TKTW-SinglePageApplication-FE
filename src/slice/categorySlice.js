@@ -17,8 +17,7 @@ export const categorySlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getAllCategory.fulfilled, (state, action) => {
-      state.value = action.payload;
-      if (!state.value.length) return;
+      state.value = action.payload.data;
     });
   },
 });

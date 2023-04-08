@@ -152,7 +152,6 @@ const Header = () => {
           )}
         </div>
       </div>
-      <div className="text-center hidden md:block">Tài khoản</div>
     </div>
   );
 };
