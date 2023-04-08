@@ -43,6 +43,10 @@ const ClientMenu = () => {
                             }}
                             onMouseLeave={() => setshowSchoolSupplierSubMenu(true)}
                         >VPP - DỤNG CỤ HỌC SINH</a></li>
+                        <li className="md:py-3 py-2 hover:bg-gray-200 rounded-xl"><a href="" className="md:text-lg text-base md:px-3 px-0 text-[#212121] font-medium  hover:no-underline hover:text-black" >Đồ chơi</a></li>
+                        <li className="md:py-3 py-2 hover:bg-gray-200 rounded-xl"><a href="" className="md:text-lg text-base md:px-3 px-0 text-[#212121] font-medium  hover:no-underline hover:text-black" >Làm Đẹp - Sức Khỏe</a></li>
+                        <li className="md:py-3 py-2 hover:bg-gray-200 rounded-xl"><a href="" className="md:text-lg text-base md:px-3 px-0 text-[#212121] font-medium  hover:no-underline hover:text-black" >Hành Trang Đến Trường</a></li>
+                        <li className="md:py-3 py-2 hover:bg-gray-200 rounded-xl"><a href="" className="md:text-lg text-base md:px-3 px-0 text-[#212121] font-medium  hover:no-underline hover:text-black" >Đồ Chơi Theo Thương Hiệu</a></li>
                     </ul>
                 </div>
                 <div className="md:w-[12px] md:mt-4 mt-12 md:mr-7 border-l md:border-[#CDCFD0]"></div>
