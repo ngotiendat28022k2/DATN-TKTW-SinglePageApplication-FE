@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Grid } from "@mui/material";
 import Controls from "../../../../components/AdminComponent/controls/Controls";
 import { useForm, Form } from "../../../../components/AdminComponent/useForm";
-import * as employeeService from "../../../../services/employeeService";
 
 const initialFValues = {
   id: 0,
@@ -12,7 +11,7 @@ const initialFValues = {
   address: "",
 };
 
-export default function NewPublishing(props) {
+export default function NewSupplier(props) {
   const { recordForEdit, addOrEdit } = props;
   useEffect(() => {
     if (recordForEdit != null)

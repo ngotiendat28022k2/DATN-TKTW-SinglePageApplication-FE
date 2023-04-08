@@ -14,6 +14,7 @@ import {
   Report,
   Badge,
 } from "@mui/icons-material";
+import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import CategoryIcon from "@mui/icons-material/Category";
 import { Link } from "react-router-dom";
@@ -74,6 +75,13 @@ export default function Sidebar() {
                 Publishing
               </li>
             </Link>
+            <Link to="/admin/supplieres" className={styles.link}>
+              <li className={styles.sidebarListItem}>
+                <SupervisorAccountIcon className={styles.sidebarIcon} />
+                Supplieres
+              </li>
+            </Link>
+
             <li className={styles.sidebarListItem}>
               <BarChart className={styles.sidebarIcon} />
               Reports

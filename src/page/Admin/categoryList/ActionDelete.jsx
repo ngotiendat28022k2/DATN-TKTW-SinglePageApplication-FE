@@ -1,28 +1,53 @@
-import { Delete } from '@mui/icons-material'
-import { Box, Button } from '@mui/material'
-import { useState } from 'react'
-import { RemoveProduct } from "../../../slice/productsSlice";
+import { Delete } from "@mui/icons-material";
+import { Box, Button } from "@mui/material";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import ConfirmDialog from "../../../utiliti/Notify/confirmDialog";
+import helper from "../../../utiliti/helper/helper";
+import { RemoveCategory } from "../../../slice/categorySlice";
 
-const ActionDelete = ({params}) => {
+const ActionDelete = ({ params }) => {
   const dispatch = useDispatch();
+  const [dialog, setDialog] = useState({
+    isOpen: false,
+    title: "",
+    subTitle: "",
+    id: "",
+  });
   const handleDelete = () => {
-    console.log("id", params.row._id);
-    dispatch(RemoveProduct(params.row._id));
-  }
-  
-  return (
-    <Box
-    >
-        <Button
-          color='error'
-          variant='contained'
-          onClick={handleDelete}
-        >
-            <Delete/>
-        </Button>
-    </Box>
-  )
-}
+    setDialog({
+      isOpen: true,
+      title: "You sure remove!",
+      subTitle: "you cannot undo this action.",
+      id: params.id,
+    });
+  };
 
-export default ActionDelete
+  return (
+    <Box>
+      <Button color="error" variant="contained" onClick={handleDelete}>
+        <Delete />
+      </Button>
+      <ConfirmDialog
+        confirmDialog={dialog}
+        setConfirmDialog={setDialog}
+        onConfirm={async (id) => {
+          console.log("id", id);
+          try {
+            const res = await dispatch(RemoveCategory(id));
+            if (res.payload.data?.successCode) {
+              helper.toast("success", "Remove SuccessFully!");
+            }
+            if (res.payload.data?.errorCode) {
+              helper.toast("error", res.payload.data.message);
+            }
+          } catch (error) {
+            helper.toast("error", error.message);
+          }
+        }}
+      />
+    </Box>
+  );
+};
+
+export default ActionDelete;
