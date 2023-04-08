@@ -11,9 +11,10 @@ import CustomPaginationActionsTable from "../../../components/AdminComponent/tab
 import ActionSave from "./ActionSave";
 import ActionDelete from "./ActionDelete";
 import ActionUpdate from "./ActionUpdate";
-import { getAllProduct } from "../../../slice/productsSlice";
+import { AddNewProduct, UpdateProduct, getAllProduct } from "../../../slice/productsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import FormAddOrEdit from "./FormAddOrEdit/index";
+import helper from "../../../utiliti/helper/helper";
 
 export default function ProductList() {
   const dispatch = useDispatch();
@@ -54,17 +55,25 @@ export default function ProductList() {
     setRecordForEdit(item);
   };
 
-  const addOrEdit = (values, resetForm) => {
+  const addOrEdit =async (values, resetForm) => {
     if (!values._id) {
-      // const data = dispatch(AddNewCategory(data));
-      // console.log(data.payload.data);
-      console.log("add")
+      const {payload} =await dispatch(AddNewProduct(values));
+      if(payload.data?.successCode){
+        helper.toast("success", "Add product success")
+      }
+      if(payload.data?.errorCode){
+        helper.toast("success", payload.data.messages)
+      }
       setOpenPopup(false)
     } else {
-      console.log("Sửa");
+      const {payload} =await dispatch(UpdateProduct(values));
+      if(payload.data?.successCode){
+        helper.toast("success", "Update product success")
+      }
+      if(payload.data?.errorCode){
+        helper.toast("success", payload.data.messages)
+      }
       setOpenPopup(false)
-
-      // // employeeService.updateEmployee(employee);
     }
     resetForm();
     setRecordForEdit(null);
@@ -147,7 +156,7 @@ export default function ProductList() {
       </Paper>
 
       <Popup
-        title="Books"
+        title={recordForEdit ? "Edit book" : "Add book"}
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
