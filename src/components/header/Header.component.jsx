@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import ClientMenu from "../menu/MenuClient.component";
+
 import local from "../../utiliti/local/local";
 import { Link } from "react-router-dom"
 import SidebarProfile from "../sidebar-profile/sidebar_profile"
@@ -97,8 +98,13 @@ const Header = () => {
                     }
                 </div>
             </div>
+            <div className="text-center hidden md:block">
+              Tài khoản</div>
+          </div>
         </div>
-    )
-}
+      </div>
+    </div>
+  );
+};
 
 export default Header;
