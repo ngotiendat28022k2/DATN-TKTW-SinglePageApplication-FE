@@ -18,6 +18,8 @@ import ProductList from "./page/Admin/ProductList";
 import PublishList from "./page/Admin/publishingList";
 import CategoryList from "./page/Admin/categoryList";
 import SupplierList from "./page/Admin/supplieresList";
+import PagePay from "./page/pay/index";
+
 const UserList = React.lazy(() => import("./page/Admin/userList/UserList"));
 const ProfileAdmin = React.lazy(() =>
   import("./page/Admin/Profile/Profile.admin")
@@ -40,6 +42,8 @@ const HomePage = React.lazy(() => import("./page/home"));
 const Blog = React.lazy(() => import("./page/blog"));
 const Login = React.lazy(() => import("./page/auth/login"));
 const Register = React.lazy(() => import("./page/auth/register"));
+<
+const Search = React.lazy(() => import("./page/pageSearch"));
 
 function App() {
   return (
@@ -51,8 +55,9 @@ function App() {
               <Route index element={<Navigate to="home" />} />
               <Route path="home" element={<HomePage />} />
               <Route path="blog" element={<Blog />} />
-              <Route path="/detail" element={<DetailProduct />} />
+              <Route path="/detail/:id" element={<DetailProduct />} />
               <Route path="/checkout" element={<CheckoutCart />} />
+              <Route path="/pay" element={<PagePay />} />
               <Route path="/" element={<AccountLayout />}>
                 <Route index path="account/edit" element={<ProfileInfo />} />
                 <Route path="account/address" element={<ProfileAddress />} />
@@ -63,10 +68,11 @@ function App() {
                   element={<ProfileNotification />}
                 />
               </Route>
-
               {/* <Route path="/paycart" element={<PayCart />} /> */}
             </Route>
 
+            </Route>
+            {/* <Route path="/paycart" element={<PayCart />} /> */}
             {/* Router Admin */}
             <Route
               path="admin/"
@@ -77,14 +83,11 @@ function App() {
               }
             >
               <Route index element={<AdminPage />} />
-              {/* <Route path='users' element={<UserList />} />
-                        <Route path='user/:userId' element={<User />} /> */}
-              {/* <Route path='newUser' element={<NewUser />} /> */}
+
+              <Route path="users" element={<UserList />} />
+              {/* <Route path="publishs" element={<PublishingList />} /> */}
+              {/* <Route path="categories" element={<CategoryList />} /> */}
               <Route path="products" element={<ProductList />} />
-              <Route path="publishs" element={<PublishList />} />
-              <Route path="categories" element={<CategoryList />} />
-              <Route path="Supplieres" element={<SupplierList />} />
-              {/* <Route path='product/:id' element={<Product />} /> */}
               <Route path="profile" element={<ProfileAdmin />} />
             </Route>
 

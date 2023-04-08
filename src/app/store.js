@@ -7,6 +7,7 @@ import categoryReducer from "../slice/categorySlice";
 import supplierReducer from "../slice/supplieresSlice";
 
 import userReducer from "../slice/userSlice";
+import categoryReducer from "../slice/categorySlice";
 
 export const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ export const store = configureStore({
     publish: publishReducer,
     category: categoryReducer,
     supplier: supplierReducer,
+
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });
