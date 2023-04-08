@@ -2,8 +2,10 @@ import axios from "axios";
 
 const instance = axios.create({
   baseURL: "http://localhost:9090/api/v1/",
+  headers: {
+    contentType: "application/json; charset=utf-8",
+  },
   //   timeout: 1000,
-  //   headers: { "X-Custom-Header": "foobar" },
 });
 
 // Thêm một bộ đón chặn request

@@ -13,7 +13,9 @@ import {
 } from "@mui/material";
 // mocks_
 import account from "../../../_mock/account";
-import {Link} from "react-router-dom"
+import {Link, useNavigate} from "react-router-dom"
+import { useDispatch } from "react-redux";
+import { logOut } from "../../../slice/userSlice";
 // ----------------------------------------------------------------------
 
 const MENU_OPTIONS = [
@@ -28,13 +30,15 @@ const MENU_OPTIONS = [
 
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
-
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setOpen(null);
+  const handleClose =async () => {
+    await dispatch(logOut())
+    navigate("/login")
   };
 
   return (
@@ -92,7 +96,7 @@ export default function AccountPopover() {
         <Stack sx={{ p: 1 }}>
           {MENU_OPTIONS.map((option) => (
               <Link to={option.link}>
-                  <MenuItem key={option.label} onClick={handleClose}>
+                  <MenuItem key={option.label}>
                     {option.label}
                   </MenuItem>
               </Link>
