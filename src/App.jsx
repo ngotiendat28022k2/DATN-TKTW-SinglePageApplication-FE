@@ -13,11 +13,13 @@ import AccountLayout from "./Layout/LayoutAccount";
 import DetailProduct from "./page/Detail";
 import CheckoutCart from "./page/checkout-cart";
 //
-import PagePay from "./page/pay/index";
-import PageSearch from "./page/pageSearch";
-//
 import AdminPage from "./page/Admin/home/AdminPage";
 import ProductList from "./page/Admin/ProductList";
+import PublishList from "./page/Admin/publishingList";
+import CategoryList from "./page/Admin/categoryList";
+import SupplierList from "./page/Admin/supplieresList";
+import PagePay from "./page/pay/index";
+
 const UserList = React.lazy(() => import("./page/Admin/userList/UserList"));
 const ProfileAdmin = React.lazy(() =>
   import("./page/Admin/Profile/Profile.admin")
@@ -40,6 +42,7 @@ const HomePage = React.lazy(() => import("./page/home"));
 const Blog = React.lazy(() => import("./page/blog"));
 const Login = React.lazy(() => import("./page/auth/login"));
 const Register = React.lazy(() => import("./page/auth/register"));
+<
 const Search = React.lazy(() => import("./page/pageSearch"));
 
 function App() {
@@ -65,6 +68,9 @@ function App() {
                   element={<ProfileNotification />}
                 />
               </Route>
+              {/* <Route path="/paycart" element={<PayCart />} /> */}
+            </Route>
+
             </Route>
             {/* <Route path="/paycart" element={<PayCart />} /> */}
             {/* Router Admin */}
@@ -77,6 +83,7 @@ function App() {
               }
             >
               <Route index element={<AdminPage />} />
+
               <Route path="users" element={<UserList />} />
               {/* <Route path="publishs" element={<PublishingList />} /> */}
               {/* <Route path="categories" element={<CategoryList />} /> */}
