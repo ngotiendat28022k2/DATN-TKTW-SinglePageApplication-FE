@@ -17,7 +17,8 @@ export const getProduct = createAsyncThunk("product/get", async (id) => {
 export const AddNewProduct = createAsyncThunk(
   "product/AddNewProduct",
   async (product) => {
-    const response = await productApi.ProductAdd(product);
+    await productApi.ProductAdd(product);
+    const response = await productApi.ProductList();
     return response;
   }
 );

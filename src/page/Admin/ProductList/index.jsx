@@ -15,9 +15,11 @@ import CustomPaginationActionsTable from "../../../components/AdminComponent/tab
 import ActionSave from "./ActionSave";
 import ActionDelete from "./ActionDelete";
 import ActionUpdate from "./ActionUpdate";
-import { getAllProduct } from "../../../slice/productsSlice";
+import { AddNewProduct, UpdateProduct, getAllProduct } from "../../../slice/productsSlice";
 import { useDispatch, useSelector } from "react-redux";
-import NewProduct from "./FormAdd";
+import FormAddOrEdit from "./FormAddOrEdit/index";
+import helper from "../../../utiliti/helper/helper";
+
 
 export default function ProductList() {
   const dispatch = useDispatch();
@@ -27,7 +29,43 @@ export default function ProductList() {
   const [rowsData, setRowsData] = useState([])
 
   const handleSearch = (e) => {
-    console.log("e.target.value", e.target.value)
+    console.log("e.target.value", e.target.value);
+  };
+  const options = [
+    { value: 'chocolate', label: 'Chocolate' },
+    { value: 'strawberry', label: 'Strawberry' },
+    { value: 'vanilla', label: 'Vanilla' }
+  ]
+  const openInPopup = (item) => {
+    setOpenPopup(true);
+    setRecordForEdit(item);
+  };
+
+  const addOrEdit =async (values, resetForm) => {
+    if (!values._id) {
+      const {payload} =await dispatch(AddNewProduct(values));
+      if(payload.data?.successCode){
+        helper.toast("success", "Add product success")
+      }
+      if(payload.data?.errorCode){
+        helper.toast("success", payload.data.messages)
+      }
+      setOpenPopup(false)
+    } else {
+      const {payload} =await dispatch(UpdateProduct(values));
+      if(payload.data?.successCode){
+        helper.toast("success", "Update product success")
+      }
+      if(payload.data?.errorCode){
+        helper.toast("success", payload.data.messages)
+      }
+      setOpenPopup(false)
+    }
+    resetForm();
+    setRecordForEdit(null);
+    setRecords(records);
+    setOpenPopup(false);
+
   };
   
   const columnsData = [
@@ -105,7 +143,7 @@ export default function ProductList() {
       </Paper>
       <UploadImage />
       <Popup
-        title="Books"
+        title={recordForEdit ? "Edit book" : "Add book"}
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
