@@ -2,8 +2,10 @@ import { configureStore } from "@reduxjs/toolkit";
 import logger from "redux-logger";
 import counterReducer from "../slice/counterSlice";
 import productReducer from "../slice/productsSlice";
+import publishReducer from "../slice/publishSlice";
+import categoryReducer from "../slice/categorySlice";
+import supplierReducer from "../slice/supplieresSlice";
 import userReducer from "../slice/userSlice";
-import categoryReducer from "../slice/categoorySlide";
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +13,8 @@ export const store = configureStore({
     user: userReducer,
     product: productReducer,
     category: categoryReducer,
+    publish: publishReducer,
+    supplier: supplierReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });

@@ -4,41 +4,36 @@ import Controls from "../../../../components/AdminComponent/controls/Controls";
 import { useForm, Form } from "../../../../components/AdminComponent/useForm";
 import * as employeeService from "../../../../services/employeeService";
 
-const genderItems = [
-  { id: "male", title: "Male" },
-  { id: "female", title: "Female" },
-  { id: "other", title: "Other" },
-];
-
 const initialFValues = {
   id: 0,
-  Name: "",
-  email: "",
-  mobile: "",
-  city: "",
-  gender: "male",
-  departmentId: "",
-  hireDate: new Date(),
-  isPermanent: false,
+  name: "",
+  image: "",
+  icon: "",
+  banner: "",
 };
 
 export default function NewCategory(props) {
-  const { addOrEdit, recordForEdit } = props;
-
+  const { recordForEdit, addOrEdit } = props;
+  useEffect(() => {
+    if (recordForEdit != null)
+      setValues({
+        ...recordForEdit,
+      });
+  }, [recordForEdit]);
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
-    if ("Name" in fieldValues)
-      temp.Name = fieldValues.Name ? "" : "This field is required.";
-    if ("email" in fieldValues)
-      temp.email = /$^|.+@.+..+/.test(fieldValues.email)
-        ? ""
-        : "Email is not valid.";
-    if ("mobile" in fieldValues)
-      temp.mobile =
-        fieldValues.mobile.length > 9 ? "" : "Minimum 10 numbers required.";
-    if ("departmentId" in fieldValues)
-      temp.departmentId =
-        fieldValues.departmentId.length != 0 ? "" : "This field is required.";
+    if ("name" in fieldValues)
+      temp.name = fieldValues.name ? "" : "This field is required.";
+    // if ("email" in fieldValues)
+    //   temp.email = /$^|.+@.+..+/.test(fieldValues.email)
+    //     ? ""
+    //     : "Email is not valid.";
+    // if ("phone" in fieldValues)
+    //   temp.phone =
+    //     fieldValues.phone.length > 9 ? "" : "Minimum 10 numbers required.";
+    // if ("address" in fieldValues)
+    //   temp.address =
+    //     fieldValues.address.length != 0 ? "" : "This field is required.";
     setErrors({
       ...temp,
     });
@@ -56,71 +51,35 @@ export default function NewCategory(props) {
     }
   };
 
-  useEffect(() => {
-    if (recordForEdit != null)
-      setValues({
-        ...recordForEdit,
-      });
-  }, [recordForEdit]);
-
   return (
     <Form onSubmit={handleSubmit}>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
+      <Grid container>
+        <Grid item xs={12}>
           <Controls.Input
-            name="Name"
+            name="name"
             label="Name"
-            value={values.Name}
+            value={values.name}
             onChange={handleInputChange}
-            error={errors.Name}
+            error={errors.name}
           />
           <Controls.Input
-            label="Email"
-            name="email"
-            value={values.email}
+            label="Image"
+            name="image"
+            value={values.image}
             onChange={handleInputChange}
-            error={errors.email}
+            error={errors.image}
           />
           <Controls.Input
-            label="Mobile"
-            name="mobile"
-            value={values.mobile}
+            label="Icon"
+            name="icon"
+            value={values.icon}
             onChange={handleInputChange}
-            error={errors.mobile}
+            error={errors.icon}
           />
           <Controls.Input
-            label="City"
-            name="city"
-            value={values.city}
-            onChange={handleInputChange}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <Controls.RadioGroup
-            name="gender"
-            label="Gender"
-            value={values.gender}
-            onChange={handleInputChange}
-            items={genderItems}
-          />
-          <Controls.Select
-            name="departmentId"
-            label="Department"
-            value={values.departmentId}
-            onChange={handleInputChange}
-            options={employeeService.getDepartmentCollection()}
-            error={errors.departmentId}
-          />
-          <Controls.DatePicker
-            name="hireDate"
-            label="Hire Date"
-            value={values.hireDate}
-            onChange={handleInputChange}
-          />
-          <Controls.Checkbox
-            name="isPermanent"
-            label="Permanent Employee"
-            value={values.isPermanent}
+            label="Banner"
+            name="banner"
+            value={values.banner}
             onChange={handleInputChange}
           />
 
@@ -132,4 +91,9 @@ export default function NewCategory(props) {
       </Grid>
     </Form>
   );
+  //   return(
+  //     <div>
+  //       newEmployees
+  //     </div>
+  //   )
 }

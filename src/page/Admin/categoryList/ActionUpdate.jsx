@@ -1,27 +1,23 @@
-import { Delete, Update } from '@mui/icons-material'
-import { Box, Button } from '@mui/material'
-import { useState } from 'react'
-import { RemoveProduct } from "../../../slice/productsSlice";
+import { Delete, Update } from "@mui/icons-material";
+import { Box, Button } from "@mui/material";
+import { useState } from "react";
+import { UpdateCategory } from "../../../slice/categorySlice";
 import { useDispatch, useSelector } from "react-redux";
 
-const ActionUpdate = ({params}) => {
+const ActionUpdate = (props) => {
+  const { params, openInPopup } = props;
   const dispatch = useDispatch();
-  const product = useSelector((state) => state.product.value);
-  const handleUpdate = () => {
-    console.log(params)
-  }
   return (
-    <Box
-    >
-        <Button
-          variant='contained'
-          color='info'
-          onClick={handleUpdate}
-        >
-            <Update/>
-        </Button>
+    <Box>
+      <Button
+        variant="contained"
+        color="info"
+        onClick={() => openInPopup(params.row)}
+      >
+        <Update />
+      </Button>
     </Box>
-  )
-}
+  );
+};
 
-export default ActionUpdate
+export default ActionUpdate;

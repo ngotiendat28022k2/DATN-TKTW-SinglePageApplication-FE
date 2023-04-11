@@ -10,9 +10,8 @@ export const getAllProduct = createAsyncThunk(
 );
 
 export const getProduct = createAsyncThunk("product/get", async (id) => {
-  console.log("id", id);
-  const respone = await productApi.ProductDetail(id);
-  return respone;
+  const res = await productApi.ProductDetail(id);
+  return res
 });
 
 export const AddNewProduct = createAsyncThunk(
@@ -51,8 +50,8 @@ export const productSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getAllProduct.fulfilled, (state, action) => {
-      state.value = action.payload.data.data;
-      if (!state.value.length) return;
+      state.value = action.payload.data
+      if (!state.value) return;
     });
 
     builder.addCase(AddNewProduct.fulfilled, (state, action) => {
