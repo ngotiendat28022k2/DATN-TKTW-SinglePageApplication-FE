@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Add, EditOutlined, Close } from "@mui/icons-material";
-import { Button, Paper, Toolbar } from "@mui/material";
+import {
+  Button,
+  Paper,
+  Toolbar,
+} from "@mui/material";
 import Controls from "../../../components/AdminComponent/controls/Controls";
+import Select from 'react-select'
 import Popup from "../../../components/AdminComponent/MyPopup/MyPopup";
 // Services
 import * as employeeService from "../../../services/employeeService";
@@ -13,22 +18,22 @@ import ActionUpdate from "./ActionUpdate";
 import { getAllProduct } from "../../../slice/productsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import NewProduct from "./FormAdd";
-import UploadImage from "../../../components/AdminComponent/uploadImg/upload";
 
 export default function ProductList() {
+  const dispatch = useDispatch();
   const [openPopup, setOpenPopup] = useState(false);
-  const [dataSearch, setDataSearch] = React.useState([]);
-  const [rowId, setRowId] = useState(null);
-  const [rowsData, setRowsData] = useState([]);
+  const [dataSearch, setDataSearch] = React.useState([])
+  const [rowId, setRowId] = useState(null)
+  const [rowsData, setRowsData] = useState([])
 
   const handleSearch = (e) => {
-    console.log("e.target.value", e.target.value);
+    console.log("e.target.value", e.target.value)
   };
-
+  
   const columnsData = [
-    { field: "_id", headerName: "ID", width: 200 },
-    { field: "name", headerName: "Name", width: 200, editable: true },
-    { field: "image", headerName: "Image", width: 200, editable: true },
+    { field: '_id', headerName: 'ID', width: 200, },
+    { field: 'name', headerName: 'Name', width: 200, editable: true },
+    { field: 'image', headerName: 'Image', width: 200, editable: true },
     {
       field: "actions",
       headerName: "Actions",
@@ -38,20 +43,20 @@ export default function ProductList() {
         return (
           <div className="w-full flex justify-between items-center">
             <ActionSave {...{ params, rowId, setRowId }} />
-            <ActionUpdate params={params} />
+            <ActionUpdate params={params} openInPopup={openInPopup} />
             <ActionDelete params={params} />
           </div>
         );
       },
     },
   ];
-  // const dispatch = useDispatch()
-  // useEffect(() => {
-  //   (async () => {
-  //     const data = await dispatch(getAllProduct())
-  //     setRowsData(data.payload.data)
-  //   })()
-  // }, [])
+  const dispatch = useDispatch()
+  useEffect(() => {
+    (async () => {
+      const data = await dispatch(getAllProduct())
+      setRowsData(data.payload.data)
+    })()
+  }, [])
   // useEffect(() => {
   //   setRowsData(data)
   // }, [data])
@@ -69,6 +74,8 @@ export default function ProductList() {
     setRowsData(rowsData);
   };
 
+  //   return () => {
+  //   };
   return (
     <>
       <Paper
@@ -86,24 +93,23 @@ export default function ProductList() {
             startIcon={<Add />}
             sx={{ position: "absolute", right: "10px" }}
             onClick={() => {
+              setRecordForEdit(null)
               setOpenPopup(true);
             }}
           />
         </Toolbar>
 
         <div className="mt-[30px]">
-          <CustomPaginationActionsTable
-            {...{ rowsData, columnsData, rowId, setRowId }}
-          />
+          <CustomPaginationActionsTable {...{ rowsData, columnsData, rowId, setRowId }} />
         </div>
       </Paper>
       <UploadImage />
       <Popup
-        title="Add New Product"
+        title="Books"
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
-        <NewProduct addOrEdit={addOrEdit} />
+
         {/* ném component vào */}
         {/* <NewProduct recordForEdit={recordForEdit} addOrEdit={addOrEdit} /> */}
       </Popup>

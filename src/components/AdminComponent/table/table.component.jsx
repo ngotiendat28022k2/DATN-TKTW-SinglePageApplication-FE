@@ -2,19 +2,15 @@ import {useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { gridClasses } from '@mui/system';
 
-function CustomPaginationActionsTable({rowsData, columnsData, rowId, setRowId}) {
-  const [isLoading, setIsLoading] = useState(false)
-  const [columns, setColumns] = useState([...columnsData] || [])
-  const [rows, setRows] = useState([...rowsData] || [])
+function CustomPaginationActionsTable({rowsData, columnsData, rowId, setRowId, isLoading}) {
   const [pageSize, setPageSize] = useState(10)
+  const [columns, setColumns] = useState([...columnsData] || [])
+  const [rows, setRows] = useState([...rowsData] || null)
 
   useEffect(() => {
-    setIsLoading(true)
     setRows(rowsData)
     setColumns(columnsData)
-    setIsLoading(false)
-  }, [columnsData, rowsData])
-
+  }, [rowsData, columnsData])
 
   return (
     <div style={{ height: 500, width: '100%' }}>
@@ -25,15 +21,16 @@ function CustomPaginationActionsTable({rowsData, columnsData, rowId, setRowId}) 
         pageSize={pageSize}
         onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
         checkboxSelection
+        disableColumnMenu
         loading={isLoading}
-        getRowSpacing={params => ({
-          top:params.isFirstVisible ? 0 : 5,
-          bottom:params.isLastVisible ? 0: 5
-        })}
         sx={{
-          [`&.${gridClasses.row}`]:{
-            bgcolor:"#8baf67"
-          }
+          boxShadow: 2,
+          border: 2,
+          borderColor: 'primary.light',
+          '& .MuiDataGrid-cell:hover': {
+            color: 'primary.main',
+          },
+          padding: "10px",
         }}
         getRowId={(row) =>  row._id}
         onCellEditCommit={params => setRowId(params.id)}
