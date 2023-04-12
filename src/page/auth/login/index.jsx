@@ -16,15 +16,14 @@ const Login = () => {
         event.preventDefault()
         try {
             const { payload } =await dispatch(login(user))
-            console.log("payload", payload)
-            if(payload.data?.errorCode){
-                return hepler.toast("error", payload?.data.message)
+            if(payload?.errorCode){
+                return hepler.toast("error", payload?.message)
             }
-            if(payload.data?.successCode){
-                local.set("user", JSON.stringify(payload?.data.data))
+            if(payload?.successCode){
+                local.set("user", JSON.stringify(payload?.data))
                 hepler.toast("success", "Login Success")
                 setTimeout(() => {
-                    if(payload.data.data.role < 0){
+                    if(payload.data.role < 0){
                         navigate("/home")
                     }else{
                         navigate("/admin")

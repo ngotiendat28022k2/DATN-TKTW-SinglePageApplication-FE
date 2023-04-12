@@ -4,8 +4,8 @@ import { gridClasses } from '@mui/system';
 
 function CustomPaginationActionsTable({rowsData, columnsData, rowId, setRowId, isLoading}) {
   const [pageSize, setPageSize] = useState(10)
-  const [columns, setColumns] = useState([...columnsData] || [])
-  const [rows, setRows] = useState([...rowsData] || null)
+  const [columns, setColumns] = useState(columnsData || [])
+  const [rows, setRows] = useState( rowsData || [])
 
   useEffect(() => {
     setRows(rowsData)
@@ -34,6 +34,7 @@ function CustomPaginationActionsTable({rowsData, columnsData, rowId, setRowId, i
         }}
         getRowId={(row) =>  row._id}
         onCellEditCommit={params => setRowId(params.id)}
+        // key={(row) => console.log("rowww", row) }
       />
       
     </div>

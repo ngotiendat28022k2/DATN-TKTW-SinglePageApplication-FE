@@ -11,7 +11,7 @@ export const getAllProduct = createAsyncThunk(
 
 export const getProduct = createAsyncThunk("product/get", async (id) => {
   const res = await productApi.ProductDetail(id);
-  return res
+  return res;
 });
 
 export const AddNewProduct = createAsyncThunk(
@@ -50,19 +50,19 @@ export const productSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getAllProduct.fulfilled, (state, action) => {
-      state.value = action.payload.data
+      state.value = action.payload.data;
       if (!state.value) return;
     });
 
     builder.addCase(AddNewProduct.fulfilled, (state, action) => {
-      state.value = action.payload.data.data;
+      state.value = action.payload.data;
       if (!state.value.length) return;
     });
     builder.addCase(RemoveProduct.fulfilled, (state, action) => {
-      state.value = action.payload.data.data;
+      state.value = action.payload.data;
     });
     builder.addCase(UpdateProduct.fulfilled, (state, action) => {
-      state.value = action.payload.data.data;
+      state.value = action.payload.data;
     });
   },
 });

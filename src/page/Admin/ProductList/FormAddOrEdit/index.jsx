@@ -4,8 +4,9 @@ import Controls from "../../../../components/AdminComponent/controls/Controls";
 import { useForm, Form } from "../../../../components/AdminComponent/useForm";
 import helper from "../../../../utiliti/helper/helper";
 import { useDispatch } from "react-redux";
-import {getAllCategory} from "../../../../slice/categoorySlide"
 import CreatableSelect from 'react-select/creatable';
+import { getAllCategory } from "../../../../slice/categorySlice";
+import UploadImage from "../../../../components/AdminComponent/uploadImg/upload";
 
 const initialFValues = {
   view:"",
@@ -26,9 +27,24 @@ const initialFValues = {
 };
 
 export default function FormAddOrEdit(props) {
-  const { recordForEdit, addOrEdit } = props;
-  const {valueCategory, setValueCategory} = useState([])
   const dispatch = useDispatch()
+  const { recordForEdit, addOrEdit } = props;
+  const {valueCategory, setValueCategory} = useState([
+    
+  ])
+
+    (async() => {
+        const {payload} = await dispatch(getAllCategory())
+        const optionCategory = payload.data.map(item => {
+          const value = item['name'];
+          delete item['name']
+          item['label'] = value;
+          return item
+        })
+        console.log(optionCategory)
+        // setValueCategory(optionCategory)
+    })()
+
   useEffect(() => {
     if (recordForEdit != null)
       setValues({
@@ -66,21 +82,22 @@ export default function FormAddOrEdit(props) {
       addOrEdit(values, resetForm);
     // }
   };
-  useEffect(() => {
-    (async() => {
-      try {
-        const {payload} = await dispatch(getAllCategory())
-        if(payload.data?.success){
-          setValueCategory(payload.data.data)
-        }
-        if(payload.data?.errorCode){
-        helper.toast("error",payload.data.message )
-      }
-    } catch (error) {
-      helper.toast("error", "Error get data")
-    }
-  })()
-}, [])
+  // useEffect(() => {
+  //   (async() => {
+  //     try {
+  //       const {payload} = await dispatch(getAllCategory())
+  //       console.log(payload)
+  //       if(payload?.success){
+  //         setValueCategory(payload.data)
+  //       }
+  //       if(payload?.errorCode){
+  //       helper.toast("error",payload.message )
+  //     }
+  //   } catch (error) {
+  //     helper.toast("error", "Error get data")
+  //   }
+  // })()
+  // }, [])
   const filterColors = (option, inputValue) => {
     return option.filter((i) =>
       i.label.toLowerCase().includes(inputValue.toLowerCase())
@@ -112,7 +129,13 @@ export default function FormAddOrEdit(props) {
           <div className="flex justify-between items-start mt-[20px]">
           <div className="w-full max-w-[250px] ">
             <label htmlFor="Book name">Category</label><br />
-            {/* <CreatableSelect isClearable options={colourOptions} />; */}
+            {/* <Select
+              closeMenuOnSelect={false}
+              components={animatedComponents}
+              defaultValue={[colourOptions[4], colourOptions[5]]}
+              isMulti
+              options={colourOptions}
+            /> */}
           </div>
         <div className="max-w-[200px] w-full">
         <label htmlFor="Book name">Publishing Hous</label><br />
@@ -120,7 +143,9 @@ export default function FormAddOrEdit(props) {
         </div>
           </div>
           </div>
-          <div className="w-[50%]"></div>
+          <div className="w-[50%] text-right">
+              <UploadImage />
+          </div>
         </div>
           <div className="text-right mt-[30px]">
             <Controls.Button type="submit" text="Submit" />

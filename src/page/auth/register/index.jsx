@@ -16,12 +16,12 @@ const Register = () => {
     try {
       const {payload} =await dispatch(register(email))
       console.log(payload)
-      if(payload.data.element){
+      if(payload.element){
         helper.toast("success", "Please check code by email")
         setOpenPopup(true)
       }
-      if(payload.data.code >= 400){
-        helper.toast("error", payload.data.message)
+      if(payload.code >= 400){
+        helper.toast("error", payload.message)
       }
     } catch (error) {
       helper.toast("error", error)

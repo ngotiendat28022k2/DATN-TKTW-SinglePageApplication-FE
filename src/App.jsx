@@ -24,7 +24,6 @@ const UserList = React.lazy(() => import("./page/Admin/userList/UserList"));
 const ProfileAdmin = React.lazy(() =>
   import("./page/Admin/Profile/Profile.admin")
 );
-//
 const ProfileAddress = React.lazy(() =>
   import("./page/profile/Profile-Address")
 );
@@ -42,7 +41,6 @@ const HomePage = React.lazy(() => import("./page/home"));
 const Blog = React.lazy(() => import("./page/blog"));
 const Login = React.lazy(() => import("./page/auth/login"));
 const Register = React.lazy(() => import("./page/auth/register"));
-<
 const Search = React.lazy(() => import("./page/pageSearch"));
 
 function App() {
@@ -72,7 +70,7 @@ function App() {
             </Route>
 
             </Route>
-            {/* <Route path="/paycart" element={<PayCart />} /> */}
+          
             {/* Router Admin */}
             <Route
               path="admin/"
@@ -94,7 +92,6 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="*" element={<NotFound />} />
-          </Route>
         </Routes>
       </React.Suspense>
     </div>

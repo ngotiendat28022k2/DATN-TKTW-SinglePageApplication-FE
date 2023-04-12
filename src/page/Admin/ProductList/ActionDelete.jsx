@@ -35,11 +35,11 @@ const ActionDelete = ({params}) => {
             console.log("id", id)
             try {
               const res = await dispatch(RemoveProduct(id))
-              if(res.payload.data?.successCode){
+              if(res.payload?.successCode){
                 helper.toast("success", "Remove Book SuccessFully!")
               }
-              if(res.payload.data?.errorCode){
-                helper.toast("error", res.payload.data.message)
+              if(res.payload?.errorCode){
+                helper.toast("error", res.payload.message)
               }
             } catch (error) {
               helper.toast("error", error.message)    

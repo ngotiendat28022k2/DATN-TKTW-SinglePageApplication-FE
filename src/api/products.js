@@ -11,7 +11,7 @@ const productApi = {
     return await instance.post("product", product);
   },
   ProductUpdate: async (product) => {
-    return await instance.put(`product/${product._id}`, product);
+    return await instance.put(`product/${product.id}`, product);
   },
   RemoveProduct: async (id) => {
     return await instance.delete(`product/${id}`);
