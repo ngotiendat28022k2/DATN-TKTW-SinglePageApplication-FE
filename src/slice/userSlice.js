@@ -37,26 +37,18 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, action) => {
       if (action.payload.errorCode) {
-        return (state.value = []);
+        return void (state.isLogin = false);
       }
-      state.value = action.payload.data.data;
-      if (!state.value.length) return;
+      state.value = action.payload.data;
       state.isLogin = true;
     });
-    builder.addCase(login.rejected, (state, action) => {
-      throw new Error();
-    });
-
     builder.addCase(register.fulfilled, (state, action) => {
       state.otp = action.payload;
       state.isLogin = false;
     });
-    builder.addCase(register.rejected, (state, action) => {
-      throw new Error();
-    });
 
     builder.addCase(sendOtp.fulfilled, (state, action) => {
-      console.log("user slice", action.payload);
+      console.log("user send otp slice", action.payload);
     });
   },
 });

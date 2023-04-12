@@ -44,17 +44,19 @@ const FormOtp = (props) => {
         email:email.email,
         otp: otpString.replaceAll(",","")
       }  
+      if(!valOTP.otp && !valOTP.otp.length ===6){
+        return helper.toast("error", "meoemo")
+      }
       try {
-        // console.log(valOTP)
         const {payload} = await dispatch(sendOtp(valOTP))
-        if(payload.data.element){
+        if(payload.element){
           helper.toast("success", "Successfully OTP")
           setTimeout(() => {
             navigate("/login")
           }, 1500);
         }
-        if(payload.data.code >= 400){
-           helper.toast("error", payload.data.message)
+        if(payload.code >= 400){
+           helper.toast("error", payload.message)
         }
       } catch (error) {
         helper.toast("error", error)
@@ -63,12 +65,12 @@ const FormOtp = (props) => {
   const handleResend =async () => {
      const {payload} = await dispatch(register(email))
      console.log(payload);
-     if(payload.data.element){
+     if(payload.element){
         setOtp(new Array(6).fill(""))
        helper.toast("success", "Reset otp success")
      }
-     if(payload.data.code >= 400) {
-      helper.toast("error", payload.data.message  )
+     if(payload.code >= 400) {
+      helper.toast("error", payload.message  )
     }
   }
 
@@ -104,7 +106,6 @@ const FormOtp = (props) => {
                                       </div>
                                     )}
                                   </div>
-
                                   <div className="flex flex-col space-y-5">
                                     <div>
                                       <button 
