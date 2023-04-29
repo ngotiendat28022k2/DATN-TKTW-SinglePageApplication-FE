@@ -9,20 +9,20 @@ import { storage } from "../../../api/firebase";
 import { useEffect } from "react";
 import { v4 } from "uuid";
 
-const UploadImage = () => {
-  const [imageUrls, setImageUrls] = useState([]);
-
+const UploadImage = ({name, imageUrls, setImageUrls }) => {
+  console.log("upload", name)
+  console.log("imageUrls", imageUrls)
   const imgListRef = ref(storage, "images/");
   const changImg = (item) => {
     const imgUploads = item.target.files[0];
     if (!imgUploads) {
-      setImageUrls([]);
+      setImageUrls(name, []);
     }
     const imgRef = ref(storage, `images/${imgUploads.name + v4()}`);
     uploadBytesResumable(imgRef, imgUploads).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((url) => {
         {
-          setImageUrls((prev) => [...prev, url]);
+          setImageUrls(name,  [...imageUrls, url]);
         }
       });
     });
@@ -30,20 +30,22 @@ const UploadImage = () => {
       listAll(imgListRef).then((response) => {
         response.items.forEach((item) => {
           getDownloadURL(item).then((url) => {
-            setImageUrls((prev) => [...prev, url]);
+            setImageUrls(name, [...imageUrls, url]);
           });
         });
       });
     }, imageUrls);
   };
+
   function RemomeImg(url) {
     const newArrImg = imageUrls.filter((item) => item !== url);
-    setImageUrls(newArrImg);
+    setImageUrls(name, newArrImg);
   }
-  console.log(imageUrls)
+
+  
   return (
-    <div className="w-[580px] h-auto bg-white grid grid-cols-4 gap-3 p-5 rounded-md">
-      <div class="flex w-full">
+    <div className="flex justify-start items-start flex-wrap gap-[25px] w-full bg-white p-5 rounded-md">
+      <div class="flex w-full max-w-[150px]">
         <label
           htmlFor="dropzone-file"
           class="flex flex-col items-center justify-center w-full h-[140px] border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800  hover:bg-gray-100 dark:border-gray-300 dark:hover:border-gray-500 "
@@ -76,7 +78,7 @@ const UploadImage = () => {
       {imageUrls.map((url) => {
         return (
           <div
-            style={{ backgroundImage: `url(${url})`, backgroundSize: "cover" }}
+            style={{ backgroundImage: `url(${url})`, backgroundSize: "cover", width:"100%", maxWidth:"150px", height:"150px" }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -84,7 +86,7 @@ const UploadImage = () => {
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="w-6 h-6 flex justify-items-end text-gray-500 bg-white rounded-lg shadow-xl "
+              className="w-7 h-7 cursor-pointer flex justify-items-end text-gray-500 bg-white rounded-[50%] shadow-xl hover:bg-[#ececec] transition-all"
               onClick={() => RemomeImg(url)}
             >
               <path

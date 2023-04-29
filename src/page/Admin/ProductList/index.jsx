@@ -18,6 +18,11 @@ import { useDispatch, useSelector } from "react-redux";
 import FormAddOrEdit from "./FormAddOrEdit/index";
 import helper from "../../../utiliti/helper/helper";
 import UploadImage from "../../../components/AdminComponent/uploadImg/upload";
+import { getAllCategory } from "../../../slice/categorySlice";
+import { getAllPublish } from "../../../slice/publishSlice";
+import { getAllSupplier } from "../../../slice/supplieresSlice";
+import { getAllFormBook } from "../../../slice/formBookSlice";
+import { getAllAuthor } from "../../../slice/authorSlice";
 
 
 export default function ProductList() {
@@ -28,16 +33,22 @@ export default function ProductList() {
   const [rowsData, setRowsData] = useState([])
   const [recordForEdit, setRecordForEdit] = useState(null)
   const [isLoading, setIsLoading] = useState(null)
+  const [optionCategory, setOptionCategory] = useState([])
+  const [optionPublish, setOptionpPublish] = useState([])
+  const [optionSupplier, setOptionSupplier] = useState([])
+  const [optionFormBook, setOptionFormBook] = useState([])
+  const [optionAuthor, setOptionAuthor] = useState([])
   
   const productSlide = useSelector((state) => state.product.value)
+  const publishingSlide = useSelector((state) => state.publish.value)
+  const suppliereSlide = useSelector((state) => state.supplier.value)
+  const formbookSlide = useSelector((state) => state.formBook.value)
+  const authorSlide = useSelector((state) => state.author.value)
+
   const handleSearch = (e) => {
     console.log("e.target.value", e.target.value);
   };
-  const options = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' }
-  ]
+
   const openInPopup = (item) => {
     setOpenPopup(true);
     setRecordForEdit(item);
@@ -65,7 +76,7 @@ export default function ProductList() {
     }
     resetForm();
     setRecordForEdit(null);
-    setRecords(records);
+    // setRecords(records);
     setOpenPopup(false);
 
   };
@@ -106,6 +117,27 @@ export default function ProductList() {
   useEffect(() => {
     setRowsData(productSlide)
   }, [productSlide])
+
+
+  useEffect(() => {
+    (async() => {
+      try {
+        const category = await dispatch(getAllCategory())
+        setOptionCategory(category.payload.data.map(a => ({ ...a, label: a.name, value: a.name })))
+        const publish = await dispatch(getAllPublish())
+        setOptionpPublish(publish.payload.data.map(a => ({ ...a, label: a.name, value: a.name })))
+        const supplier = await dispatch(getAllSupplier())
+        setOptionSupplier(supplier.payload.data.map(a => ({ ...a, label: a.name, value: a.name })))
+        const formBook = await dispatch(getAllFormBook())
+        setOptionFormBook(formBook.payload.data.map(a => ({ ...a, label: a.name, value: a.name })))
+        const author = await dispatch(getAllAuthor())
+        setOptionAuthor(author.payload.data.map(a => ({ ...a, label: a.name, value: a.name })))
+  
+      } catch (error) {
+        console.log(error)
+      }
+  })()
+  }, [])
   //   return () => {
   //   };
   return (
@@ -141,7 +173,7 @@ export default function ProductList() {
         setOpenPopup={setOpenPopup}
       >
 
-        <FormAddOrEdit recordForEdit={recordForEdit} addOrEdit={addOrEdit} />
+        <FormAddOrEdit  {...{recordForEdit, addOrEdit, optionCategory, optionSupplier, optionPublish, optionFormBook, optionAuthor}} />
       </Popup>
     </>
   );

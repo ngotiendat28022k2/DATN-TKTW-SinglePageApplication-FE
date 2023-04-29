@@ -19,8 +19,8 @@ export const getPublish = createAsyncThunk("publish/get", async (id) => {
 export const AddNewPublish = createAsyncThunk(
   "publish/AddNewPublish",
   async (publish) => {
-     await publishApi.PublishAdd(publish);
-     const response = publishApi.PublishList()
+    await publishApi.PublishAdd(publish);
+    const response = publishApi.PublishList();
     return response;
   }
 );
@@ -36,11 +36,11 @@ export const UpdatePublish = createAsyncThunk(
   "publish/update",
   async (data) => {
     try {
-      await publishApi.PublishUpdate(data)
-      const response = await publishApi.PublishList()
-      return response
+      await publishApi.PublishUpdate(data);
+      const response = await publishApi.PublishList();
+      return response;
     } catch (error) {
-      throw error
+      throw error;
     }
   }
 );
@@ -57,18 +57,16 @@ export const publishSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getAllPublish.fulfilled, (state, action) => {
       state.value = action.payload.data.data;
-      if (!state.value.length) return;
     });
 
     builder.addCase(AddNewPublish.fulfilled, (state, action) => {
       state.value = action.payload.data.data;
-      // if (!state.value.length) return;
     });
     builder.addCase(RemovePublish.fulfilled, (state, action) => {
       state.value = action.payload.data.data;
     });
     builder.addCase(UpdatePublish.fulfilled, (state, action) => {
-      state.value = action.payload.data.data
+      state.value = action.payload.data.data;
     });
   },
 });

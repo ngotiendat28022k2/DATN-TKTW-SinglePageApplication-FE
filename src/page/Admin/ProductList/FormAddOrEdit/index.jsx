@@ -1,56 +1,36 @@
-import React, { useState, useEffect } from "react";
-import { Grid } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, Grid } from "@mui/material";
 import Controls from "../../../../components/AdminComponent/controls/Controls";
 import { useForm, Form } from "../../../../components/AdminComponent/useForm";
 import helper from "../../../../utiliti/helper/helper";
-import { useDispatch } from "react-redux";
-import CreatableSelect from 'react-select/creatable';
-import { getAllCategory } from "../../../../slice/categorySlice";
 import UploadImage from "../../../../components/AdminComponent/uploadImg/upload";
+import Select from 'react-select'
+import Ckeditor from "../../../../components/CKeditor/Ckeditor";
+import { HeatPump } from "@mui/icons-material";
+import FormDynamic from "../../../../components/AdminComponent/formdynamic/FormDynamic";
+import { v4 as uuidv4 } from 'uuid';
 
 const initialFValues = {
-  view:"",
-  description:"",
+  descriptionShort:"",
+  descriptionLong:"",
   name:"",
-  price:"",
-  purchases:"",
-  productImage:"",
-  previewImage:"",
-  sale:0,
+  price:undefined,
+  productImage:[],
+  previewImage:[],
+  sale:undefined,
   quantity:"",
   isHidden:false,
-  categorieId:"",
-  publishingHousId:"",
-  formBookId:"",
-  authorId:"",
-  supplieresId:""
+  categories:[],
+  publishings:[],
+  formbooks:[],
+  authors:[],
+  supplieres:[],
+  other:[
+    {id: uuidv4(), k:"", v:""}
+  ]
 };
 
-export default function FormAddOrEdit(props) {
-  const dispatch = useDispatch()
-  const { recordForEdit, addOrEdit } = props;
-  const {valueCategory, setValueCategory} = useState([
-    
-  ])
-
-    (async() => {
-        const {payload} = await dispatch(getAllCategory())
-        const optionCategory = payload.data.map(item => {
-          const value = item['name'];
-          delete item['name']
-          item['label'] = value;
-          return item
-        })
-        console.log(optionCategory)
-        // setValueCategory(optionCategory)
-    })()
-
-  useEffect(() => {
-    if (recordForEdit != null)
-      setValues({
-        ...recordForEdit,
-      });
-  }, [recordForEdit]);
+export default function FormAddOrEdit({recordForEdit, addOrEdit, optionCategory, optionSupplier, optionPublish, optionFormBook, optionAuthor}) {
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
     if ("name" in fieldValues)
@@ -71,88 +51,206 @@ export default function FormAddOrEdit(props) {
 
     if (fieldValues == values) return Object.values(temp).every((x) => x == "");
   };
-
-  const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
+  const { values, setValues, errors, setErrors, handleInputChange, handleChange, resetForm } =
     useForm(initialFValues, true, validate);
+
+  useEffect(() => {
+    if (recordForEdit != null)
+      setValues({
+        ...recordForEdit,
+      });
+  }, [recordForEdit]);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("submit form");
+    console.log("submit form", values);
     // if (validate()) {
       addOrEdit(values, resetForm);
     // }
   };
-  // useEffect(() => {
-  //   (async() => {
-  //     try {
-  //       const {payload} = await dispatch(getAllCategory())
-  //       console.log(payload)
-  //       if(payload?.success){
-  //         setValueCategory(payload.data)
-  //       }
-  //       if(payload?.errorCode){
-  //       helper.toast("error",payload.message )
-  //     }
-  //   } catch (error) {
-  //     helper.toast("error", "Error get data")
-  //   }
-  // })()
-  // }, [])
-  const filterColors = (option, inputValue) => {
-    return option.filter((i) =>
-      i.label.toLowerCase().includes(inputValue.toLowerCase())
-    );
-  };
-  const loadOptions = (event) => {
-    setTimeout(() => {
-      console.log("event", event)
-      // filterColors(valueCategory, e)
-    }, 1000);
-  };
+ 
+  const handleEditorChange = (name, value) => {
+    setValues((prev) => ({...prev, [name]:value}))
+  }
+  const handleDyanmicChange = (value) => {
+    setValues((prev) => ({...prev, other:value}))
+  }
+  const handleImageChange = (name, value) => {
+    console.log("name", name)
+    console.log("value", value)
+    setValues((prev) => ({...prev, previewImage:value}))
+  }
+
+
   
+  // const filterColors = (option, inputValue) => {
+  //   return option.filter((i) =>
+  //     i.label.toLowerCase().includes(inputValue.toLowerCase())
+  //   );
+  // };
+  // const loadOptions = (event) => {
+  //   setTimeout(() => {
+  //     console.log("event", event)
+  //     // filterColors(valueCategory, e)
+  //   }, 1000);
+  // };
+  console.log("values", values)
   return (
-    <Form onSubmit={handleSubmit}>
-      <Grid container>
+    <Box onSubmit={handleSubmit} width="100%">
+      <Grid container spacing={3}>
         <Grid item xs={12}>
-        <div className="flex justify-start items-start">
-        <div className="w-[50%]">
           <div className="w-full">
-            <label htmlFor="Book name">Book Name</label><br />
-            <input
-              name="name"
-              type="text"
-              className="w-full mt-[10px] py-[7px] border-[2px] border-[#787878] outline-none rounded-md pl-[20px] focus:border-PK-client focus:border-[2px] transition-all"
-              value={values.name}
-              onChange={handleInputChange}
-            />
+              <label htmlFor="">Product Name:</label><br />
+              <input
+                name="name"
+                type="text"
+                className="w-full mt-[10px] py-[7px] border-[1px] border-[#787878] outline-none rounded-md pl-[20px] focus:border-PK-client focus:border-[1px] transition-all"
+                value={values.name}
+                onChange={handleInputChange}
+              />
           </div>
-          <div className="flex justify-between items-start mt-[20px]">
-          <div className="w-full max-w-[250px] ">
-            <label htmlFor="Book name">Category</label><br />
-            {/* <Select
-              closeMenuOnSelect={false}
-              components={animatedComponents}
-              defaultValue={[colourOptions[4], colourOptions[5]]}
-              isMulti
-              options={colourOptions}
-            /> */}
+        </Grid>
+        <Grid item xs={6}>
+          <div className="w-full">
+          <label htmlFor="">Price:</label><br />
+              <input
+                className="w-full max-w-[300px] mt-[10px] py-[7px] border-[1px] border-[#787878] outline-none rounded-md pl-[20px] focus:border-PK-client focus:border-[1px] transition-all"
+                type="text"
+                name="price"
+                value={helper.maskValuePrice(values.price)}
+                onChange={(e) => handleInputChange(helper.maskPrice(e)) }
+              />
           </div>
-        <div className="max-w-[200px] w-full">
-        <label htmlFor="Book name">Publishing Hous</label><br />
-        {/* <CreatableSelect isClearable options={colourOptions} />; */}
-        </div>
+        </Grid>
+        <Grid item xs={6}>
+          <div className="w-full">
+          <label htmlFor="">Sale:</label><br />
+              <input
+                className="w-full max-w-[300px] mt-[10px] py-[7px] border-[1px] border-[#787878] outline-none rounded-md pl-[20px] focus:border-PK-client focus:border-[1px] transition-all"
+                type="text"
+                name="sale"
+                value={helper.maskValuePrice(values.sale)}
+                onChange={(e) => handleInputChange(helper.maskPrice(e)) }
+              />
+          </div>
+        </Grid>
+        <Grid item xs={6}>
+          <div className="w-full">
+          <label htmlFor="">Quantity:</label><br />
+              <input
+                className="w-full max-w-[300px] mt-[10px] py-[7px] border-[1px] border-[#787878] outline-none rounded-md pl-[20px] focus:border-PK-client focus:border-[1px] transition-all"
+                type="text"
+                name="quantity"
+                value={values.quantity}
+                onChange={(e) => handleInputChange(e) }
+              />
+          </div>
+        </Grid>
+        <Grid item xs={12}>
+          <div className="w-full">
+          <label htmlFor="">Image Product:</label><br />
+              <UploadImage name="productImage" imageUrls={values.productImage} setImageUrls={handleImageChange}/>
+          </div>
+        </Grid>
+        <Grid item xs={12}>
+          <div className="w-full">
+          <label htmlFor="">Preview Product:</label><br />
+              <UploadImage name="previewImage" imageUrls={values.previewImage} setImageUrls={handleImageChange}/>
+          </div>
+        </Grid>
+        <Grid item xs={12} >
+          <div className="w-full flex justify-start items-start flex-wrap gap-[25px] z-11">
+            <div className="w-full max-w-[250px] ">
+              <label htmlFor="">Category:</label><br />
+              <Select
+                name="categories"
+                closeMenuOnSelect={false}
+                // components={animatedComponents}
+                value={values.categories}
+                isMulti
+                options={optionCategory}
+                onChange={(value) => handleChange("categories", value)}
+              />
+            </div>
+            <div className="w-full max-w-[250px] ">
+              <label htmlFor="">Publishings:</label><br />
+              <Select
+                name="publishings"
+                closeMenuOnSelect={false}
+                // components={animatedComponents}
+                value={values.publishings}
+                isMulti
+                options={optionPublish}
+                onChange={(value) => handleChange("publishings", value)}
+              />
+            </div>
+            <div className="w-full max-w-[250px] ">
+              <label htmlFor="">Supplieres:</label><br />
+              <Select
+                name="supplieres"
+                closeMenuOnSelect={false}
+                // components={animatedComponents}
+                value={values.supplieres}
+                isMulti
+                options={optionSupplier}
+                onChange={(value) => handleChange("supplieres", value)}
+              />
+            </div>
+            <div className="w-full max-w-[250px] ">
+              <label htmlFor="">Formbook:</label><br />
+              <Select
+                name="formbooks"
+                closeMenuOnSelect={false}
+                // components={animatedComponents}
+                value={values.formbooks}
+                isMulti
+                options={optionFormBook}
+                onChange={(value) => handleChange("formbooks", value)}
+              />
+            </div>
+            <div className="w-full max-w-[250px] ">
+              <label htmlFor="">Author:</label><br />
+              <Select
+                name="authors"
+                closeMenuOnSelect={false}
+                // components={animatedComponents}
+                value={values.authors}
+                isMulti
+                options={optionAuthor}
+                onChange={(value) => handleChange("authors", value)}
+              />
+            </div>
+          </div>
+        </Grid>
+        <Grid item xs={12}>
+          <div className="w-full">
+          <label htmlFor="">Description Short:</label><br />
+            <Ckeditor value={values.descriptionShort} name="shortDescription" onChange={handleEditorChange}/>
+          </div>
+        </Grid>
+        <Grid item xs={12}>
+          <div className="w-full">
+          <label htmlFor="">Description Long:</label><br />
+            <Ckeditor value={values.descriptionLong} name="longDescription" onChange={handleEditorChange}/>
+          </div>
+        </Grid>
+        <Grid item xs={12}>
+          <div className="w-full">
+          <label htmlFor="">More detailed description:</label><br />
+          <div>
+            <FormDynamic name="other" inputFields={values.other} setInputFields={handleDyanmicChange}  />
           </div>
           </div>
-          <div className="w-[50%] text-right">
-              <UploadImage />
-          </div>
-        </div>
+        </Grid>
+        <Grid item xs={12}>
           <div className="text-right mt-[30px]">
-            <Controls.Button type="submit" text="Submit" />
+            <Controls.Button type="submit" text="Submit" onClick={handleSubmit} />
             <Controls.Button text="Reset" onClick={resetForm} />
           </div>
         </Grid>
+       
       </Grid>
-    </Form>
+    </Box>
   );
 }

@@ -56,6 +56,7 @@ function App() {
               <Route path="/detail/:id" element={<DetailProduct />} />
               <Route path="/checkout" element={<CheckoutCart />} />
               <Route path="/pay" element={<PagePay />} />
+              <Route path="/categories" element={<Search />} />
               <Route path="/" element={<AccountLayout />}>
                 <Route index path="account/edit" element={<ProfileInfo />} />
                 <Route path="account/address" element={<ProfileAddress />} />
