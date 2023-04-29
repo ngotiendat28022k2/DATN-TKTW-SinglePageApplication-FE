@@ -67,6 +67,7 @@ export const publishSlice = createSlice({
     });
     builder.addCase(UpdatePublish.fulfilled, (state, action) => {
       state.value = action.payload.data.data;
+    });
   },
 });
 
