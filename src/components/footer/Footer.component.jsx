@@ -30,7 +30,7 @@ const Footer = () => {
                     <ul>
                         <li>
                             <img 
-                                src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/logo.png" 
+                                src="https://i.imgur.com/SmXRS7C.png" 
                                 alt="" 
                                 className='max-w-[250px]'
                             />

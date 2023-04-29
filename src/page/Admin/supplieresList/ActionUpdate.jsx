@@ -5,19 +5,19 @@ import { UpdatePublish } from "../../../slice/publishSlice";
 import { useDispatch, useSelector } from "react-redux";
 
 const ActionUpdate = (props) => {
-  const { params, openInPopup } = props;
-  const dispatch = useDispatch();
-  return (
-    <Box>
-      <Button
-        variant="contained"
-        color="info"
-        onClick={() => openInPopup(params.row)}
-      >
-        <Update />
-      </Button>
-    </Box>
-  );
+    const { params, openInPopup } = props;
+    const dispatch = useDispatch();
+    return (
+        <Box>
+            <Button
+                variant="contained"
+                color="info"
+                onClick={() => openInPopup(params.row)}
+            >
+                <Update />
+            </Button>
+        </Box>
+    );
 };
 
 export default ActionUpdate;

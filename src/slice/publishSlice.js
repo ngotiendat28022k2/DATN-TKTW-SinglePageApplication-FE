@@ -63,11 +63,10 @@ export const publishSlice = createSlice({
       state.value = action.payload.data.data;
     });
     builder.addCase(RemovePublish.fulfilled, (state, action) => {
-      state.value = action.payload.data.data;
+      state.value = action.payload.data;
     });
     builder.addCase(UpdatePublish.fulfilled, (state, action) => {
       state.value = action.payload.data.data;
-    });
   },
 });
 
