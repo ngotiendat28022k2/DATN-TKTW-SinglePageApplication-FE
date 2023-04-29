@@ -22,20 +22,20 @@ import PagePay from "./page/pay/index";
 
 const UserList = React.lazy(() => import("./page/Admin/userList/UserList"));
 const ProfileAdmin = React.lazy(() =>
-    import("./page/Admin/Profile/Profile.admin")
+  import("./page/Admin/Profile/Profile.admin")
 );
 const ProfileAddress = React.lazy(() =>
-    import("./page/profile/Profile-Address")
+  import("./page/profile/Profile-Address")
 );
 const ProfileInfo = React.lazy(() => import("./page/profile/Profile-Info"));
 const ProfileMyProduct = React.lazy(() =>
-    import("./page/profile/Profile-MyProduct")
+  import("./page/profile/Profile-MyProduct")
 );
 const ProfileNotification = React.lazy(() =>
-    import("./page/profile/Profile-Notification")
+  import("./page/profile/Profile-Notification")
 );
 const ProfileVoucher = React.lazy(() =>
-    import("./page/profile/Profile-Voucher")
+  import("./page/profile/Profile-Voucher")
 );
 const HomePage = React.lazy(() => import("./page/home"));
 const Blog = React.lazy(() => import("./page/blog"));
@@ -56,7 +56,7 @@ function App() {
               <Route path="/detail/:id" element={<DetailProduct />} />
               <Route path="/checkout" element={<CheckoutCart />} />
               <Route path="/pay" element={<PagePay />} />
-              <Route path="/categories" element={<Search />} />
+              <Route path="/search" element={<PageSearch />} />
               <Route path="/" element={<AccountLayout />}>
                 <Route index path="account/edit" element={<ProfileInfo />} />
                 <Route path="account/address" element={<ProfileAddress />} />
@@ -69,33 +69,35 @@ function App() {
               </Route>
               {/* <Route path="/paycart" element={<PayCart />} /> */}
             </Route>
-                    {/* Router Admin */}
-                    <Route
-                        path="admin/"
-                        element={
-                            <PrivateLayout>
-                                <AdminLayout />
-                            </PrivateLayout>
-                        }
-                    >
-                        <Route index element={<AdminPage />} />
+          </Route>
 
-                        <Route path="users" element={<UserList />} />
-                        {/* <Route path="publishs" element={<PublishingList />} /> */}
-                        {/* <Route path="categories" element={<CategoryList />} /> */}
-                        <Route path="products" element={<ProductList />} />
-                        <Route path="supplieres" element={<PublishList />} />
-                        <Route path="publishs" element={<SupplierList />} />
-                        <Route path="profile" element={<ProfileAdmin />} />
-                    </Route>
+          {/* Router Admin */}
+          <Route
+            path="admin/"
+            element={
+              <PrivateLayout>
+                <AdminLayout />
+              </PrivateLayout>
+            }
+          >
+            <Route index element={<AdminPage />} />
 
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
-                    <Route path="*" element={<NotFound />} />
-                </Routes>
-            </React.Suspense>
-        </div>
-    );
+            <Route path="users" element={<UserList />} />
+            {/* <Route path="publishs" element={<PublishingList />} /> */}
+            {/* <Route path="categories" element={<CategoryList />} /> */}
+            <Route path="products" element={<ProductList />} />
+            <Route path="supplieres" element={<PublishList />} />
+            <Route path="publishs" element={<SupplierList />} />
+            <Route path="profile" element={<ProfileAdmin />} />
+          </Route>
+
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </React.Suspense>
+    </div>
+  );
 }
 
 export default App;

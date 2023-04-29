@@ -57,20 +57,20 @@ export default function ProductList() {
   const addOrEdit = async (values, resetForm) => {
     if (!values._id) {
       const {payload} =await dispatch(AddNewProduct(values));
-      if(payload.data?.successCode){
+      if(payload?.successCode){
         helper.toast("success", "Add product success")
       }
-      if(payload.data?.errorCode){
-        helper.toast("success", payload.data.messages)
+      if(payload?.errorCode){
+        helper.toast("success", payload.messages)
       }
       setOpenPopup(false)
     } else {
       const {payload} =await dispatch(UpdateProduct(values));
-      if(payload.data?.successCode){
+      if(payload?.successCode){
         helper.toast("success", "Update product success")
       }
-      if(payload.data?.errorCode){
-        helper.toast("success", payload.data.messages)
+      if(payload?.errorCode){
+        helper.toast("success", payload.messages)
       }
       setOpenPopup(false)
     }
@@ -137,7 +137,7 @@ export default function ProductList() {
         console.log(error)
       }
   })()
-  }, [])
+  }, [productSlide])
   //   return () => {
   //   };
   return (

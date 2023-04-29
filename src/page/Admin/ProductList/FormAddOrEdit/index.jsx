@@ -53,7 +53,8 @@ export default function FormAddOrEdit({recordForEdit, addOrEdit, optionCategory,
   };
   const { values, setValues, errors, setErrors, handleInputChange, handleChange, resetForm } =
     useForm(initialFValues, true, validate);
-
+    const [productImageUrls, setProductImageUrls] = useState([]);
+    const [previewImageUrls, setPreviewImageUrls] = useState([]);
   useEffect(() => {
     if (recordForEdit != null)
       setValues({
@@ -78,8 +79,13 @@ export default function FormAddOrEdit({recordForEdit, addOrEdit, optionCategory,
   }
   const handleImageChange = (name, value) => {
     console.log("name", name)
-    console.log("value", value)
+  //   console.log("value", value)
+  //   setValues((prev) => ({...prev, [name]:value}))
+  if (name === "productImage") {
+    setValues((prev) => ({...prev, productImage:value}))
+  } else if (name === "previewImage") {
     setValues((prev) => ({...prev, previewImage:value}))
+  }
   }
 
 
@@ -167,7 +173,7 @@ export default function FormAddOrEdit({recordForEdit, addOrEdit, optionCategory,
                 name="categories"
                 closeMenuOnSelect={false}
                 // components={animatedComponents}
-                value={values.categories}
+                value={values.categories.map(a => ({ ...a, label: a.name, value: a.name }))}
                 isMulti
                 options={optionCategory}
                 onChange={(value) => handleChange("categories", value)}
@@ -179,7 +185,7 @@ export default function FormAddOrEdit({recordForEdit, addOrEdit, optionCategory,
                 name="publishings"
                 closeMenuOnSelect={false}
                 // components={animatedComponents}
-                value={values.publishings}
+                value={values.publishings.map(a => ({ ...a, label: a.name, value: a.name }))}
                 isMulti
                 options={optionPublish}
                 onChange={(value) => handleChange("publishings", value)}
@@ -191,7 +197,7 @@ export default function FormAddOrEdit({recordForEdit, addOrEdit, optionCategory,
                 name="supplieres"
                 closeMenuOnSelect={false}
                 // components={animatedComponents}
-                value={values.supplieres}
+                value={values.supplieres.map(a => ({ ...a, label: a.name, value: a.name }))}
                 isMulti
                 options={optionSupplier}
                 onChange={(value) => handleChange("supplieres", value)}
@@ -203,7 +209,7 @@ export default function FormAddOrEdit({recordForEdit, addOrEdit, optionCategory,
                 name="formbooks"
                 closeMenuOnSelect={false}
                 // components={animatedComponents}
-                value={values.formbooks}
+                value={values.formbooks.map(a => ({ ...a, label: a.name, value: a.name }))}
                 isMulti
                 options={optionFormBook}
                 onChange={(value) => handleChange("formbooks", value)}
@@ -215,7 +221,7 @@ export default function FormAddOrEdit({recordForEdit, addOrEdit, optionCategory,
                 name="authors"
                 closeMenuOnSelect={false}
                 // components={animatedComponents}
-                value={values.authors}
+                value={values.authors.map(a => ({ ...a, label: a.name, value: a.name }))}
                 isMulti
                 options={optionAuthor}
                 onChange={(value) => handleChange("authors", value)}
