@@ -15,22 +15,22 @@ export const getSupplier = createAsyncThunk("supplier/get", async (id) => {
 });
 
 export const AddNewSupplier = createAsyncThunk(
-    "supplier/AddNewSupplier",
-    async (supplier) => {
-        await supplierApi.SupplierAdd(supplier);
-        const response = supplierApi.SupplierList();
-        return response;
-    }
+  "supplier/AddNewSupplier",
+  async (supplier) => {
+    await supplierApi.SupplierAdd(supplier);
+    const response = supplierApi.SupplierList();
+    return response;
+  }
 );
 
 export const RemoveSupplier = createAsyncThunk(
-    "supplier/remove",
-    async (id) => {
-        console.log("id", id);
-        await supplierApi.RemoveSupplier(id);
-        const respone = supplierApi.SupplierList();
-        return respone;
-    }
+  "supplier/remove",
+  async (id) => {
+    console.log("id", id);
+    await supplierApi.RemoveSupplier(id);
+    const respone = supplierApi.SupplierList();
+    return respone;
+  }
 );
 
 export const UpdateSupplier = createAsyncThunk(
@@ -48,26 +48,24 @@ const initialState = {
 };
 
 export const supplierSlice = createSlice({
-    name: "supplier",
-    initialState,
-    reducers: {},
-    extraReducers: (builder) => {
-        builder.addCase(getAllSupplier.fulfilled, (state, action) => {
-            state.value = action.payload.data;
-            if (!state.value.length) return;
-        });
+  name: "supplier",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(getAllSupplier.fulfilled, (state, action) => {
+      state.value = action.payload.data.data;
+    });
 
-        builder.addCase(AddNewSupplier.fulfilled, (state, action) => {
-            state.value = action.payload.data;
-            // if (!state.value.length) return;
-        });
-        builder.addCase(RemoveSupplier.fulfilled, (state, action) => {
-            state.value = action.payload.data;
-        });
-        builder.addCase(UpdateSupplier.fulfilled, (state, action) => {
-            state.value = action.payload.data;
-        });
-    },
+    builder.addCase(AddNewSupplier.fulfilled, (state, action) => {
+      state.value = action.payload.data.data;
+    });
+    builder.addCase(RemoveSupplier.fulfilled, (state, action) => {
+      state.value = action.payload.data.data;
+    });
+    builder.addCase(UpdateSupplier.fulfilled, (state, action) => {
+      state.value = action.payload.data.data;
+    });
+  },
 });
 
 export default supplierSlice.reducer;

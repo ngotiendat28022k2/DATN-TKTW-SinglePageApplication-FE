@@ -44,52 +44,31 @@ const Register = React.lazy(() => import("./page/auth/register"));
 const PageSearch = React.lazy(() => import("./page/pageSearch"));
 
 function App() {
-    return (
-        <div className="App">
-            <React.Suspense fallback={<Loader />}>
-                <Routes>
-                    <Route path="/" element={<Layout />}>
-                        <Route path="/" element={<ClientLayout />}>
-                            <Route index element={<Navigate to="home" />} />
-                            <Route path="home" element={<HomePage />} />
-                            <Route path="blog" element={<Blog />} />
-                            <Route
-                                path="/detail/:id"
-                                element={<DetailProduct />}
-                            />
-                            <Route
-                                path="/checkout"
-                                element={<CheckoutCart />}
-                            />
-                            <Route path="/pay" element={<PagePay />} />
-                            <Route path="/search" element={<PageSearch />} />
-                            <Route path="/" element={<AccountLayout />}>
-                                <Route
-                                    index
-                                    path="account/edit"
-                                    element={<ProfileInfo />}
-                                />
-                                <Route
-                                    path="account/address"
-                                    element={<ProfileAddress />}
-                                />
-                                <Route
-                                    path="account/order"
-                                    element={<ProfileMyProduct />}
-                                />
-                                <Route
-                                    path="account/voucher"
-                                    element={<ProfileVoucher />}
-                                />
-                                <Route
-                                    path="account/notification"
-                                    element={<ProfileNotification />}
-                                />
-                            </Route>
-                            {/* <Route path="/paycart" element={<PayCart />} /> */}
-                        </Route>
-                    </Route>
-
+  return (
+    <div className="App">
+      <React.Suspense fallback={<Loader />}>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route path="/" element={<ClientLayout />}>
+              <Route index element={<Navigate to="home" />} />
+              <Route path="home" element={<HomePage />} />
+              <Route path="blog" element={<Blog />} />
+              <Route path="/detail/:id" element={<DetailProduct />} />
+              <Route path="/checkout" element={<CheckoutCart />} />
+              <Route path="/pay" element={<PagePay />} />
+              <Route path="/categories" element={<Search />} />
+              <Route path="/" element={<AccountLayout />}>
+                <Route index path="account/edit" element={<ProfileInfo />} />
+                <Route path="account/address" element={<ProfileAddress />} />
+                <Route path="account/order" element={<ProfileMyProduct />} />
+                <Route path="account/voucher" element={<ProfileVoucher />} />
+                <Route
+                  path="account/notification"
+                  element={<ProfileNotification />}
+                />
+              </Route>
+              {/* <Route path="/paycart" element={<PayCart />} /> */}
+            </Route>
                     {/* Router Admin */}
                     <Route
                         path="admin/"

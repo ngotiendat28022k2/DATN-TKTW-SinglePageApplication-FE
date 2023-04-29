@@ -20,8 +20,9 @@ function CustomPaginationActionsTable({rowsData, columnsData, rowId, setRowId, i
         rowsPerPageOptions={[5, 10, 20]}
         pageSize={pageSize}
         onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-        checkboxSelection
+        // checkboxSelection
         disableColumnMenu
+
         loading={isLoading}
         sx={{
           boxShadow: 2,

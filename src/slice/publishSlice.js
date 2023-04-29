@@ -56,19 +56,17 @@ export const publishSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getAllPublish.fulfilled, (state, action) => {
-      state.value = action.payload.data;
+      state.value = action.payload.data.data;
     });
 
     builder.addCase(AddNewPublish.fulfilled, (state, action) => {
-      state.value = action.payload.data;
-      // if (!state.value.length) return;
+      state.value = action.payload.data.data;
     });
     builder.addCase(RemovePublish.fulfilled, (state, action) => {
       state.value = action.payload.data;
     });
     builder.addCase(UpdatePublish.fulfilled, (state, action) => {
-      state.value = action.payload.data;
-    });
+      state.value = action.payload.data.data;
   },
 });
 

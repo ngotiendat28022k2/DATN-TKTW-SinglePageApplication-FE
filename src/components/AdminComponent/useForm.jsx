@@ -15,6 +15,15 @@ export function useForm(initialFValues, validateOnChange = false, validate) {
     if (validateOnChange) validate({ [name]: value });
   };
 
+  const handleChange = (name, value) => {
+    setValues({
+      ...values,
+      [name]: value,
+      // [name]: value.map(({ _id }) => ({ id: _id })),
+    });
+  };
+  
+
   const resetForm = () => {
     setValues(initialFValues);
     setErrors({});
@@ -27,6 +36,7 @@ export function useForm(initialFValues, validateOnChange = false, validate) {
     setErrors,
     handleInputChange,
     resetForm,
+    handleChange,
   };
 }
 const MyForm = styled("form")(({ theme }) => ({
