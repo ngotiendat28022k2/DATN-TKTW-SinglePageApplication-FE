@@ -8,7 +8,7 @@ const supplierApi = {
     return await instance.get(`supplieres/${id}`)
   },
   SupplierAdd: async(supplier)=>{
-    return await instance.post("supplieres/add", supplier)
+    return await instance.post("supplieres", supplier)
   },
   SupplierUpdate: async(supplier)=>{
     return await instance.put(`supplieres/${supplier._id}`,supplier)

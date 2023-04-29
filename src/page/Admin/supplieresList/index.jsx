@@ -76,10 +76,10 @@ export default function SupplierList() {
         const { payload } = await dispatch(getAllSupplier());
         console.log(payload);
         if (payload.data?.successCode) {
-          setRowsData(payload.data.data);
+          setRowsData(payload.data);
         }
         if (payload.data?.errorCode) {
-          helper.toast("error", payload.data.message);
+          helper.toast("error", payload.message);
         }
         setIsLoading(false);
       } catch (error) {

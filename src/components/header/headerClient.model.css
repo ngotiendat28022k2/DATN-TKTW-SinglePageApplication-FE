@@ -5,3 +5,7 @@
 .account:hover .menu-account {
     display: block;
 }
+
+.dropdowns:hover .dropdown-menu {
+    display: block;
+}
