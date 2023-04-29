@@ -10,11 +10,10 @@ import { useEffect } from "react";
 import { v4 } from "uuid";
 
 const UploadImage = ({name, imageUrls, setImageUrls }) => {
-  console.log("upload", name)
-  console.log("imageUrls", imageUrls)
+
   const imgListRef = ref(storage, "images/");
   const changImg = (item) => {
-    const imgUploads = item.target.files[0];
+    const imgUploads = item.target.files[0]
     if (!imgUploads) {
       setImageUrls(name, []);
     }
@@ -22,19 +21,26 @@ const UploadImage = ({name, imageUrls, setImageUrls }) => {
     uploadBytesResumable(imgRef, imgUploads).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((url) => {
         {
-          setImageUrls(name,  [...imageUrls, url]);
+          setImageUrls(name, [...imageUrls, url]);
         }
       });
     });
+
     useEffect(() => {
       listAll(imgListRef).then((response) => {
+        const urls = [];
         response.items.forEach((item) => {
           getDownloadURL(item).then((url) => {
-            setImageUrls(name, [...imageUrls, url]);
+            if (!urls.includes(url)) {
+              urls.push(url);
+            }
           });
         });
+        setImageUrls(name, urls);
       });
-    }, imageUrls);
+    }, []);
+
+
   };
 
   function RemomeImg(url) {
@@ -42,6 +48,8 @@ const UploadImage = ({name, imageUrls, setImageUrls }) => {
     setImageUrls(name, newArrImg);
   }
 
+
+  console.log("imageUrls", imageUrls)
   
   return (
     <div className="flex justify-start items-start flex-wrap gap-[25px] w-full bg-white p-5 rounded-md">
@@ -75,9 +83,10 @@ const UploadImage = ({name, imageUrls, setImageUrls }) => {
           />
         </label>
       </div>
-      {imageUrls.map((url) => {
+      {imageUrls.map((url, index) => {
         return (
           <div
+            key={index}
             style={{ backgroundImage: `url(${url})`, backgroundSize: "cover", width:"100%", maxWidth:"150px", height:"150px" }}
           >
             <svg
