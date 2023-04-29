@@ -6,15 +6,19 @@ import publishReducer from "../slice/publishSlice";
 import categoryReducer from "../slice/categorySlice";
 import supplierReducer from "../slice/supplieresSlice";
 import userReducer from "../slice/userSlice";
+import formBookReducer from "../slice/formbooks";
+import authorsReducer from "../slice/authors";
 
 export const store = configureStore({
-  reducer: {
-    counter: counterReducer,
-    user: userReducer,
-    product: productReducer,
-    category: categoryReducer,
-    publish: publishReducer,
-    supplier: supplierReducer,
-  },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
+    reducer: {
+        counter: counterReducer,
+        user: userReducer,
+        product: productReducer,
+        category: categoryReducer,
+        publish: publishReducer,
+        supplier: supplierReducer,
+        formbooks: formBookReducer,
+        authors: authorsReducer,
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });

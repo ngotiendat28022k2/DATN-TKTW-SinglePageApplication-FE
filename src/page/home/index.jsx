@@ -14,17 +14,18 @@ const HomePage = () => {
     const category = useSelector((state) => state.category.value);
     console.log("category", categories);
     console.log("products", products);
+    
     useEffect(() => {
         (async () => {
             try {
-                const product = await dispatch(getAllProduct());
+                const productss = await dispatch(getAllProduct());
                 const category = await dispatch(getAllCategory());
 
-                if (product.payload.data?.successCode) {
-                    setProducts([...products,product.payload.data.data])
+                if (productss.payload.data?.successCode) {
+                    setProducts([...products,productss.payload.data.data])
                 }
-                if (product.payload.data?.errorCode) {
-                    helper.toast("error", product.payload.data.message)
+                if (productss.payload.data?.errorCode) {
+                    helper.toast("error", productss.payload.data.message)
                 }
                 if (category.payload.data?.successCode) {
                     setCategories([...categories, category.payload.data.data])
