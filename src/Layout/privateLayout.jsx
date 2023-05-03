@@ -1,17 +1,18 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import local from "../utiliti/local/local";
+import AccessDenied from "../components/AccessDenied";
 
 const PrivateLayout = ({ children }) => {
   const navigate = useNavigate();
   const user = local.get("user");
   console.log("user", user);
   if (!user) {
-    location.href = "/login";
+    return <AccessDenied />;
   }
   if (user.role <= 0) {
-    location.href = "/home";
+    return <AccessDenied />;
   }
+
   return children;
 };
 

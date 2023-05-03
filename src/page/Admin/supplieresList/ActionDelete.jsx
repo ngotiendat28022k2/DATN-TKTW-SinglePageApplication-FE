@@ -34,12 +34,12 @@ const ActionDelete = ({ params }) => {
         onConfirm={async (id) => {
           console.log("id", id);
           try {
-            const res = await dispatch(RemoveSupplier(id));
-            if (res.payload.data?.successCode) {
+            const {payload} = await dispatch(RemoveSupplier(id));
+            if (payload?.successCode) {
               helper.toast("success", "Remove SuccessFully!");
             }
-            if (res.payload.data?.errorCode) {
-              helper.toast("error", res.payload.data.message);
+            if (payload?.errorCode) {
+              helper.toast("error", payload.message);
             }
           } catch (error) {
             helper.toast("error", error.message);

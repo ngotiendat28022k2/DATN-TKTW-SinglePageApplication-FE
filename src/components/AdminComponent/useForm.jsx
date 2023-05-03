@@ -8,6 +8,7 @@ export function useForm(initialFValues, validateOnChange = false, validate) {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    console.log("name, value", name, value);
     setValues({
       ...values,
       [name]: value,
@@ -19,10 +20,20 @@ export function useForm(initialFValues, validateOnChange = false, validate) {
     setValues({
       ...values,
       [name]: value,
+
       // [name]: value.map(({ _id }) => ({ id: _id })),
     });
   };
-  
+  const handleImageChange = (name, value) => {
+    setValues({
+      ...values,
+      [name]: value,
+    });
+  };
+  const handleCheckedChange = (event) => {
+    const { name, checked } = event.target;
+    setValues({ ...values, [name]: checked });
+  };
 
   const resetForm = () => {
     setValues(initialFValues);
@@ -37,6 +48,8 @@ export function useForm(initialFValues, validateOnChange = false, validate) {
     handleInputChange,
     resetForm,
     handleChange,
+    handleImageChange,
+    handleCheckedChange,
   };
 }
 const MyForm = styled("form")(({ theme }) => ({

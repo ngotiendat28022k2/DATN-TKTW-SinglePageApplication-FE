@@ -6,26 +6,27 @@ import Popup from "../../../components/AdminComponent/MyPopup/MyPopup";
 // Services
 import InputSearch from "../../../components/AdminComponent/inputSearch/inputSearch.component";
 import CustomPaginationActionsTable from "../../../components/AdminComponent/table/table.component";
-import ActionSave from "./ActionSave";
-import ActionDelete from "./ActionDelete";
-import ActionUpdate from "./ActionUpdate";
-import {
-  AddNewCategory,
-  getAllCategory,
-  UpdateCategory,
-} from "../../../slice/categorySlice";
+import ActionSave from "../authorList/ActionSave";
+import ActionDelete from "../authorList/ActionDelete";
+import ActionUpdate from "../authorList/ActionUpdate";
+
 import { useDispatch, useSelector } from "react-redux";
 import FormAddOrEdit from "./AddOrEdit/index";
 import helper from "../../../utiliti/helper/helper";
+import {
+  AddNewAuthor,
+  UpdateAuthor,
+  getAllAuthor,
+} from "../../../slice/authorSlice";
 
-export default function CategoryList() {
+export default function PublishList() {
   const dispatch = useDispatch();
   const [openPopup, setOpenPopup] = useState(false);
   const [dataSearch, setDataSearch] = React.useState([]);
   const [rowId, setRowId] = useState(null);
   const [rowsData, setRowsData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const categorys = useSelector((state) => state.category.value);
+  const authorStore = useSelector((state) => state.author.value);
   const [recordForEdit, setRecordForEdit] = useState(null);
 
   const handleSearch = (e) => {
@@ -40,13 +41,13 @@ export default function CategoryList() {
     if (!values._id) {
       try {
         (async () => {
-          const { payload } = await dispatch(AddNewCategory(values));
+          const { payload } = await dispatch(AddNewAuthor(values));
           console.log(payload);
-          if (payload?.successCode) {
-            helper.toast("success", "Update success");
+          if (payload?.succsessCode) {
+            helper.toast("success", "Add success");
           }
           if (payload?.errorCode) {
-            helper.toast("success", "Update false");
+            helper.toast("error", "Add false");
           }
         })();
       } catch (error) {
@@ -55,13 +56,13 @@ export default function CategoryList() {
     } else {
       try {
         (async () => {
-          const { payload } = await dispatch(UpdateCategory(values));
-          console.log(payload.data);
+          const { payload } = await dispatch(UpdateAuthor(values));
+          console.log("payload update", payload);
           if (payload?.successCode) {
             helper.toast("success", "Update success");
           }
           if (payload?.errorCode) {
-            helper.toast("success", "Update false");
+            helper.toast("error", "Update false");
           }
         })();
       } catch (error) {
@@ -76,7 +77,7 @@ export default function CategoryList() {
     (async () => {
       try {
         setIsLoading(true);
-        const { payload } = await dispatch(getAllCategory());
+        const { payload } = await dispatch(getAllAuthor());
         console.log(payload);
         if (payload?.successCode) {
           setRowsData(payload.data);
@@ -91,29 +92,18 @@ export default function CategoryList() {
     })();
   }, []);
   useEffect(() => {
-    setRowsData(categorys);
-  }, [categorys]);
+    console.log("authorStore", authorStore);
+    setRowsData(authorStore);
+  }, [authorStore]);
 
   const columnsData = [
-    { field: "_id", headerName: "ID", width: 50 },
+    { field: "_id", headerName: "ID", width: 150 },
     { field: "name", headerName: "Name", width: 200, editable: true },
     {
-      field: "image",
-      headerName: "Image",
-      width: 200,
-      editable: true,
-      renderCell: (params) => (
-        <img src={params.row.image} className="w-full" alt="" />
-      ),
-    },
-    {
-      field: "icon",
-      headerName: "Icon",
-      width: 200,
-      editable: true,
-      renderCell: (params) => (
-        <img src={params.row.icon} className="w-full" alt="" />
-      ),
+      field: "avatar",
+      headerName: "Avatar",
+      width: 250,
+      renderCell: (params) =>params.row.avatar.map((image) => <img src={image} />),
     },
     {
       field: "actions",
@@ -159,13 +149,19 @@ export default function CategoryList() {
 
         <div className="mt-[30px]">
           <CustomPaginationActionsTable
-            {...{ rowsData, columnsData, rowId, setRowId, isLoading }}
+            {...{
+              rowsData,
+              columnsData,
+              rowId,
+              setRowId,
+              isLoading,
+            }}
           />
         </div>
       </Paper>
 
       <Popup
-        title={recordForEdit ? "Edit Category" : "Add Category"}
+        title={recordForEdit ? "Edit Author" : "Add Author"}
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >

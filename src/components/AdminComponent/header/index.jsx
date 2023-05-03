@@ -30,7 +30,6 @@ const StyledRoot = styled(AppBar)(({ theme }) => ({
   position: "static",
   boxShadow: "none",
   [theme.breakpoints.up("lg")]: {
-    // width: `calc(100% - ${NAV_WIDTH + 1}px)`,
     width: `100%`,
   },
 }));
@@ -68,7 +67,7 @@ export default function Header() {
           sm: 1,
         }}
       >
-        {/* <LanguagePopover /> */}
+        <LanguagePopover />
         {/* <NotificationsPopover /> */}
         <AccountPopover />
       </Stack>

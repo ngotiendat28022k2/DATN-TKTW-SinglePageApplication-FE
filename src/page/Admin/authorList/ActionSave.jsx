@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { UpdatePublish } from "../../../slice/publishSlice";
 import helper from "../../../utiliti/helper/helper";
+import { UpdateAuthor } from "../../../slice/authorSlice";
 
 const ActionSave = ({ params, rowId, setRowId }) => {
   const dispatch = useDispatch();
@@ -13,17 +14,16 @@ const ActionSave = ({ params, rowId, setRowId }) => {
   const handleSave = () => {
     try {
       setLoading(true);
-      const { name, phone, email, address } = params.row;
+      // console.log("params", params)
+      const { name, avatar } = params.row;
       const data = {
         _id: params.id,
         name,
-        phone,
-        email,
-        address
+        avatar
       };
       console.log("data", data)
       setTimeout(async () => {
-        const { payload } = await dispatch(UpdatePublish(data));
+        const { payload } = await dispatch(UpdateAuthor(data));
         if (payload?.successCode) {
           helper.toast("success", "Update successful");
           setSuccess(true);

@@ -87,13 +87,13 @@ const Header = () => {
     return (
         <div className="md:flex md:m-auto md:justify-between md:w-[1280px] md:h-16 bg-[#fff]">
             <div className="mt-3 mr-8 flex justify-center">
-                <a href="">
+                <Link to="/home">
                     <img
                         className="md:h-[36px] h-[20px] "
                         src="https://i.imgur.com/SmXRS7C.png"
                         alt=""
                     />
-                </a>
+                </Link>
             </div>
             <div className="relative dropdown">
                 <div className="flex md:mt-3 mt-4 float-left md:float-none pr-5 md:pr-0">
@@ -216,21 +216,23 @@ const Header = () => {
                     </div>
                     <div className="text-center">Thông báo</div>
                 </div>
-                <div className="md:mt-3 md:w-24 w-24 cursor-pointer">
-                    <div className="flex justify-center">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="currentColor"
-                            className="bi bi-cart2 md:w-[19px] md:h-[19px] w-[24px] h-[24px] mt-2 md:mt-0"
-                            viewBox="0 0 16 16"
-                        >
-                            <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
-                        </svg>
-                    </div>
-                    <div className="text-center hidden md:block">
-                        <Link to="/checkout">Giỏ hàng</Link>
-                    </div>
-                </div>
+                    <Link to="/checkout/cart">
+                        <div className="md:mt-3 md:w-24 w-24 cursor-pointer">
+                            <div className="flex justify-center">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="currentColor"
+                                    className="bi bi-cart2 md:w-[19px] md:h-[19px] w-[24px] h-[24px] mt-2 md:mt-0"
+                                    viewBox="0 0 16 16"
+                                >
+                                    <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
+                                </svg>
+                            </div>
+                            <div className="text-center hidden md:block">
+                                Giỏ hàng
+                            </div>
+                        </div>
+                    </Link>
                 <div className="md:mt-3 md:w-24 w-20">
                     {!user ? (
                         <div>

@@ -52,4 +52,21 @@ helper.maskValuePrice = (e) => {
   return e;
 };
 
+helper.userRole = (role) => {
+  console.log("role", role);
+  switch (role) {
+    case 0:
+      role = "Người dùng";
+      break;
+    case 1:
+      role = "Admin";
+      break;
+    case 0:
+      role = "Quản trị viên";
+      break;
+    default:
+      role = "Khách";
+  }
+  return role;
+};
 export default helper;

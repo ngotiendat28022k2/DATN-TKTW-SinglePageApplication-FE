@@ -2,20 +2,42 @@ import { Check, Save } from '@mui/icons-material'
 import { Box, Button, CircularProgress, Fab } from '@mui/material'
 import { green } from '@mui/material/colors'
 import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { UpdateProduct } from '../../../slice/productsSlice'
+import helper from '../../../utiliti/helper/helper'
+import { UpdateCategory } from '../../../slice/categorySlice'
 
 const ActionSave = ({params, rowId, setRowId}) => {
+  const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
-  const handleSave =async () => {
+  const handleSave = () => {
     try {
       setLoading(true)
-      // callAPI
-      const result = true
-      if(result){
-        setSuccess(true)
-        setRowId(null)
+      // console.log("params", params)
+      const {name = "", image = "", icon = ""} = params.row
+      const data = {
+        _id:params.id,
+        name, 
+        image,
+        icon
       }
-      setLoading(false)
+      console.log(data)
+      setTimeout(async() => {
+        const {payload} =await dispatch(UpdateCategory(data))
+        if(payload?.successCode){
+          helper.toast("success", "Update successful")
+          setSuccess(true)
+          setRowId(null)
+          setTimeout(() => {
+            setSuccess(false)
+          }, 3000)
+        }
+        if(payload?.errorCode){
+          helper.toast("error", "Update failed")
+        }
+        setLoading(false)
+      }, 300)
     } catch (error) {
       console.log(error);
     }
@@ -24,6 +46,7 @@ const ActionSave = ({params, rowId, setRowId}) => {
   useEffect(() => {
     if(rowId === params.id && success) setSuccess(false)
   }, [rowId])
+
   return (
     <Box
       sx={{

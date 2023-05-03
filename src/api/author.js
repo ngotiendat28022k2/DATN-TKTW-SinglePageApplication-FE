@@ -11,7 +11,7 @@ const authorApi = {
     return await instance.post("authors", data);
   },
   AuthorUpdate: async (data) => {
-    return await instance.put(`authors/${data.id}`, data);
+    return await instance.put(`authors/${data._id}`, data);
   },
   RemoveAuthor: async (id) => {
     return await instance.delete(`authors/${id}`);

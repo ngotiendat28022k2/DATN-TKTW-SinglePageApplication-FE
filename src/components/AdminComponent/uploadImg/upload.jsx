@@ -53,7 +53,7 @@ const UploadImage = ({name, imageUrls, setImageUrls }) => {
   
   return (
     <div className="flex justify-start items-start flex-wrap gap-[25px] w-full bg-white p-5 rounded-md">
-      <div class="flex w-full max-w-[150px]">
+      <div class="flex w-full max-w-[130px]">
         <label
           htmlFor="dropzone-file"
           class="flex flex-col items-center justify-center w-full h-[140px] border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800  hover:bg-gray-100 dark:border-gray-300 dark:hover:border-gray-500 "
@@ -87,7 +87,7 @@ const UploadImage = ({name, imageUrls, setImageUrls }) => {
         return (
           <div
             key={index}
-            style={{ backgroundImage: `url(${url})`, backgroundSize: "cover", width:"100%", maxWidth:"150px", height:"150px" }}
+            style={{ backgroundImage: `url(${url})`, backgroundSize: "cover", width:"100%", maxWidth:"130px", height:"130px" }}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

@@ -205,7 +205,7 @@ const HomePage = () => {
                             <div className='relative hover:border-2 hover:shadow-md'>
                                 <div className='md:m-2 m-2'>
                                     <Link to={`/detail/${product._id}`}>
-                                        <img src={product.productImage[0]} alt="" />
+                                        <img src={product.productImage[0]} alt={product.name} />
                                     </Link>
                                 </div>
                                 <div className="mb-3">

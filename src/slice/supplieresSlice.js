@@ -2,16 +2,16 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import supplierApi from "../api/supplieres";
 
 export const getAllSupplier = createAsyncThunk(
-    "supplier/getAllSupplier",
-    async () => {
-        const response = await supplierApi.SupplierList();
-        return response;
-    }
+  "supplier/getAllSupplier",
+  async () => {
+    const response = await supplierApi.SupplierList();
+    return response;
+  }
 );
 
 export const getSupplier = createAsyncThunk("supplier/get", async (id) => {
-    const respone = await supplierApi.SupplierDetail(id);
-    return respone;
+  const respone = await supplierApi.SupplierDetail(id);
+  return respone;
 });
 
 export const AddNewSupplier = createAsyncThunk(
@@ -34,17 +34,17 @@ export const RemoveSupplier = createAsyncThunk(
 );
 
 export const UpdateSupplier = createAsyncThunk(
-    "supplier/update",
-    async (id, data) => {
-        await supplierApi.SupplierUpdate(id, data);
-        const respone = supplierApi.SupplierList();
-        return respone;
-    }
+  "supplier/update",
+  async (data) => {
+    await supplierApi.SupplierUpdate(data);
+    const respone = supplierApi.SupplierList();
+    return respone;
+  }
 );
 
 const initialState = {
-    value: [],
-    search: [],
+  value: [],
+  search: [],
 };
 
 export const supplierSlice = createSlice({
@@ -53,17 +53,17 @@ export const supplierSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getAllSupplier.fulfilled, (state, action) => {
-      state.value = action.payload.data.data;
+      state.value = action.payload.data;
     });
 
     builder.addCase(AddNewSupplier.fulfilled, (state, action) => {
-      state.value = action.payload.data.data;
+      state.value = action.payload.data;
     });
     builder.addCase(RemoveSupplier.fulfilled, (state, action) => {
-      state.value = action.payload.data.data;
+      state.value = action.payload.data;
     });
     builder.addCase(UpdateSupplier.fulfilled, (state, action) => {
-      state.value = action.payload.data.data;
+      state.value = action.payload.data;
     });
   },
 });

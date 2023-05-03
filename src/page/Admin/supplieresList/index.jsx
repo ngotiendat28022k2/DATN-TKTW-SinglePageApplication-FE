@@ -5,12 +5,11 @@ import Controls from "../../../components/AdminComponent/controls/Controls";
 import Select from "react-select";
 import Popup from "../../../components/AdminComponent/MyPopup/MyPopup";
 // Services
-import * as employeeService from "../../../services/employeeService";
 import InputSearch from "../../../components/AdminComponent/inputSearch/inputSearch.component";
 import CustomPaginationActionsTable from "../../../components/AdminComponent/table/table.component";
-import ActionSave from "../supplieresList/ActionSave";
-import ActionDelete from "../supplieresList/ActionDelete";
-import ActionUpdate from "../supplieresList/ActionUpdate";
+import ActionSave from "./ActionSave";
+import ActionDelete from "./ActionDelete";
+import ActionUpdate from "./ActionUpdate";
 import {
   AddNewSupplier,
   getAllSupplier,
@@ -44,7 +43,12 @@ export default function SupplierList() {
       try {
         (async () => {
           const { payload } = await dispatch(AddNewSupplier(values));
-          console.log(payload);
+          if (payload?.successCode) {
+            helper.toast("success", "Update success");
+          }
+          if (payload?.errorCode) {
+            helper.toast("success", "Update false");
+          }
         })();
       } catch (error) {
         helper.toast("error", "fetching data false");
@@ -54,11 +58,11 @@ export default function SupplierList() {
         (async () => {
           const { payload } = await dispatch(UpdateSupplier(values));
           console.log(payload.data);
-          if (payload.data?.succsessCode) {
-            helper.toast("success", "Update Supplier success");
+          if (payload?.successCode) {
+            helper.toast("success", "Update success");
           }
-          if (payload.data?.errorCode) {
-            helper.toast("success", "Update Supplier false");
+          if (payload?.errorCode) {
+            helper.toast("success", "Update false");
           }
         })();
       } catch (error) {
@@ -75,10 +79,10 @@ export default function SupplierList() {
         setIsLoading(true);
         const { payload } = await dispatch(getAllSupplier());
         console.log(payload);
-        if (payload.data?.successCode) {
+        if (payload?.successCode) {
           setRowsData(payload.data);
         }
-        if (payload.data?.errorCode) {
+        if (payload?.errorCode) {
           helper.toast("error", payload.message);
         }
         setIsLoading(false);
@@ -148,7 +152,7 @@ export default function SupplierList() {
       </Paper>
 
       <Popup
-        title="Supplier Form"
+        title={recordForEdit ? "Edit supplieres" : "Add supplieres"}
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >

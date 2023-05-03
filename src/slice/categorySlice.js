@@ -30,7 +30,7 @@ export const RemoveCategory = createAsyncThunk(
   async (id) => {
     console.log("id", id);
     await categoryApi.Remove(id);
-    const respone = categoryApi.CategoryList();
+    const respone = categoryApi.List();
     return respone;
   }
 );
@@ -40,7 +40,7 @@ export const UpdateCategory = createAsyncThunk(
   async (data) => {
     try {
       await categoryApi.Update(data);
-      const response = await categoryApi.CategoryList();
+      const response = await categoryApi.List();
       return response;
     } catch (error) {
       throw error;

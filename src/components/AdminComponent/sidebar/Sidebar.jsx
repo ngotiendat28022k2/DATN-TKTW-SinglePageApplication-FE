@@ -18,7 +18,6 @@ import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
 import CategoryIcon from "@mui/icons-material/Category";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 
 export default function Sidebar() {
     return (
@@ -33,19 +32,11 @@ export default function Sidebar() {
                                 Home
                             </li>
                         </Link>
-                        <li className={styles.sidebarListItem}>
-                            <Timeline className={styles.sidebarIcon} />
-                            Analytics
-                        </li>
-                        <li className={styles.sidebarListItem}>
-                            <TrendingUp className={styles.sidebarIcon} />
-                            Sales
-                        </li>
                     </ul>
                 </div>
                 <div className={styles.sidebarMenu}>
                     <ul className={styles.sidebarList}>
-                        <Link to="/admin/users" className={styles.link}>
+                        <Link to="/admin/user" className={styles.link}>
                             <li className={styles.sidebarListItem}>
                                 <PermIdentity className={styles.sidebarIcon} />
                                 Users
@@ -61,12 +52,6 @@ export default function Sidebar() {
                             <li className={styles.sidebarListItem}>
                                 <CategoryIcon className={styles.sidebarIcon} />
                                 Categories
-                            </li>
-                        </Link>
-                        <Link to="/admin/employees" className={styles.link}>
-                            <li className={styles.sidebarListItem}>
-                                <Badge className={styles.sidebarIcon} />
-                                Employees
                             </li>
                         </Link>
                         <Link to="/admin/publishs" className={styles.link}>
@@ -85,18 +70,17 @@ export default function Sidebar() {
                                 Supplieres
                             </li>
                         </Link>
-                        <li className={styles.sidebarListItem}>
-                            <BarChart className={styles.sidebarIcon} />
-                            Reports
-                        </li>
+                       <Link to="/admin/author">
+                            <li className={styles.sidebarListItem}>
+                                <BarChart className={styles.sidebarIcon} />
+                                Author
+                            </li>
+                       </Link>
                     </ul>
                 </div>
                 <div className={styles.sidebarMenu}>
                     <ul className={styles.sidebarList}>
-                        <li className={styles.sidebarListItem}>
-                            <MailOutline className={styles.sidebarIcon} />
-                            Mail
-                        </li>
+                       
                         <li className={styles.sidebarListItem}>
                             <DynamicFeed className={styles.sidebarIcon} />
                             Feedback
@@ -111,7 +95,7 @@ export default function Sidebar() {
                     <ul className={styles.sidebarList}>
                         <li className={styles.sidebarListItem}>
                             <WorkOutline className={styles.sidebarIcon} />
-                            Manage
+                            Page
                         </li>
                         <li className={styles.sidebarListItem}>
                             <Timeline className={styles.sidebarIcon} />
