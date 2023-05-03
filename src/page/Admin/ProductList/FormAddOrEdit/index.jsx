@@ -51,10 +51,9 @@ export default function FormAddOrEdit({recordForEdit, addOrEdit, optionCategory,
 
     if (fieldValues == values) return Object.values(temp).every((x) => x == "");
   };
-  const { values, setValues, errors, setErrors, handleInputChange, handleChange, resetForm } =
+  const { values, setValues, errors, setErrors, handleInputChange, handleChange, handleImageChange, resetForm } =
     useForm(initialFValues, true, validate);
-    const [productImageUrls, setProductImageUrls] = useState([]);
-    const [previewImageUrls, setPreviewImageUrls] = useState([]);
+   
   useEffect(() => {
     if (recordForEdit != null)
       setValues({
@@ -77,18 +76,14 @@ export default function FormAddOrEdit({recordForEdit, addOrEdit, optionCategory,
   const handleDyanmicChange = (value) => {
     setValues((prev) => ({...prev, other:value}))
   }
-  const handleImageChange = (name, value) => {
-    console.log("name", name)
-  //   console.log("value", value)
-  //   setValues((prev) => ({...prev, [name]:value}))
-  if (name === "productImage") {
-    setValues((prev) => ({...prev, productImage:value}))
-  } else if (name === "previewImage") {
-    setValues((prev) => ({...prev, previewImage:value}))
-  }
-  }
 
-
+  const handleProductImageChange = (name, urls) => {
+    setProductImageUrls(urls);
+  };
+  
+  const handlePreviewImageChange = (name, urls) => {
+    setPreviewImageUrls(urls);
+  };
   
   // const filterColors = (option, inputValue) => {
   //   return option.filter((i) =>
@@ -232,13 +227,13 @@ export default function FormAddOrEdit({recordForEdit, addOrEdit, optionCategory,
         <Grid item xs={12}>
           <div className="w-full">
           <label htmlFor="">Description Short:</label><br />
-            <Ckeditor value={values.descriptionShort} name="shortDescription" onChange={handleEditorChange}/>
+            <Ckeditor value={values.descriptionShort} name="descriptionShort" onChange={handleEditorChange}/>
           </div>
         </Grid>
         <Grid item xs={12}>
           <div className="w-full">
           <label htmlFor="">Description Long:</label><br />
-            <Ckeditor value={values.descriptionLong} name="longDescription" onChange={handleEditorChange}/>
+            <Ckeditor value={values.descriptionLong} name="descriptionLong" onChange={handleEditorChange}/>
           </div>
         </Grid>
         <Grid item xs={12}>

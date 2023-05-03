@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Add, EditOutlined, Close, Image } from "@mui/icons-material";
-import { Button, Paper, Toolbar } from "@mui/material";
+import { Avatar, Button, Paper, Toolbar } from "@mui/material";
 import Controls from "../../../components/AdminComponent/controls/Controls";
+import Select from "react-select";
 import Popup from "../../../components/AdminComponent/MyPopup/MyPopup";
 // Services
 import InputSearch from "../../../components/AdminComponent/inputSearch/inputSearch.component";
@@ -10,22 +11,27 @@ import ActionSave from "./ActionSave";
 import ActionDelete from "./ActionDelete";
 import ActionUpdate from "./ActionUpdate";
 import {
-  AddNewCategory,
-  getAllCategory,
-  UpdateCategory,
-} from "../../../slice/categorySlice";
+  AddNewSupplier,
+  getAllSupplier,
+  UpdateSupplier,
+} from "../../../slice/supplieresSlice";
+import {
+  AddUser,
+  getAllUserClient,
+  UpdateUser,
+} from "../../../slice/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import FormAddOrEdit from "./AddOrEdit/index";
 import helper from "../../../utiliti/helper/helper";
 
-export default function CategoryList() {
+export default function UserList() {
   const dispatch = useDispatch();
   const [openPopup, setOpenPopup] = useState(false);
   const [dataSearch, setDataSearch] = React.useState([]);
   const [rowId, setRowId] = useState(null);
   const [rowsData, setRowsData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const categorys = useSelector((state) => state.category.value);
+  const userStore = useSelector((state) => state.user.value);
   const [recordForEdit, setRecordForEdit] = useState(null);
 
   const handleSearch = (e) => {
@@ -40,13 +46,13 @@ export default function CategoryList() {
     if (!values._id) {
       try {
         (async () => {
-          const { payload } = await dispatch(AddNewCategory(values));
-          console.log(payload);
+          const { payload } = await dispatch(AddUser(values));
+          console.log("payload", payload)
           if (payload?.successCode) {
-            helper.toast("success", "Update success");
+            helper.toast("success", "Add success");
           }
           if (payload?.errorCode) {
-            helper.toast("success", "Update false");
+            helper.toast("error", payload.message);
           }
         })();
       } catch (error) {
@@ -55,13 +61,13 @@ export default function CategoryList() {
     } else {
       try {
         (async () => {
-          const { payload } = await dispatch(UpdateCategory(values));
+          const { payload } = await dispatch(UpdateUser(values));
           console.log(payload.data);
           if (payload?.successCode) {
             helper.toast("success", "Update success");
           }
           if (payload?.errorCode) {
-            helper.toast("success", "Update false");
+            helper.toast("error", payload.message);
           }
         })();
       } catch (error) {
@@ -76,7 +82,7 @@ export default function CategoryList() {
     (async () => {
       try {
         setIsLoading(true);
-        const { payload } = await dispatch(getAllCategory());
+        const { payload } = await dispatch(getAllUserClient());
         console.log(payload);
         if (payload?.successCode) {
           setRowsData(payload.data);
@@ -91,30 +97,22 @@ export default function CategoryList() {
     })();
   }, []);
   useEffect(() => {
-    setRowsData(categorys);
-  }, [categorys]);
+    setRowsData(userStore);
+  }, [userStore]);
 
   const columnsData = [
-    { field: "_id", headerName: "ID", width: 50 },
-    { field: "name", headerName: "Name", width: 200, editable: true },
+    { field: "_id", headerName: "ID", width: 100 },
     {
-      field: "image",
-      headerName: "Image",
-      width: 200,
-      editable: true,
-      renderCell: (params) => (
-        <img src={params.row.image} className="w-full" alt="" />
-      ),
+      field: "avatar",
+      headerName: "Avatar",
+      width: 100,
+      renderCell: (params) => <Avatar sx={{ width: 56, height: 56 }} src={params.row.avatar}/>
     },
-    {
-      field: "icon",
-      headerName: "Icon",
-      width: 200,
-      editable: true,
-      renderCell: (params) => (
-        <img src={params.row.icon} className="w-full" alt="" />
-      ),
-    },
+    { field: "name", headerName: "Name", width: 120, editable: true },
+    { field: "isActive", headerName: "Active", width: 100, editable: true, type:"boolean" },
+    { field: "email", headerName: "Email", width: 150, editable: true },
+    { field: "phone", headerName: "Phone", width: 150, editable: true },
+    { field: "address", headerName: "Address", width: 150, editable: true },
     {
       field: "actions",
       headerName: "Actions",
@@ -165,7 +163,7 @@ export default function CategoryList() {
       </Paper>
 
       <Popup
-        title={recordForEdit ? "Edit Category" : "Add Category"}
+        title={recordForEdit ? "Edit User" : "Add User"}
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >

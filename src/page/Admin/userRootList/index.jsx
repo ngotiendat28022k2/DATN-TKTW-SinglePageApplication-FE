@@ -10,22 +10,24 @@ import ActionSave from "./ActionSave";
 import ActionDelete from "./ActionDelete";
 import ActionUpdate from "./ActionUpdate";
 import {
-  AddNewCategory,
-  getAllCategory,
-  UpdateCategory,
-} from "../../../slice/categorySlice";
+  AddNewSupplier,
+  getAllSupplier,
+  UpdateSupplier,
+} from "../../../slice/supplieresSlice";
+import { getAllUserRoot } from "../../../slice/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import FormAddOrEdit from "./AddOrEdit/index";
 import helper from "../../../utiliti/helper/helper";
+import Select from 'react-select';
 
-export default function CategoryList() {
+export default function UserRootList() {
   const dispatch = useDispatch();
   const [openPopup, setOpenPopup] = useState(false);
   const [dataSearch, setDataSearch] = React.useState([]);
   const [rowId, setRowId] = useState(null);
   const [rowsData, setRowsData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const categorys = useSelector((state) => state.category.value);
+  const supplieres = useSelector((state) => state.supplier.value);
   const [recordForEdit, setRecordForEdit] = useState(null);
 
   const handleSearch = (e) => {
@@ -40,13 +42,12 @@ export default function CategoryList() {
     if (!values._id) {
       try {
         (async () => {
-          const { payload } = await dispatch(AddNewCategory(values));
-          console.log(payload);
+          const { payload } = await dispatch(AddNewSupplier(values));
           if (payload?.successCode) {
             helper.toast("success", "Update success");
           }
           if (payload?.errorCode) {
-            helper.toast("success", "Update false");
+            helper.toast("success", payload.message);
           }
         })();
       } catch (error) {
@@ -55,13 +56,13 @@ export default function CategoryList() {
     } else {
       try {
         (async () => {
-          const { payload } = await dispatch(UpdateCategory(values));
+          const { payload } = await dispatch(UpdateSupplier(values));
           console.log(payload.data);
           if (payload?.successCode) {
             helper.toast("success", "Update success");
           }
           if (payload?.errorCode) {
-            helper.toast("success", "Update false");
+            helper.toast("success", payload.message);
           }
         })();
       } catch (error) {
@@ -76,7 +77,7 @@ export default function CategoryList() {
     (async () => {
       try {
         setIsLoading(true);
-        const { payload } = await dispatch(getAllCategory());
+        const { payload } = await dispatch(getAllUserRoot());
         console.log(payload);
         if (payload?.successCode) {
           setRowsData(payload.data);
@@ -91,30 +92,40 @@ export default function CategoryList() {
     })();
   }, []);
   useEffect(() => {
-    setRowsData(categorys);
-  }, [categorys]);
+    setRowsData(supplieres);
+  }, [supplieres]);
+  
+  const optionsRenderer = () => {
+    const colourOptions = ["red", "blue"]
+      return <Select
+            className="basic-single"
+            isDisabled={isDisabled}
+            options={colourOptions}
+      />
+  }
 
   const columnsData = [
-    { field: "_id", headerName: "ID", width: 50 },
+    { field: "_id", headerName: "ID", width: 100 },
+    {
+      field: "avatar",
+      headerName: "Avatar",
+      width: 150,
+      renderCell: (params) => (
+        <img className="w-full max-w-[150px]" src={params.row.avatar} />
+      ),
+    },
     { field: "name", headerName: "Name", width: 200, editable: true },
     {
-      field: "image",
-      headerName: "Image",
+      field: "role",
+      headerName: "Role",
       width: 200,
       editable: true,
-      renderCell: (params) => (
-        <img src={params.row.image} className="w-full" alt="" />
-      ),
+      type:"singleSelect",
+      valueOptions:[0,1,2],
+      renderCell: (params) => <p>{helper.userRole(params.row.role)}</p>,
     },
-    {
-      field: "icon",
-      headerName: "Icon",
-      width: 200,
-      editable: true,
-      renderCell: (params) => (
-        <img src={params.row.icon} className="w-full" alt="" />
-      ),
-    },
+    { field: "email", headerName: "Email", width: 200, editable: true },
+    { field: "phone", headerName: "Phone", width: 150, editable: true },
     {
       field: "actions",
       headerName: "Actions",
@@ -165,7 +176,7 @@ export default function CategoryList() {
       </Paper>
 
       <Popup
-        title={recordForEdit ? "Edit Category" : "Add Category"}
+        title={recordForEdit ? "Edit User" : "Add User"}
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >

@@ -7,11 +7,11 @@ const categoryApi = {
   Detail: async (id) => {
     return await instance.get(`categories/${id}`);
   },
-  Add: async (category) => {
-    return await instance.post("categories", category);
+  Add: async (data) => {
+    return await instance.post("categories", data);
   },
-  Update: async (category) => {
-    return await instance.put(`categories/${category.id}`, category);
+  Update: async (data) => {
+    return await instance.put(`categories/${data._id}`, data);
   },
   Remove: async (id) => {
     return await instance.delete(`categories/${id}`);

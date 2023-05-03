@@ -1,23 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Grid } from "@mui/material";
+import { FormControlLabel, Grid, Switch } from "@mui/material";
 import Controls from "../../../../components/AdminComponent/controls/Controls";
 import { useForm, Form } from "../../../../components/AdminComponent/useForm";
-
+import UploadImage from "../../../../components/AdminComponent/uploadImg/upload";
 const initialFValues = {
+  avatar: [],
   name: "",
   email: "",
   phone: "",
   address: "",
+  isActive: true,
 };
 
-export default function NewPublishing(props) {
+export default function NewSupplier(props) {
   const { recordForEdit, addOrEdit } = props;
-  useEffect(() => {
-    if (recordForEdit != null)
-      setValues({
-        ...recordForEdit,
-      });
-  }, [recordForEdit]);
   const validate = (fieldValues = values) => {
     let temp = { ...errors };
     if ("name" in fieldValues)
@@ -38,24 +34,38 @@ export default function NewPublishing(props) {
 
     if (fieldValues == values) return Object.values(temp).every((x) => x == "");
   };
-
-  const { values, setValues, errors, setErrors, handleInputChange, resetForm } =
-    useForm(initialFValues, true, validate);
+  const {
+    values,
+    setValues,
+    errors,
+    setErrors,
+    handleInputChange,
+    handleImageChange,
+    handleCheckedChange,
+    resetForm,
+  } = useForm(initialFValues, true, validate);
+  useEffect(() => {
+    if (recordForEdit != null)
+      setValues({
+        ...recordForEdit,
+      });
+  }, [recordForEdit]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (validate()) {
-      addOrEdit(values, resetForm);
-    }
+    // if (validate()) {
+    addOrEdit(values, resetForm);
+    // }
   };
 
+  console.log("values", values)
   return (
     <Form onSubmit={handleSubmit}>
       <Grid container>
-        <Grid item xs={12}>
+        <Grid item xs={7}>
           <Controls.Input
             name="name"
-            label="Full Name"
+            label="Name"
             value={values.name}
             onChange={handleInputChange}
             error={errors.name}
@@ -80,8 +90,31 @@ export default function NewPublishing(props) {
             value={values.address}
             onChange={handleInputChange}
           />
-
-          <div>
+        </Grid>
+        <Grid item xs={5}>
+          <UploadImage
+            name="avatar"
+            imageUrls={values.avatar}
+            setImageUrls={handleImageChange}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <FormControlLabel
+            control={
+              <Switch
+                defaultChecked
+                checked={Boolean(values.isActive)}
+                onChange={handleCheckedChange}
+                color="primary"
+                name="isActive"
+              />
+            }
+            label="Active: "
+            labelPlacement="start"
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <div className="text-right mt-[20px]">
             <Controls.Button type="submit" text="Submit" />
             <Controls.Button text="Reset" onClick={resetForm} />
           </div>
@@ -89,9 +122,4 @@ export default function NewPublishing(props) {
       </Grid>
     </Form>
   );
-  //   return(
-  //     <div>
-  //       newEmployees
-  //     </div>
-  //   )
 }

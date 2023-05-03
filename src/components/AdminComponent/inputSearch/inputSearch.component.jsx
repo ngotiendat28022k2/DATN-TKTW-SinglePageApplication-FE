@@ -14,7 +14,7 @@ const InputSearch = ({handleSearch}) => {
                 </InputAdornment>
               ),
             }}
-            onChange={handleSearch}
+            onKeyUp={handleSearch}
     />
   )
 }

@@ -4,7 +4,6 @@ import Controls from "../../../../components/AdminComponent/controls/Controls";
 import { useForm, Form } from "../../../../components/AdminComponent/useForm";
 
 const initialFValues = {
-  id: 0,
   name: "",
   email: "",
   phone: "",

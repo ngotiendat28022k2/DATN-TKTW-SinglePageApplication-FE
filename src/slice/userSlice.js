@@ -14,12 +14,45 @@ export const register = createAsyncThunk("user/register", async (data) => {
 
 export const sendOtp = createAsyncThunk("user/sendOtp", async (data) => {
   const response = await userApi.sendOtp(data);
-  console.log("response", response);
+  return response;
+});
+
+export const getAllUserClient = createAsyncThunk(
+  "user/getall",
+  async (data) => {
+    const response = await userApi.getAll();
+    return response;
+  }
+);
+export const getAllUserRoot = createAsyncThunk(
+  "user/getAllRoot",
+  async (data) => {
+    const response = await userApi.getRootAll();
+    return response;
+  }
+);
+
+export const AddUser = createAsyncThunk("user/add", async (data) => {
+  await userApi.add(data);
+  const response = await userApi.getAll();
+  return response;
+});
+
+export const UpdateUser = createAsyncThunk("user/update", async (data) => {
+  await userApi.update(data);
+  const response = await userApi.getAll();
+  return response;
+});
+
+export const RemoveUser = createAsyncThunk("user/remove", async (id) => {
+  await userApi.remove(id);
+  const response = await userApi.getAll();
   return response;
 });
 
 const initialState = {
   value: [],
+  user: {},
   isLogin: false,
 };
 
@@ -28,19 +61,26 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     logOut: (state) => {
-      state.value = [];
-      state.isLogin = false;
       local.clear();
-      return state;
+      return {
+        ...state,
+        isLogin: false,
+        user: {},
+      };
     },
   },
   extraReducers: (builder) => {
     builder.addCase(login.fulfilled, (state, action) => {
       if (action.payload.errorCode) {
-        return void (state.isLogin = false);
+        return {
+          ...state,
+          isLogin: false,
+          user: {},
+        };
+      } else {
+        state.user = action.payload.data;
+        state.isLogin = true;
       }
-      state.value = action.payload.data;
-      state.isLogin = true;
     });
     builder.addCase(register.fulfilled, (state, action) => {
       state.otp = action.payload;
@@ -49,6 +89,18 @@ export const userSlice = createSlice({
 
     builder.addCase(sendOtp.fulfilled, (state, action) => {
       console.log("user send otp slice", action.payload);
+    });
+
+    builder.addCase(AddUser.fulfilled, (state, action) => {
+      state.value = action.payload.data;
+    });
+
+    builder.addCase(UpdateUser.fulfilled, (state, action) => {
+      state.value = action.payload.data;
+    });
+
+    builder.addCase(RemoveUser.fulfilled, (state, action) => {
+      state.value = action.payload.data;
     });
   },
 });

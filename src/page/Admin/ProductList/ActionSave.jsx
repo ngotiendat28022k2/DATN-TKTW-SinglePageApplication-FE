@@ -16,12 +16,12 @@ const ActionSave = ({params, rowId, setRowId}) => {
       // console.log("params", params)
       const {name, image} = params.row
       const data = {
-        id:params.id,
+        _id:params.id,
         name, 
-        image,
+        // image,
         // category
       }
-      // console.log(data)
+      console.log(data)
       setTimeout(async() => {
         const {payload} =await dispatch(UpdateProduct(data))
         if(payload?.successCode){
@@ -33,7 +33,7 @@ const ActionSave = ({params, rowId, setRowId}) => {
           }, 3000)
         }
         if(payload?.errorCode){
-          helper.toast("error", "Ppdate failed")
+          helper.toast("error", "Update failed")
         }
         setLoading(false)
       }, 300)

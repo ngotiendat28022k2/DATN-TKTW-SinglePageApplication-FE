@@ -48,17 +48,17 @@ export const authorSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getAllAuthor.fulfilled, (state, action) => {
-      state.value = action.payload.data.data;
+      state.value = action.payload.data;
     });
 
     builder.addCase(AddNewAuthor.fulfilled, (state, action) => {
-      state.value = action.payload.data.data;
+      state.value = action.payload.data;
     });
     builder.addCase(RemoveAuthor.fulfilled, (state, action) => {
-      state.value = action.payload.data.data;
+      state.value = action.payload.data;
     });
     builder.addCase(UpdateAuthor.fulfilled, (state, action) => {
-      state.value = action.payload.data.data;
+      state.value = action.payload.data;
     });
   },
 });

@@ -6,7 +6,7 @@ function CustomPaginationActionsTable({rowsData, columnsData, rowId, setRowId, i
   const [pageSize, setPageSize] = useState(10)
   const [columns, setColumns] = useState(columnsData || [])
   const [rows, setRows] = useState( rowsData || [])
-
+  console.log("rơdata", rows)
   useEffect(() => {
     setRows(rowsData)
     setColumns(columnsData)
@@ -35,7 +35,7 @@ function CustomPaginationActionsTable({rowsData, columnsData, rowId, setRowId, i
         }}
         getRowId={(row) =>  row._id}
         onCellEditCommit={params => setRowId(params.id)}
-        // key={(row) => console.log("rowww", row) }
+        key={(row) => console.log("rowww", row) }
       />
       
     </div>

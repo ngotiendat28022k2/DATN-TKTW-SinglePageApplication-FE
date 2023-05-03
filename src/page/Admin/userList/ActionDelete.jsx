@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ConfirmDialog from "../../../utiliti/Notify/confirmDialog";
 import helper from "../../../utiliti/helper/helper";
-import { RemovePublish } from "../../../slice/publishSlice";
+import { RemoveUser } from "../../../slice/userSlice";
 
 const ActionDelete = ({ params }) => {
   const dispatch = useDispatch();
@@ -34,7 +34,7 @@ const ActionDelete = ({ params }) => {
         onConfirm={async (id) => {
           console.log("id", id);
           try {
-            const {payload} = await dispatch(RemovePublish(id));
+            const {payload} = await dispatch(RemoveUser(id));
             if (payload?.successCode) {
               helper.toast("success", "Remove SuccessFully!");
             }

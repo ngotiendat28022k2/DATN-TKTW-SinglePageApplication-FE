@@ -10,7 +10,6 @@ import Slug from "./utiliti/slug/slug";
 //
 import ClientLayout from "./Layout/ClientLayout";
 import AccountLayout from "./Layout/LayoutAccount";
-import DetailProduct from "./page/Detail";
 import CheckoutCart from "./page/checkout-cart";
 //
 import AdminPage from "./page/Admin/home/AdminPage";
@@ -19,8 +18,10 @@ import PublishList from "./page/Admin/publishingList";
 import CategoryList from "./page/Admin/categoryList";
 import SupplierList from "./page/Admin/supplieresList";
 import PagePay from "./page/pay/index";
+import AuthorList from "./page/Admin/authorList";
+import UserList from "./page/Admin/userList";
+import UserRootList from "./page/Admin/userRootList";
 
-const UserList = React.lazy(() => import("./page/Admin/userList/UserList"));
 const ProfileAdmin = React.lazy(() =>
   import("./page/Admin/Profile/Profile.admin")
 );
@@ -38,6 +39,7 @@ const ProfileVoucher = React.lazy(() =>
   import("./page/profile/Profile-Voucher")
 );
 const HomePage = React.lazy(() => import("./page/home"));
+const DetailProduct = React.lazy(() => import("./page/Detail"));
 const Blog = React.lazy(() => import("./page/blog"));
 const Login = React.lazy(() => import("./page/auth/login"));
 const Register = React.lazy(() => import("./page/auth/register"));
@@ -54,7 +56,7 @@ function App() {
               <Route path="home" element={<HomePage />} />
               <Route path="blog" element={<Blog />} />
               <Route path="/detail/:id" element={<DetailProduct />} />
-              <Route path="/checkout" element={<CheckoutCart />} />
+              <Route path="/checkout/cart" element={<CheckoutCart />} />
               <Route path="/pay" element={<PagePay />} />
               <Route path="/search" element={<PageSearch />} />
               <Route path="/" element={<AccountLayout />}>
@@ -81,13 +83,19 @@ function App() {
             }
           >
             <Route index element={<AdminPage />} />
-
-            <Route path="users" element={<UserList />} />
-            {/* <Route path="publishs" element={<PublishingList />} /> */}
-            {/* <Route path="categories" element={<CategoryList />} /> */}
+            <Route
+              path="user/client"
+              element={<UserList />}
+            />
+            <Route
+              path="user/root"
+              element={<UserRootList />}
+            />
             <Route path="products" element={<ProductList />} />
-            <Route path="supplieres" element={<PublishList />} />
-            <Route path="publishs" element={<SupplierList />} />
+            <Route path="categories" element={<CategoryList />} />
+            <Route path="author" element={<AuthorList />} />
+            <Route path="supplieres" element={<SupplierList />} />
+            <Route path="publishs" element={<PublishList />} />
             <Route path="profile" element={<ProfileAdmin />} />
           </Route>
 

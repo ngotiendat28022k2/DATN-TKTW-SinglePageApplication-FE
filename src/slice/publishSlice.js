@@ -2,13 +2,10 @@ import { Http } from "@mui/icons-material";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import publishApi from "../api/publishs";
 
-export const getAllPublish = createAsyncThunk(
-  "publish/getAllPublish",
-  async () => {
-    const response = await publishApi.PublishList();
-    return response;
-  }
-);
+export const getAllPublish = createAsyncThunk("publish/getAll", async () => {
+  const response = await publishApi.PublishList();
+  return response;
+});
 
 export const getPublish = createAsyncThunk("publish/get", async (id) => {
   console.log("id", id);
@@ -17,7 +14,7 @@ export const getPublish = createAsyncThunk("publish/get", async (id) => {
 });
 
 export const AddNewPublish = createAsyncThunk(
-  "publish/AddNewPublish",
+  "publish/Add",
   async (publish) => {
     await publishApi.PublishAdd(publish);
     const response = publishApi.PublishList();
@@ -26,7 +23,6 @@ export const AddNewPublish = createAsyncThunk(
 );
 
 export const RemovePublish = createAsyncThunk("publish/remove", async (id) => {
-  console.log("id", id);
   await publishApi.RemovePublish(id);
   const respone = publishApi.PublishList();
   return respone;
@@ -56,17 +52,16 @@ export const publishSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getAllPublish.fulfilled, (state, action) => {
-      state.value = action.payload.data.data;
+      state.value = action.payload.data;
     });
-
     builder.addCase(AddNewPublish.fulfilled, (state, action) => {
-      state.value = action.payload.data.data;
+      state.value = action.payload.data;
     });
     builder.addCase(RemovePublish.fulfilled, (state, action) => {
       state.value = action.payload.data;
     });
     builder.addCase(UpdatePublish.fulfilled, (state, action) => {
-      state.value = action.payload.data.data;
+      state.value = action.payload.data;
     });
   },
 });

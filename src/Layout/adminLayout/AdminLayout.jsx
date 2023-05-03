@@ -131,18 +131,18 @@ function AdminLayout() {
               >
                 <MenuIcon />
               </IconButton>
-               <Link to="/admin">
-                  <img 
-                    src="https://logos.textgiraffe.com/logos/logo-name/Niki-designstyle-smoothie-m.png" 
-                    className="w-full max-w-[60px]"
-                  />
-                </Link>
+               <div></div>
               <Header />
             </Toolbar>
           </AppBar>
           <Drawer variant="permanent" open={open}>
-            <DrawerHeader sx={{background:"#8baf67"}}>
-              
+            <DrawerHeader sx={{background:"#8baf67", display:"flex", justifyContent:"space-between", alignItems:"center"}}>
+              <Link to="/admin" >
+                  <img 
+                    src="https://logos.textgiraffe.com/logos/logo-name/Niki-designstyle-smoothie-m.png" 
+                    className="w-full max-w-[60px]"
+                  />
+              </Link>
               <IconButton onClick={handleDrawerClose}>
                 {theme.direction === "rtl" ? (
                   <ChevronRightIcon />
@@ -151,7 +151,6 @@ function AdminLayout() {
                 )}
               </IconButton>
             </DrawerHeader>
-
             <Sidebar />
           </Drawer>
           <Box component="main" sx={{ flexGrow: 1, p: 3 }}>

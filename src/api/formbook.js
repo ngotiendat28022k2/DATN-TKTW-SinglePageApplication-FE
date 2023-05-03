@@ -11,7 +11,7 @@ const formBookApi = {
     return await instance.post("formbooks", data);
   },
   FormBookUpdate: async (data) => {
-    return await instance.put(`formbooks/${data.id}`, data);
+    return await instance.put(`formbooks/${data._id}`, data);
   },
   RemoveFormBook: async (id) => {
     return await instance.delete(`formbooks/${id}`);

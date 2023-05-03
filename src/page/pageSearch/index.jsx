@@ -3,10 +3,10 @@ import { useParams, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { searchProduct } from "../../slice/productsSlice";
 import { Link } from "react-router-dom";
-import { getAllFormBook } from "../../slice/formbooks";
+import { getAllFormBook } from "../../slice/formBookSlice";
 import helper from "../../utiliti/helper/helper";
 import { getAllSupplier } from "../../slice/supplieresSlice";
-import { getAllAuthor } from "../../slice/authors";
+import { getAllAuthor } from "../../slice/authorSlice";
 
 const PageSearch = () => {
     const dispatch = useDispatch();
