@@ -81,7 +81,7 @@ const Header = () => {
     useEffect(() => {
         const search_list =
             JSON.parse(window.localStorage.getItem("search_list")) || [];
-        setHistorySearch(search_list);
+        setHistorySearch(search_list.slice(0, 8));
         setUser(local.get("user"));
     }, [window.localStorage.getItem("search_list")]);
     return (
@@ -216,23 +216,23 @@ const Header = () => {
                     </div>
                     <div className="text-center">Thông báo</div>
                 </div>
-                    <Link to="/checkout/cart">
-                        <div className="md:mt-3 md:w-24 w-24 cursor-pointer">
-                            <div className="flex justify-center">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="currentColor"
-                                    className="bi bi-cart2 md:w-[19px] md:h-[19px] w-[24px] h-[24px] mt-2 md:mt-0"
-                                    viewBox="0 0 16 16"
-                                >
-                                    <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
-                                </svg>
-                            </div>
-                            <div className="text-center hidden md:block">
-                                Giỏ hàng
-                            </div>
+                <Link to="/checkout/cart">
+                    <div className="md:mt-3 md:w-24 w-24 cursor-pointer">
+                        <div className="flex justify-center">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor"
+                                className="bi bi-cart2 md:w-[19px] md:h-[19px] w-[24px] h-[24px] mt-2 md:mt-0"
+                                viewBox="0 0 16 16"
+                            >
+                                <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
+                            </svg>
                         </div>
-                    </Link>
+                        <div className="text-center hidden md:block">
+                            Giỏ hàng
+                        </div>
+                    </div>
+                </Link>
                 <div className="md:mt-3 md:w-24 w-20">
                     {!user ? (
                         <div>
@@ -265,11 +265,11 @@ const Header = () => {
                             </div>
                         </div>
                     ) : (
-                        <div className="relative ">
+                        <div className="relative droplog">
                             <div className="rounded-[50%] overflow-hidden ml-[15px] max-w-[40px] cursor-pointer">
                                 <img src={user.avatar} className="w-full" />
                             </div>
-                            <div className="absolute top-[35px] right-0 pt-[17px]">
+                            <div className="hidden absolute top-[35px] right-0 pt-[17px] droplog-dow">
                                 <SidebarProfile user={user} />
                             </div>
                         </div>

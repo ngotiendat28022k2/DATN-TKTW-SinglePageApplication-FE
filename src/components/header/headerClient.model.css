@@ -9,3 +9,7 @@
 .dropdowns:hover .dropdown-menu {
     display: block;
 }
+
+.droplog:hover .droplog-dow{
+    display: block;
+}
