@@ -3,7 +3,7 @@ import "./index.css";
 const SeriesBook = () => {
     return (
         <div>
-            {/* <div className="my-5">
+            <div className="my-5">
                 <div className="bg-[#cff2fc] mb-2">
                     <div className="flex py-3 px-3">
                         <div className="mr-3">
@@ -269,7 +269,7 @@ const SeriesBook = () => {
                         </div>
                     </div>
                 </div>
-            </div> */}
+            </div>
         </div>
     );
 };

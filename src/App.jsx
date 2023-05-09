@@ -96,6 +96,10 @@ function App() {
                                     element={<ProfileNotification />}
                                 />
                             </Route>
+                            {/* <Route
+                                path="/series-book"
+                                element={<SeriesBook />}
+                            /> */}
                             {/* <Route path="/paycart" element={<PayCart />} /> */}
                         </Route>
                     </Route>
