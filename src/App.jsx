@@ -21,6 +21,7 @@ import PagePay from "./page/pay/index";
 import AuthorList from "./page/Admin/authorList";
 import UserList from "./page/Admin/userList";
 import UserRootList from "./page/Admin/userRootList";
+import DealHot from "./page/DealHot/DealHot";
 import SeriesBook from "./page/SeriesBook/SeriesBook";
 
 const ProfileAdmin = React.lazy(() =>
@@ -56,6 +57,12 @@ function App() {
                             <Route index element={<Navigate to="home" />} />
                             <Route path="home" element={<HomePage />} />
                             <Route path="blog" element={<Blog />} />
+                            {/* Test */}
+                            <Route path="deal-hot" element={<DealHot />} />
+                            <Route
+                                path="series-book"
+                                element={<SeriesBook />}
+                            />
                             <Route
                                 path="/detail/:id"
                                 element={<DetailProduct />}
@@ -93,6 +100,7 @@ function App() {
                                 path="/series-book"
                                 element={<SeriesBook />}
                             /> */}
+                            {/* <Route path="/paycart" element={<PayCart />} /> */}
                         </Route>
                     </Route>
 
