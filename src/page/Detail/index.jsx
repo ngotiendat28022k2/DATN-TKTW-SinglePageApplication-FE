@@ -503,7 +503,7 @@ const DetailProduct = () => {
             </div>
             <div className="max-w-[100%] w-full">
               {/* Bảng thông tin chi tiết về sản phẩm */}
-              <table class="max-w-[100%] w-full text-[15px]">
+              <table className="max-w-[100%] w-full text-[15px]">
                 <thead></thead>
                 <tbody>
                   <tr className="">

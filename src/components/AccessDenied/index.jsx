@@ -9,8 +9,8 @@ const AccessDenied = () => {
     <div className={styles.body}>
       <div className={styles.app}>
         <div>403</div>
-        <div class={styles.txt}>
-          Forbidden<span class="blink">_</span> <br />
+        <div className={styles.txt}>
+          Forbidden<span className="blink">_</span> <br />
           {user ? (
             <Button
               variant="contained"
