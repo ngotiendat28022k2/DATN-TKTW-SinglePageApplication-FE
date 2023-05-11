@@ -53,12 +53,12 @@ const UploadImage = ({name, imageUrls, setImageUrls }) => {
   
   return (
     <div className="flex justify-start items-start flex-wrap gap-[25px] w-full bg-white p-5 rounded-md">
-      <div class="flex w-full max-w-[130px]">
+      <div className="flex w-full max-w-[130px]">
         <label
           htmlFor="dropzone-file"
-          class="flex flex-col items-center justify-center w-full h-[140px] border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800  hover:bg-gray-100 dark:border-gray-300 dark:hover:border-gray-500 "
+          className="flex flex-col items-center justify-center w-full h-[140px] border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800  hover:bg-gray-100 dark:border-gray-300 dark:hover:border-gray-500 "
         >
-          <div class="flex flex-col items-center justify-center pt-5 pb-6">
+          <div className="flex flex-col items-center justify-center pt-5 pb-6">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -77,7 +77,7 @@ const UploadImage = ({name, imageUrls, setImageUrls }) => {
           <input
             id="dropzone-file"
             type="file"
-            class="hidden"
+            className="hidden"
             onChange={changImg}
             multiple="multiple"
           />

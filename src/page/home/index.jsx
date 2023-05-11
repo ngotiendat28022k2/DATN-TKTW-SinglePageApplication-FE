@@ -5,16 +5,18 @@ import { Link } from 'react-router-dom';
 import {  getAllProductClient } from '../../slice/productsSlice';
 import { getAllCategory } from '../../slice/categorySlice';
 import helper from '../../utiliti/helper/helper';
-
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 const HomePage = () => {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
+    const [startIndex, setStartIndex] = useState(0);
+    const [endIndex, setEndIndex] = useState(5);
     const dispatch = useDispatch();
     const product = useSelector((state) => state.product.value);
     const category = useSelector((state) => state.category.value);
     console.log("category", categories);
     console.log("products", products);
-    
+
     useEffect(() => {
         (async () => {
             try {
@@ -42,6 +44,20 @@ const HomePage = () => {
         setProducts(product)
         setCategories(category)
     }, [product, category])
+
+    const handleNext = () => {
+        setStartIndex(startIndex + 5);
+        setEndIndex(endIndex + 5);
+    };
+
+
+    const handlePrev = () => {
+        if (startIndex >= 5) {
+            setStartIndex(startIndex - 5);
+            setEndIndex(endIndex - 5);
+        }
+    };
+
     return (
         <div>
             <div className=''>
@@ -216,7 +232,7 @@ const HomePage = () => {
                                     </Link>
                                 </div>
                             </div>
-                        )}
+                        ))}
                         <div className='relative md:hidden block py-[100%] px-5'>
                             <div className='border-2 rounded-2xl text-center p-1 border-teal-400'>
                                 <button className='text-teal-500 hover:text-orange-400'>Xem Thêm</button>
@@ -224,6 +240,20 @@ const HomePage = () => {
                         </div>
                     </div>
                 </div>
+                {products.length > 5 && (
+  <div className='relative my-5'>
+    {startIndex > 0 && (
+      <button className='absolute left-[10px] top-[-350px] text-slate-400 hover:text-slate-600 mr-5 border-[2px] w-[35px] h-[35px] flex justify-center items-center rounded-[50%] border-[#bbbbbb]' onClick={handlePrev}>
+        <FaArrowLeft className='text-[20px]'/>
+      </button>
+    )}
+    {endIndex < products.length && (
+      <button className='absolute right-[10px] top-[-350px]  text-slate-400 hover:text-slate-600 border-[2px] w-[35px] h-[35px] flex justify-center items-center rounded-[50%] border-[#bbbbbb]' onClick={handleNext}>
+        <FaArrowRight className='text-[20px]'/>
+      </button>
+    )}
+  </div>
+)}
             </div>
             <div className='my-5'>
                 <div className='bg-[#FFFFFF]'>
@@ -288,7 +318,7 @@ const HomePage = () => {
                                             <span className='block text-base md:text-xl text-[#C92127] md:font-semibold font-medium md:mr-5 mr-3'>56.000</span>
                                             <span className='bg-[#C92127] md:text-base text-sm text-[#FFF] rounded-lg md:font-semibold md:p-[2px] p-[1px'>-50%</span>
                                         </p>
-                                        <span classNam e='block md:text-base text-sm text-[#888888] line-through'>112.000</span>
+                                        <span className='block md:text-base text-sm text-[#888888] line-through'>112.000</span>
                                     </a>
                                 </div>
                             </div>

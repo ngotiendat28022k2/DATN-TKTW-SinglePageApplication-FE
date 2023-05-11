@@ -4,7 +4,7 @@ import React from 'react'
 function Loader() {
   return (
     <div className='relative h-[100vh] w-full'>
-       <div aria-label="Loading..." role="status" class="flex items-center space-x-2 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+       <div aria-label="Loading..." role="status" className="flex items-center space-x-2 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
         <svg className="h-14 w-14 animate-spin stroke-PK-client" viewBox="0 0 256 256">
           <line x1="128" y1="32" x2="128" y2="64" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24"></line>
           <line
