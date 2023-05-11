@@ -17,7 +17,6 @@ import ProductList from "./page/Admin/ProductList";
 import PublishList from "./page/Admin/publishingList";
 import CategoryList from "./page/Admin/categoryList";
 import SupplierList from "./page/Admin/supplieresList";
-import PagePay from "./page/pay/index";
 import AuthorList from "./page/Admin/authorList";
 import UserList from "./page/Admin/userList";
 import UserRootList from "./page/Admin/userRootList";
@@ -46,6 +45,7 @@ const Blog = React.lazy(() => import("./page/blog"));
 const Login = React.lazy(() => import("./page/auth/login"));
 const Register = React.lazy(() => import("./page/auth/register"));
 const PageSearch = React.lazy(() => import("./page/pageSearch"));
+const PagePay = React.lazy(() => import("./page/pay/index"));
 
 function App() {
     return (

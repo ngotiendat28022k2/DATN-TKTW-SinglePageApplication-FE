@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import SlideShow from '../../components/slide-show/SlideShow.component';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { getAllProduct } from '../../slice/productsSlice';
+import {  getAllProductClient } from '../../slice/productsSlice';
 import { getAllCategory } from '../../slice/categorySlice';
 import helper from '../../utiliti/helper/helper';
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
@@ -20,17 +20,16 @@ const HomePage = () => {
     useEffect(() => {
         (async () => {
             try {
-                const productss = await dispatch(getAllProduct());
+                const productss = await dispatch(getAllProductClient());
                 const category = await dispatch(getAllCategory());
-
-                if (productss.payload.data?.successCode) {
-                    setProducts([...products, productss.payload.data.data])
+                if (productss.payload?.successCode) {
+                    setProducts(productss.payload.data)
                 }
-                if (productss.payload.data?.errorCode) {
-                    helper.toast("error", productss.payload.data.message)
+                if (productss.payload?.errorCode) {
+                    helper.toast("error", productss.payload.message)
                 }
                 if (category.payload.data?.successCode) {
-                    setCategories([...categories, category.payload.data.data])
+                    setCategories(category.payload.data.data)
                 }
                 if (category.payload.data?.errorCode) {
                     helper.toast("error", category.payload.data.message)
@@ -157,10 +156,10 @@ const HomePage = () => {
                 </div>
                 <div className='bg-white p-2'>
                     <div className='grid md:grid-cols-5 grid-cols-3 gap-2 md:mx-2'>
-                        {product?.map((itemProduct) => (
-                            <div className='relative hover:border-2 hover:shadow-md'>
+                        {products?.map((itemProduct) => (
+                            <div className='relative transition rounded-md hover:shadow-md ease-in-out' title={itemProduct.name}>
                                 <div className='flex bg-[#F7941E] md:w-[44px] md:h-[44px] w-12 h-12 md:rounded-3xl rounded-[22px] justify-center items-center absolute top-[10px] right-[10px]'>
-                                    <span className='text-white font-semibold'>{((itemProduct.price - itemProduct.sale) / itemProduct.price * 100).toFixed(0)}%</span>
+                                    <span className='text-white font-semibold'>{helper.calculatePercentage(itemProduct.price, itemProduct.sale)}%</span>
                                 </div>
                                 <div className='md:m-2 m-2'>
                                     <Link to={`/detail/${itemProduct._id}`}>
@@ -169,10 +168,10 @@ const HomePage = () => {
                                 </div>
                                 <div className="mb-3">
                                     <Link to={`/detail/${itemProduct._id}`}>
-                                        <h4 className='text-[#333333] md:text-lg text-base md:px-5 px-3'>{itemProduct.name}</h4>
-                                        <span className='block md:px-5 px-3 text-base md:text-xl text-[#F7941E] font-semibold'>{itemProduct.sale.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</span>
-                                        <span className='block md:px-5 px-3 text-sm md:text-base text-[#888888] line-through'>{itemProduct.price.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</span>
-                                        <span className='block md:px-5 px-3 text-sm md:text-xs'>Lượt xem: {itemProduct.view}</span>
+                                        <h4 className='text-[#333333] md:text-lg text-base md:px-5 px-3 md:mb-[10px]'>{helper.truncateString(itemProduct.name, 40)}</h4>
+                                        <span className='block md:px-5 px-3 text-base md:text-[18px] text-[#F7941E] font-semibold'>{helper.maskValuePrice(itemProduct.sale)}</span>
+                                        <span className='block md:px-5 px-3 text-sm md:text-base text-[#888888] line-through'>{helper.maskValuePrice(itemProduct.price)}</span>
+                                        <span className='block md:px-5 px-3 text-sm md:text-[14px]'>Số lượng còn lại: {itemProduct.quantity}</span>
                                     </Link>
                                 </div>
                             </div>
@@ -195,15 +194,15 @@ const HomePage = () => {
                         <div className='font-bold text-lg'>Danh mục sản phẩm</div>
                     </div>
                 </div>
-                <div className='grid md:grid-cols-10 md:gap-2 grid-cols-5 gap-3 bg-white pb-4 px-2'>
+                <div className='grid md:grid-cols-10 md:gap-2 grid-cols-5 gap-3 bg-white pb-4 px-[20px]'>
                     {categories?.map((itemCategory) => (
-                        <div className='col-span-1'>
-                            <a href="">
+                        <div className='col-span-1 p-[5px] overflow-hidden rounded-md transition duration-300 ease-in-out hover:scale-110 hover:shadow-md dark:hover:shadow-black/30' title={itemCategory.name}>
+                            <Link to="">
                                 <div className=''>
-                                    <img className='md:w-[100px] md:h-[100px] w-11 h-11 m-auto' src={itemCategory.image} alt="" />
+                                    <img className='md:w-[100px] md:h-[100px] w-11 h-11 m-auto ' src={itemCategory.image} alt="" />
                                 </div>
                                 <div className='md:text-sm text-xs text-center pt-3'>{itemCategory.name}</div>
-                            </a>
+                            </Link>
                         </div>
                     ))}
 
@@ -217,8 +216,8 @@ const HomePage = () => {
                 </div>
                 <div className='bg-white p-2'>
                     <div className='grid md:grid-cols-5 grid-cols-3 gap-2 md:mx-2'>
-                        {products.slice(startIndex, endIndex).map((product) => (
-                            <div key={product._id} className='relative hover:border-2 hover:shadow-md '>
+                        {products?.map((product) =>
+                            <div className='relative hover:border-2 hover:shadow-md'>
                                 <div className='md:m-2 m-2'>
                                     <Link to={`/detail/${product._id}`}>
                                         <img src={product.productImage[0]} alt={product.name} />
@@ -226,10 +225,10 @@ const HomePage = () => {
                                 </div>
                                 <div className="mb-3">
                                     <Link to={`/detail/${product._id}`}>
-                                        <h4 className='text-[#333333] md:text-lg text-base md:px-5 px-3'>{product.name}</h4>
-                                        <span className='block md:px-5 px-3 text-base md:text-xl text-[#F7941E] font-semibold'>{product.sale.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</span>
-                                        <span className='block md:px-5 px-3 text-sm md:text-base text-[#888888] line-through'>{product.price.toLocaleString('vi', { style: 'currency', currency: 'VND' })}</span>
-                                        <span className='block md:px-5 px-3 text-sm md:text-xs'>Lượt xem: {product.view}</span>
+                                        <h4 className='text-[#333333] md:text-lg text-base md:px-5 px-3'>{helper.truncateString(product.name, 40)}</h4>
+                                        <span className='block md:px-5 px-3 text-base md:text-xl text-[#F7941E] font-semibold'>{helper.maskValuePrice(product.sale)}</span>
+                                        <span className='block md:px-5 px-3 text-sm md:text-base text-[#888888] line-through'>{helper.maskValuePrice(product.price)}</span>
+                                        <span className='block md:px-5 px-3 text-sm md:text-xs'> Số lượng còn lại: {product.quantity}</span>
                                     </Link>
                                 </div>
                             </div>

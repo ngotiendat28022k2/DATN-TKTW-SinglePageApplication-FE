@@ -1,31 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProduct } from "../../slice/productsSlice";
-import { getSupplier } from "../../slice/supplieresSlice";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import helper from "../../utiliti/helper/helper";
-import { getPublish } from "../../slice/publishSlice";
-import { getFormBook } from "../../slice/formBookSlice";
-import { getAuthor } from "../../slice/authorSlice";
 import { Button } from "@mui/material";
-
+import local from "../../utiliti/local/localSesion";
+import {addToCart, getToCart, saveCartToDatabase} from "../../slice/cartSlice"
 const DetailProduct = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [product, setProduct] = useState(null);
-  const navigate = useNavigate()
+  const [user, setUser] = useState(local.get("user"))
+  const [cart, setCart] = useState({
+    product: id,
+    selected: false,
+    quantity: 1,
+    user: user ? user._id : undefined,
+  });
+  const navigate = useNavigate();
   useEffect(() => {
     try {
       (async () => {
         const { payload } = await dispatch(getProduct(id));
-        console.log("payload", payload);
+        // console.log("payload", payload);
         if (payload?.data) {
           setProduct(payload.data);
         } else {
           helper.toast("error", payload.message);
           setTimeout(() => {
-            navigate("/home")
-          }, 1500);
+            navigate("/home");
+          }, 3000);
         }
       })();
     } catch (error) {
@@ -33,6 +37,44 @@ const DetailProduct = () => {
     }
   }, [id]);
 
+  const handleQuantity = (action) => {
+    if (action === "increase" && cart.quantity < product.quantity) {
+      setCart({...cart,"quantity":cart.quantity + 1 });
+    } else if (action === "decrease" && cart.quantity > 1) {
+      setCart({...cart,"quantity":cart.quantity - 1 });
+    }
+  }
+
+  const handleAddToCart =async () => {
+    console.log("handleAddToCart", cart)
+      if(user){
+        try {
+          const {payload} = await dispatch(saveCartToDatabase(cart))
+          console.log("payload", payload)
+          if(payload?.successCode){
+            helper.toast("success", "Product added to cart")
+          }
+          if(payload?.errorCode){
+            helper.toast("success", payload.message)
+          }
+        } catch (error) {
+          console.log("error", error)
+        }
+      }else{
+        const {user, ...other} = cart
+        const newCart = {...other, product:product}
+        dispatch(getToCart())
+        const {payload} = dispatch(addToCart(newCart))
+        console.log("payload", payload)
+        if(payload.successCode){
+          helper.toast("success", payload.message)
+        }else{
+          helper.toast("error", payload.message)
+        }
+      }
+  }
+  console.log("user", user);
+  console.log("cart", cart);
   console.log("product", product);
 
   return (
@@ -68,25 +110,25 @@ const DetailProduct = () => {
               </div>
             </div>
             <div className="text-center mt-[20px]">
-              <Button
-                color="inherit"
-                variant="contained"
-              >
+              <Button color="inherit" variant="contained">
                 <i className="fa-solid fa-eye mr-3"></i>
                 xem trước
               </Button>
             </div>
             <div className="flex justify-center gap-[10px] mt-[25px]">
-              <div className="max-w-[220px] w-full border-[2px] border-solid border-[#C92127] rounded-[10px] px-[30px] py-[10px] items-center justify-center flex cursor-pointer">
-                <span className="text-[#C92127] font-semibold">
-                  Thêm vào giỏ hàng
-                </span>
-              </div>
-              <div className="max-w-[220px] w-full border-[2px] border-solid border-[#C92127] rounded-[10px] px-[30px] py-[10px] bg-[#C92127] items-center justify-center flex cursor-pointer">
+              
+                <div 
+                  className=" max-w-[220px] w-full border-[2px] border-solid border-[#C92127] hover:bg-red-100 transition-all rounded-[10px] px-[30px] py-[10px] items-center justify-center flex cursor-pointer"
+                  onClick={handleAddToCart}
+                >
+                  <span className="text-[#C92127] font-semibold " >
+                    Thêm vào giỏ hàng
+                  </span>
+                </div>
+              <div className="max-w-[220px] w-full border-[2px] border-solid border-[#C92127] hover:bg-[#d3343a] hover:border-[#d3343a] transition-all rounded-[10px] px-[30px] py-[10px] bg-[#C92127] items-center justify-center flex cursor-pointer">
                 <span className="text-[#fff] font-semibold ">Mua ngay</span>
               </div>
             </div>
-            
           </div>
 
           {/* Tên sản phẩm, giá sản phẩm, desc.. */}
@@ -101,24 +143,27 @@ const DetailProduct = () => {
                 <div className="">
                   <span className=" text-[#000]">
                     Nhà cung cấp:
-                    {product?.supplieres.map(suppliere => <Link
-                      className="text-[#2f80ec] font-semibold pl-[5px] hover:text-[red]"
-                      to
-                    >
-                      {suppliere.name}
-                    </Link>)}
-                    
+                    {product?.supplieres.map((suppliere) => (
+                      <Link
+                        className="text-[#2f80ec] font-semibold pl-[5px] hover:text-[red]"
+                        to
+                      >
+                        {suppliere.name}
+                      </Link>
+                    ))}
                   </span>
                 </div>
                 <div className="">
                   <span className=" text-[#000]">
                     Nhà xuất bản:
-                    {product?.publishings.map(publishing => <Link
-                      className="text-[#2f80ec] font-semibold pl-[5px] hover:text-[red]"
-                      to
-                    >
-                      {publishing.name}
-                    </Link>)}
+                    {product?.publishings.map((publishing) => (
+                      <Link
+                        className="text-[#2f80ec] font-semibold pl-[5px] hover:text-[red]"
+                        to
+                      >
+                        {publishing.name}
+                      </Link>
+                    ))}
                   </span>
                 </div>
               </div>
@@ -126,43 +171,42 @@ const DetailProduct = () => {
                 <div className="">
                   <span className=" text-[#000]">
                     Tác giả:
-                    {product?.authors.map(author => <Link
-                      className="text-[#2f80ec] font-semibold pl-[5px] hover:text-[red]"
-                      to
-                    >
-                      {author.name}
-                    </Link>)}
+                    {product?.authors.map((author) => (
+                      <Link
+                        className="text-[#2f80ec] font-semibold pl-[5px] hover:text-[red]"
+                        to
+                      >
+                        {author.name}
+                      </Link>
+                    ))}
                   </span>
                 </div>
                 <div className="">
                   <span className=" text-[#000]">
                     Hình thức bìa:
-                    {product?.formbooks.map(formbook => <Link
-                      className="text-[#2f80ec] font-semibold pl-[5px] hover:text-[red]"
-                      to
-                    >
-                      {formbook.name}
-                    </Link>)}
+                    {product?.formbooks.map((formbook) => (
+                      <Link
+                        className="text-[#2f80ec] font-semibold pl-[5px] hover:text-[red]"
+                        to
+                      >
+                        {formbook.name}
+                      </Link>
+                    ))}
                   </span>
                 </div>
               </div>
             </div>
             <div className="flex  my-[20px]">
               <div className="flex justify-center items-center">
-                <div className="pr-[20px]">
+                {product?.sale !== 0 || product?.sale ? (<>
+                  <div className="pr-[20px]">
                   <span className="text-[33px] text-[#C92127] font-bold ">
-                    {product?.sale.toLocaleString("vi", {
-                      style: "currency",
-                      currency: "VND",
-                    })}
+                    {helper.maskValuePrice(product?.sale)}
                   </span>
                 </div>
                 <div className="pr-[20px]">
                   <span className="text-[17px] line-through">
-                    {product?.price.toLocaleString("vi", {
-                      style: "currency",
-                      currency: "VND",
-                    })}
+                    {helper.maskValuePrice(product?.price)}
                   </span>
                 </div>
                 <div className="">
@@ -173,7 +217,11 @@ const DetailProduct = () => {
                     ).toFixed(0)}
                     %
                   </span>
-                </div>
+                </div></>) : (<div className="pr-[20px]">
+                  <span className="text-[33px] text-[#C92127] font-bold">
+                    {helper.maskValuePrice(product?.price)}
+                  </span>
+                </div>)}
               </div>
             </div>
             <div className="w-[100%] pb-[10px]">
@@ -210,7 +258,7 @@ const DetailProduct = () => {
               </div>
               <div className="  border border-solid border-[#9e9e9e] rounded-[4px]">
                 <div className="flex items-center">
-                  <div className="px-[15px]">
+                  <div className="p-[15px]" onClick={() => handleQuantity("decrease")}>
                     <img
                       className="w-[12px] h-auto"
                       src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_minus2x.png"
@@ -222,9 +270,10 @@ const DetailProduct = () => {
                       className="max-w-[60px] w-full text-center focus-visible:outline-0"
                       type="text"
                       defaultValue={1}
+                      value={cart.quantity}
                     />
                   </div>
-                  <div className="px-[15px]">
+                  <div className="p-[15px]" onClick={() => handleQuantity("increase")}>
                     <img
                       className="w-[12px] h-auto"
                       src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_plus2x.png"
@@ -514,42 +563,41 @@ const DetailProduct = () => {
                     <td className="w-[25%] p-[4px] text-[#777]">
                       Tên Nhà Cung Cấp
                     </td>
-                    <td className="w-[100%] p-[4px]"> {product?.supplieres.map(suppliere => <Link
-                      className="hover:text-[red]"
-                      to
-                    >
-                      {suppliere.name}
-                    </Link>)}</td>
+                    <td className="w-[100%] p-[4px]">
+                      {" "}
+                      {product?.supplieres.map((suppliere) => (
+                        <Link className="hover:text-[red]" to>
+                          {suppliere.name}
+                        </Link>
+                      ))}
+                    </td>
                   </tr>
                   <tr className="">
                     <td className="w-[25%] p-[4px] text-[#777]">Tác giả</td>
                     <td className="w-[100%] p-[4px]">
-                    {product?.authors.map(author => <Link
-                      className=" hover:text-[red]"
-                      to
-                    >
-                      {author.name}
-                    </Link>)}
+                      {product?.authors.map((author) => (
+                        <Link className=" hover:text-[red]" to>
+                          {author.name}
+                        </Link>
+                      ))}
                     </td>
                   </tr>
                   <tr className="">
                     <td className="w-[25%] p-[4px] text-[#777]">Hình Thức</td>
                     <td className="w-[100%] p-[4px]">
-                    {product?.formbooks.map(formbook => <Link
-                      className="hover:text-[red]"
-                      to
-                    >
-                      {formbook.name}
-                    </Link>)}
+                      {product?.formbooks.map((formbook) => (
+                        <Link className="hover:text-[red]" to>
+                          {formbook.name}
+                        </Link>
+                      ))}
                     </td>
                   </tr>
-                  {product?.other.map(item => 
+                  {product?.other.map((item) => (
                     <tr className="">
                       <td className="w-[25%] p-[4px] text-[#777]">{item.k}</td>
                       <td className="w-[100%] p-[4px]">{item.v}</td>
-                    </tr>  
-                  )}
-                  
+                    </tr>
+                  ))}
                 </tbody>
               </table>
               <div className="border-b-[1px] border-solid border-[#adadad] pb-[10px]">

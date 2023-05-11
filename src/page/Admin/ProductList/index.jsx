@@ -78,6 +78,7 @@ export default function ProductList() {
     console.log("values", values);
     if (!values._id) {
       const { payload } = await dispatch(AddNewProduct(values));
+      console.log("payload", payload)
       if (payload?.successCode) {
         helper.toast("success", "Add product success");
       }

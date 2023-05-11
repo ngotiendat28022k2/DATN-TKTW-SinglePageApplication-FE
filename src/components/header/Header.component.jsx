@@ -1,22 +1,25 @@
 import { useEffect, useState } from "react";
 import ClientMenu from "../menu/MenuClient.component";
-import local from "../../utiliti/local/local";
+import local from "../../utiliti/local/localSesion";
 import { Link, useNavigate } from "react-router-dom";
 import SidebarProfile from "../sidebar-profile/sidebar_profile";
 import "./headerClient.model.css";
 import AccountPopover from "../AdminComponent/header/AccountPopover";
 import getOverlappingDaysInIntervals from "date-fns/esm/fp/getOverlappingDaysInIntervals/index.js";
 import { searchProduct } from "../../slice/productsSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import PageSearch from "../../page/pageSearch";
 import helper from "../../utiliti/helper/helper";
 import TableSearch from "./tablesearch";
+import { getCartToDatabase } from "../../slice/cartSlice";
+
 
 const Header = () => {
     const [user, setUser] = useState(local.get("user") || null);
     const [open, setOpen] = useState(false);
     const [dataSearch, setDataSearch] = useState([]);
     const [historySearch, setHistorySearch] = useState([]);
+    const [cartLength, setCartLength] = useState(null)
     const [objSearch, setObjSearch] = useState({
         search: "",
         price: "",
@@ -24,6 +27,7 @@ const Header = () => {
         formbooks: "",
         supplieres: "",
     });
+    const cartStore = useSelector(state => state.cart.value)
     const dispatch = useDispatch();
 
     const handleDrawerOpen = () => {
@@ -84,6 +88,27 @@ const Header = () => {
         setHistorySearch(search_list);
         setUser(local.get("user"));
     }, [window.localStorage.getItem("search_list")]);
+
+    
+    useEffect(() => {
+        (async () => {
+            if(user){
+                try {
+                    const {payload} = await dispatch(getCartToDatabase(user._id))
+                    // console.log("payload header cart", payload)
+                    if(payload?.successCode){
+                        setCartLength(payload.data.length)
+                    }
+                } catch (error) {
+                    console.log("error", error)
+                }
+            }
+        })()
+    }, [])
+    useEffect(() => {
+        setCartLength(cartStore.length)
+    }, [cartStore])
+    
     return (
         <div className="md:flex md:m-auto md:justify-between md:w-[1280px] md:h-16 bg-[#fff]">
             <div className="mt-3 mr-8 flex justify-center">
@@ -127,19 +152,20 @@ const Header = () => {
             </div>
             <div className="flex md:mt-0 mt-3">
                 <div className="flex items-center justify-center md:mr-28 mr-12">
-                    <div className="flex border-2 rounded-xl w-[100%] dropdowns">
+                    <div className="relative flex border-2 rounded-xl w-[100%] dropdowns">
                         <input
                             onChange={(e) => onHandleSearch(e.target.value)}
                             type="text"
-                            className="px-4 py-2 md:w-[500px] sm:w-[490px] w-[270px]"
+                            className="px-4 py-2 md:w-[500px] sm:w-[490px] w-[270px] outline-none focus:bg-slate-100 "
                             placeholder="Tìm kiếm sản phẩm mong muốn..."
                         />
+                       
                         {dataSearch?.length > 0 ? (
-                            <div className="hidden absolute z-10 mt-10 dropdown-menu">
+                            <div className="hidden absolute z-10 mt-10 dropdown-menus">
                                 <TableSearch dataSearch={dataSearch} />
                             </div>
                         ) : historySearch?.length > 0 ? (
-                            <div className="hidden absolute z-10 mt-10 dropdown-menu">
+                            <div className="hidden absolute z-10 mt-10 dropdown-menus">
                                 <div className="bg-amber-50 w-[500px] mt-5 rounded-md">
                                     <nav>
                                         <p className="px-5 pt-3 text-base font-medium">
@@ -157,6 +183,7 @@ const Header = () => {
                                                             {item?.name}
                                                         </li>
                                                         <span
+                                                            className="hover:text-red-400"
                                                             onClick={(e) => {
                                                                 const filteredSearchList =
                                                                     historySearch.filter(
@@ -217,20 +244,22 @@ const Header = () => {
                     <div className="text-center">Thông báo</div>
                 </div>
                     <Link to="/checkout/cart">
-                        <div className="md:mt-3 md:w-24 w-24 cursor-pointer">
+                        <div className="md:mt-3 md:w-24 w-24 cursor-pointer relative">
                             <div className="flex justify-center">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="currentColor"
-                                    className="bi bi-cart2 md:w-[19px] md:h-[19px] w-[24px] h-[24px] mt-2 md:mt-0"
-                                    viewBox="0 0 16 16"
-                                >
-                                    <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
-                                </svg>
-                            </div>
-                            <div className="text-center hidden md:block">
-                                Giỏ hàng
-                            </div>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor"
+                                        className="bi bi-cart2 md:w-[19px] md:h-[19px] w-[24px] h-[24px] mt-2 md:mt-0 z-10"
+                                        viewBox="0 0 16 16"
+                                    >
+                                        <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
+                                    </svg>
+                                </div>
+                                <div className="text-center hidden md:block">
+                                    Giỏ hàng
+                                </div>
+                                {cartLength ? <div className=" absolute top-[-10px] left-[55%] bg-slate-200 p-[5px] text-[10px] text-center rounded-[50%]">{cartLength}</div> : null}
+                            
                         </div>
                     </Link>
                 <div className="md:mt-3 md:w-24 w-20">
