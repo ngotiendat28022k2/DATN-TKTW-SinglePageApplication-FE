@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./styles.module.css";
 import { Link } from "react-router-dom";
-import local from "../../utiliti/local/local";
+import local from "../../utiliti/local/localSesion";
 import { Button } from "@mui/material";
 const AccessDenied = () => {
   const user = local.get("user");

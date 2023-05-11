@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import local from "../utiliti/local/local";
+import local from "../utiliti/local/localSesion";
 import AccessDenied from "../components/AccessDenied";
 
 const PrivateLayout = ({ children }) => {

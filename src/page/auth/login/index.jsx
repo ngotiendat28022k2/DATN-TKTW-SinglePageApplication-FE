@@ -3,7 +3,7 @@ import {Link, useNavigate} from "react-router-dom"
 import { useDispatch } from "react-redux";
 import { login } from '../../../slice/userSlice';
 import hepler from "../../../utiliti/helper/helper"
-import local from "../../../utiliti/local/local"
+import local from "../../../utiliti/local/localSesion"
 const Login = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
