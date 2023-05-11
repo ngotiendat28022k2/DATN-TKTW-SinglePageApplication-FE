@@ -232,7 +232,7 @@ const HomePage = () => {
                                     </Link>
                                 </div>
                             </div>
-                        ))}
+                        )}
                         <div className='relative md:hidden block py-[100%] px-5'>
                             <div className='border-2 rounded-2xl text-center p-1 border-teal-400'>
                                 <button className='text-teal-500 hover:text-orange-400'>Xem Thêm</button>
