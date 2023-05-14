@@ -6,7 +6,7 @@
     display: block;
 }
 
-.dropdowns:hover .dropdown-menu {
+.test-1:focus-within .dropdown-menu{
     display: block;
 }
 

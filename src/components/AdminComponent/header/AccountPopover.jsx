@@ -29,36 +29,39 @@ const MENU_OPTIONS = [
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
-    const [open, setOpen] = useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const handleOpen = (event) => {
-        setOpen(event.currentTarget);
+        setAnchorEl(event.currentTarget);
     };
 
-    const handleClose = () => {
-        setOpen(false);
+    const handleClose = (link) => {
+        setAnchorEl(null);
+        navigate(link);
     };
 
     const handleLogout = async () => {
         await dispatch(logOut());
         navigate("/login");
     };
-
+    const clickHome = async () => {
+        navigate("/");
+    };
+    console.log("open", anchorEl);
     return (
         <>
             <IconButton
                 onClick={handleOpen}
                 sx={{
                     p: 0,
-                    ...(open && {
+                    ...(anchorEl && {
                         "&:before": {
                             zIndex: 1,
                             content: "''",
                             width: "100%",
                             height: "100%",
                             borderRadius: "50%",
-                            position: "absolute",
                             bgcolor: (theme) =>
                                 alpha(theme.palette.grey[900], 0.8),
                         },
@@ -69,8 +72,8 @@ export default function AccountPopover() {
             </IconButton>
 
             <Popover
-                open={Boolean(open)}
-                anchorEl={open}
+                open={Boolean(anchorEl)}
+                anchorEl={anchorEl}
                 onClose={handleClose}
                 anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
                 transformOrigin={{ vertical: "top", horizontal: "right" }}
@@ -102,13 +105,17 @@ export default function AccountPopover() {
 
                 <Divider sx={{ borderStyle: "dashed" }} />
 
+                <MenuItem onClick={clickHome} sx={{ m: 1 }}>
+                    Client
+                </MenuItem>
                 <Stack sx={{ p: 1 }}>
                     {MENU_OPTIONS.map((option) => (
-                        <Link to={option.link}>
-                            <MenuItem key={option.label}>
-                                {option.label}
-                            </MenuItem>
-                        </Link>
+                        <MenuItem
+                            key={option.label}
+                            onClick={() => handleClose(option.link)}
+                        >
+                            {option.label}
+                        </MenuItem>
                     ))}
                 </Stack>
 

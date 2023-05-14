@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import local from "../utiliti/local/local";
 import SidebarProfile from "../components/sidebar-profile/sidebar_profile";
@@ -11,7 +11,7 @@ const LayoutAccount = () => {
                 <SidebarProfile user={user} />
             </div>
             <div className="md:max-w-[77%] md:w-full ">
-                <Outlet/>
+                <Outlet />
             </div>
         </div>
     );
