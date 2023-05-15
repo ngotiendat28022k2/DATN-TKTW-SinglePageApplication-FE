@@ -6,6 +6,10 @@
     display: block;
 }
 
-.dropdowns:hover .dropdown-menus {
+.test-1:focus-within .dropdown-menu{
+    display: block;
+}
+
+.droplog:hover .droplog-dow{
     display: block;
 }
