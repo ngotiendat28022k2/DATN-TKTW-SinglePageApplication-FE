@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux';
+import "./index.css";
 import SlideShow from '../../components/slide-show/SlideShow.component';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -32,13 +32,13 @@ const HomePage = () => {
                     setCategories(category.payload.data.data)
                 }
                 if (category.payload.data?.errorCode) {
-                    helper.toast("error", category.payload.data.message)
+                    helper.toast("error", category.payload.data.message);
                 }
             } catch (error) {
                 console.log(error);
             }
         })();
-    }, [])
+    }, []);
 
     useEffect(() => {
         setProducts(product)
@@ -60,98 +60,162 @@ const HomePage = () => {
 
     return (
         <div>
-            <div className=''>
+            <div className="">
                 <SlideShow />
-                <div className='grid md:grid-cols-10 md:gap-4 grid-cols-5 gap-3 bg-white'>
-                    <div className='col-span-1 p-4'>
+                <div className="grid md:grid-cols-10 md:gap-4 grid-cols-5 gap-3 bg-white">
+                    <div className="col-span-1 p-4">
                         <a href="">
-                            <div className=''>
-                                <img className='md:w-12 md:h-12 w-11 h-11 m-auto' src="https://i.imgur.com/tkzenTt.png" alt="" />
+                            <div className="">
+                                <img
+                                    className="md:w-12 md:h-12 w-11 h-11 m-auto"
+                                    src="https://i.imgur.com/tkzenTt.png"
+                                    alt=""
+                                />
                             </div>
-                            <div className='md:text-sm text-xs text-center pt-3'>Flash Sale</div>
+                            <div className="md:text-sm text-xs text-center pt-3">
+                                Flash Sale
+                            </div>
                         </a>
                     </div>
-                    <div className='col-span-1 p-4'>
+                    <div className="col-span-1 p-4">
                         <a href="">
-                            <div className=''>
-                                <img className='md:w-12 md:h-12 w-11 h-11 m-auto' src="https://i.imgur.com/vN0ZtKz.png" alt="" />
+                            <div className="">
+                                <img
+                                    className="md:w-12 md:h-12 w-11 h-11 m-auto"
+                                    src="https://i.imgur.com/vN0ZtKz.png"
+                                    alt=""
+                                />
                             </div>
-                            <div className='md:text-sm text-xs text-center pt-3'>Mã Giảm Giá</div>
+                            <div className="md:text-sm text-xs text-center pt-3">
+                                Mã Giảm Giá
+                            </div>
                         </a>
                     </div>
-                    <div className='col-span-1 p-4'>
+                    <div className="col-span-1 p-4">
                         <a href="">
-                            <div className=''>
-                                <img className='md:w-12 md:h-12 w-11 h-11 m-auto' src="https://i.imgur.com/TGVhvb3.png" alt="" />
+                            <div className="">
+                                <img
+                                    className="md:w-12 md:h-12 w-11 h-11 m-auto"
+                                    src="https://i.imgur.com/TGVhvb3.png"
+                                    alt=""
+                                />
                             </div>
-                            <div className='md:text-sm text-xs text-center pt-3'>Xu Hướng</div>
+                            <div className="md:text-sm text-xs text-center pt-3">
+                                Xu Hướng
+                            </div>
                         </a>
                     </div>
-                    <div className='col-span-1 p-4'>
+                    <div className="col-span-1 p-4">
                         <a href="">
-                            <div className=''>
-                                <img className='md:w-12 md:h-12 w-11 h-11 m-auto' src="https://i.imgur.com/050aWxc.png" alt="" />
+                            <div className="">
+                                <img
+                                    className="md:w-12 md:h-12 w-11 h-11 m-auto"
+                                    src="https://i.imgur.com/050aWxc.png"
+                                    alt=""
+                                />
                             </div>
-                            <div className='md:text-sm text-xs text-center pt-3'>Sản Phẩm Mới</div>
+                            <div className="md:text-sm text-xs text-center pt-3">
+                                Sản Phẩm Mới
+                            </div>
                         </a>
                     </div>
-                    <div className='col-span-1 p-4'>
+                    <div className="col-span-1 p-4">
                         <a href="">
-                            <div className=''>
-                                <img className='md:w-12 md:h-12 w-11 h-11 m-auto' src="https://i.imgur.com/28Ozfcf.png" alt="" />
+                            <div className="">
+                                <img
+                                    className="md:w-12 md:h-12 w-11 h-11 m-auto"
+                                    src="https://i.imgur.com/28Ozfcf.png"
+                                    alt=""
+                                />
                             </div>
-                            <div className='md:text-sm text-xs text-center pt-3'>Văn Học</div>
+                            <div className="md:text-sm text-xs text-center pt-3">
+                                Văn Học
+                            </div>
                         </a>
                     </div>
-                    <div className='col-span-1 p-4'>
+                    <div className="col-span-1 p-4">
                         <a href="">
-                            <div className=''>
-                                <img className='md:w-12 md:h-12 w-11 h-11 m-auto' src="https://i.imgur.com/DozXoDW.png" alt="" />
+                            <div className="">
+                                <img
+                                    className="md:w-12 md:h-12 w-11 h-11 m-auto"
+                                    src="https://i.imgur.com/DozXoDW.png"
+                                    alt=""
+                                />
                             </div>
-                            <div className='md:text-sm text-xs text-center pt-3'>Tâm Lý Kỹ Năng</div>
+                            <div className="md:text-sm text-xs text-center pt-3">
+                                Tâm Lý Kỹ Năng
+                            </div>
                         </a>
                     </div>
-                    <div className='col-span-1 p-4'>
+                    <div className="col-span-1 p-4">
                         <a href="">
-                            <div className=''>
-                                <img className='md:w-12 md:h-12 w-11 h-11 m-auto' src="https://i.imgur.com/U0RmU2Z.png" alt="" />
+                            <div className="">
+                                <img
+                                    className="md:w-12 md:h-12 w-11 h-11 m-auto"
+                                    src="https://i.imgur.com/U0RmU2Z.png"
+                                    alt=""
+                                />
                             </div>
-                            <div className='md:text-sm text-xs text-center pt-3'>Đồ Chơi</div>
+                            <div className="md:text-sm text-xs text-center pt-3">
+                                Đồ Chơi
+                            </div>
                         </a>
                     </div>
-                    <div className='col-span-1 p-4'>
+                    <div className="col-span-1 p-4">
                         <a href="">
-                            <div className=''>
-                                <img className='md:w-12 md:h-12 w-11 h-11 m-auto' src="https://i.imgur.com/mKE7kAH.png" alt="" />
+                            <div className="">
+                                <img
+                                    className="md:w-12 md:h-12 w-11 h-11 m-auto"
+                                    src="https://i.imgur.com/mKE7kAH.png"
+                                    alt=""
+                                />
                             </div>
-                            <div className='md:text-sm text-xs text-center pt-3'>Manga - Comic</div>
+                            <div className="md:text-sm text-xs text-center pt-3">
+                                Manga - Comic
+                            </div>
                         </a>
                     </div>
-                    <div className='col-span-1 p-4'>
+                    <div className="col-span-1 p-4">
                         <a href="">
-                            <div className=''>
-                                <img className='md:w-12 md:h-12 w-11 h-11 m-auto' src="https://i.imgur.com/4EGGXGL.png" alt="" />
+                            <div className="">
+                                <img
+                                    className="md:w-12 md:h-12 w-11 h-11 m-auto"
+                                    src="https://i.imgur.com/4EGGXGL.png"
+                                    alt=""
+                                />
                             </div>
-                            <div className='md:text-sm text-xs text-center pt-3'>Phiên Chợ Sách Cũ</div>
+                            <div className="md:text-sm text-xs text-center pt-3">
+                                Phiên Chợ Sách Cũ
+                            </div>
                         </a>
                     </div>
-                    <div className='col-span-1 p-4'>
+                    <div className="col-span-1 p-4">
                         <a href="">
-                            <div className=''>
-                                <img className='md:w-12 md:h-12 w-11 h-11 m-auto' src="https://i.imgur.com/89Ma5ji.png" alt="" />
+                            <div className="">
+                                <img
+                                    className="md:w-12 md:h-12 w-11 h-11 m-auto"
+                                    src="https://i.imgur.com/89Ma5ji.png"
+                                    alt=""
+                                />
                             </div>
-                            <div className='md:text-sm text-xs text-center pt-3'>Kinh Tế</div>
+                            <div className="md:text-sm text-xs text-center pt-3">
+                                Kinh Tế
+                            </div>
                         </a>
                     </div>
                 </div>
             </div>
-            <div className='my-5'>
-                <div className='bg-[#FCDAB0]'>
-                    <div className='flex md:py-5 py-3 px-3'>
-                        <div className='mr-3'>
-                            <img className='w-6 h-6' src="https://i.imgur.com/H63fkyZ.png" alt="" />
+            <div className="my-5">
+                <div className="bg-[#FCDAB0]">
+                    <div className="flex md:py-5 py-3 px-3">
+                        <div className="mr-3">
+                            <img
+                                className="w-6 h-6"
+                                src="https://i.imgur.com/H63fkyZ.png"
+                                alt=""
+                            />
                         </div>
-                        <div className='font-bold text-lg'>FLASH SALE</div>
+                        <div className="font-bold text-lg">FLASH SALE</div>
                     </div>
                 </div>
                 <div className='bg-white p-2'>
@@ -174,22 +238,28 @@ const HomePage = () => {
                                         <span className='block md:px-5 px-3 text-sm md:text-[14px]'>Số lượng còn lại: {itemProduct.quantity}</span>
                                     </Link>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
 
-                        <div className='relative md:hidden block py-[100%] px-5'>
-                            <div className='border-2 rounded-2xl text-center p-1 border-teal-400'>
-                                <button className='text-teal-500 hover:text-orange-400'>Xem Thêm</button>
+                            <div className="relative md:hidden block py-[100%] px-5">
+                                <div className="border-2 rounded-2xl text-center p-1 border-teal-400">
+                                    <button className="text-teal-500 hover:text-orange-400">
+                                        Xem Thêm
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             </div>
-            <div className='md:mt-5 md:3 md:block rounded-3xl hidden'>
-                <div className='bg-[#FFFFFF]'>
-                    <div className='flex md:py-5 py-3 px-3'>
-                        <div className='mr-3'>
-                            <img className='w-8 h-8' src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_menu.svg" alt="" />
+            <div className="md:mt-5 md:3 md:block rounded-3xl hidden">
+                <div className="bg-[#FFFFFF]">
+                    <div className="flex md:py-5 py-3 px-3">
+                        <div className="mr-3">
+                            <img
+                                className="w-8 h-8"
+                                src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_menu.svg"
+                                alt=""
+                            />
                         </div>
                         <div className='font-bold text-lg'>Danh mục sản phẩm</div>
                     </div>
@@ -204,14 +274,6 @@ const HomePage = () => {
                                 <div className='md:text-sm text-xs text-center pt-3'>{itemCategory.name}</div>
                             </Link>
                         </div>
-                    ))}
-
-                </div>
-            </div>
-            <div className='my-5'>
-                <div className='bg-[#FFFFFF]'>
-                    <div className='flex md:py-5 py-3 px-3'>
-                        <div className='font-bold text-lg'>SẢN PHẨM MỚI</div>
                     </div>
                 </div>
                 <div className='bg-white p-2'>
@@ -237,7 +299,7 @@ const HomePage = () => {
                             <div className='border-2 rounded-2xl text-center p-1 border-teal-400'>
                                 <button className='text-teal-500 hover:text-orange-400'>Xem Thêm</button>
                             </div>
-                        </div>
+                        ))}
                     </div>
                 </div>
                 {products.length > 5 && (
@@ -255,25 +317,57 @@ const HomePage = () => {
   </div>
 )}
             </div>
-            <div className='my-5'>
-                <div className='bg-[#FFFFFF]'>
-                    <div className='flex md:py-5 py-3 px-3'>
-                        <div className='font-bold text-lg'>SÁCH KINH TẾ</div>
+            <div className="my-5">
+                <div className="bg-[#FFFFFF]">
+                    <div className="flex md:py-5 py-3 px-3">
+                        <div className="font-bold text-lg">SẢN PHẨM MỚI</div>
                     </div>
                 </div>
-                <div className='bg-white md:p-5'>
-                    <div className='md:grid md:grid-cols-3 md:gap-1 md:mx-5 md:mb-12 flex mx-3 pb-3'>
-                        <div className='w-[100%] m-auto md:block hidden'>
-                            <a href="">
-                                <img className='m' src="https://cdn0.fahasa.com/media/wysiwyg/Thang-01-2023/BannerBlock10_KinhTe350x415.jpg" alt="" />
-                            </a>
+                <div className="bg-white p-2">
+                    {product.length == 0 ? (
+                        <div className="bg-white pl-10 pb-4">
+                            Không có sản phẩm nào
                         </div>
-                        <div className='md:grid md:grid-rows-2 flex'>
-                            <div className='grid md:grid-cols-2 border-2 md:mb-2 md:mr-2 mr-1'>
-                                <div>
-                                    <a href="">
-                                        <img src="https://cdn0.fahasa.com/media/catalog/product/i/m/image_195509_1_18957.jpg" alt="" />
-                                    </a>
+                    ) : (
+                        <div className="grid md:grid-cols-5 grid-cols-3 gap-2 md:mx-2">
+                            {product?.map((product) => (
+                                <div className="relative hover:border-2 hover:shadow-md">
+                                    <div className="md:m-2 m-2">
+                                        <Link to={`/detail/${product._id}`}>
+                                            <img
+                                                src={product.productImage[0]}
+                                                alt={product.name}
+                                            />
+                                        </Link>
+                                    </div>
+                                    <div className="mb-3">
+                                        <Link to={`/detail/${product._id}`}>
+                                            <h4 className="text-[#333333] md:text-lg text-base md:px-5 px-3 text-h4">
+                                                {product.name}
+                                            </h4>
+                                            <span className="block md:px-5 px-3 text-base md:text-xl text-[#F7941E] font-semibold">
+                                                {new Intl.NumberFormat(
+                                                    "vi-VN",
+                                                    {
+                                                        style: "currency",
+                                                        currency: "VND",
+                                                    }
+                                                ).format(product.sale)}
+                                            </span>
+                                            <span className="block md:px-5 px-3 text-sm md:text-base text-[#888888] line-through">
+                                                {new Intl.NumberFormat(
+                                                    "vi-VN",
+                                                    {
+                                                        style: "currency",
+                                                        currency: "VND",
+                                                    }
+                                                ).format(product.price)}
+                                            </span>
+                                            <span className="block md:px-5 px-3 text-sm md:text-xs">
+                                                Lượt xem: {product.view}
+                                            </span>
+                                        </Link>
+                                    </div>
                                 </div>
                                 <div className='md:my-5 md:pr-5 p-1 text-left'>
                                     <a href="">
@@ -340,7 +434,7 @@ const HomePage = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    )}
                 </div>
             </div>
         </div>

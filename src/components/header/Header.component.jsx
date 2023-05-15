@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import ClientMenu from "../menu/MenuClient.component";
 import local from "../../utiliti/local/localSesion";
 import { Link, useNavigate } from "react-router-dom";
 import SidebarProfile from "../sidebar-profile/sidebar_profile";
 import "./headerClient.model.css";
-import AccountPopover from "../AdminComponent/header/AccountPopover";
 import getOverlappingDaysInIntervals from "date-fns/esm/fp/getOverlappingDaysInIntervals/index.js";
 import { searchProduct } from "../../slice/productsSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +14,22 @@ import { getCartToDatabase } from "../../slice/cartSlice";
 
 
 const Header = () => {
+    const [showProfile, setShowProfile] = useState(false);
+    const [showSidebar, setShowSidebar] = useState(false);
+    const ref = useRef();
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (ref.current && !ref.current.contains(event.target)) {
+                setShowSidebar(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [ref]);
+
     const [user, setUser] = useState(local.get("user") || null);
     const [open, setOpen] = useState(false);
     const [dataSearch, setDataSearch] = useState([]);
@@ -29,10 +44,6 @@ const Header = () => {
     });
     const cartStore = useSelector(state => state.cart.value)
     const dispatch = useDispatch();
-
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
 
     const navigate = useNavigate();
     const onHandleSearch = async (valueInput) => {
@@ -85,7 +96,7 @@ const Header = () => {
     useEffect(() => {
         const search_list =
             JSON.parse(window.localStorage.getItem("search_list")) || [];
-        setHistorySearch(search_list);
+        setHistorySearch(search_list.slice(0, 8));
         setUser(local.get("user"));
     }, [window.localStorage.getItem("search_list")]);
 
@@ -151,8 +162,8 @@ const Header = () => {
                 </div>
             </div>
             <div className="flex md:mt-0 mt-3">
-                <div className="flex items-center justify-center md:mr-28 mr-12">
-                    <div className="relative flex border-2 rounded-xl w-[100%] dropdowns">
+                <div className="flex items-center justify-center md:mr-28 mr-12 dropdowns">
+                    <div className="test-1 flex border-2 rounded-xl w-[100%]">
                         <input
                             onChange={(e) => onHandleSearch(e.target.value)}
                             type="text"
@@ -259,9 +270,9 @@ const Header = () => {
                                     Giỏ hàng
                                 </div>
                                 {cartLength ? <div className=" absolute top-[-10px] left-[55%] bg-slate-200 p-[5px] text-[10px] text-center rounded-[50%]">{cartLength}</div> : null}
-                            
                         </div>
-                    </Link>
+                    </div>
+                </Link>
                 <div className="md:mt-3 md:w-24 w-20">
                     {!user ? (
                         <div>
@@ -294,13 +305,22 @@ const Header = () => {
                             </div>
                         </div>
                     ) : (
-                        <div className="relative ">
-                            <div className="rounded-[50%] overflow-hidden ml-[15px] max-w-[40px] cursor-pointer">
+                        <div className="relative droplog">
+                            <div
+                                className="rounded-[50%] overflow-hidden ml-[15px] max-w-[40px] cursor-pointer"
+                                onClick={() => setShowSidebar(true)}
+                            >
                                 <img src={user.avatar} className="w-full" />
                             </div>
-                            <div className="absolute top-[35px] right-0 pt-[17px]">
-                                <SidebarProfile user={user} />
-                            </div>
+                            {showSidebar && (
+                                <div
+                                    ref={ref}
+                                    className="absolute top-[35px] right-0 mt-[17px] droplog-dow"
+                                    onClick={() => setShowSidebar(false)}
+                                >
+                                    <SidebarProfile user={user} />
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
