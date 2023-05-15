@@ -32,6 +32,14 @@ const SidebarProfile = (props) => {
                                 Quản trị viên
                             </Link>
                         </div>
+                        <div className="border-b-[1px] border-solid border-[#f2f2f2] py-[5px]">
+                            <Link
+                                to="/login"
+                                className="py-[5px] text-[#333333] text-[14px] font-normal"
+                            >
+                                Đăng xuất
+                            </Link>
+                        </div>
                     </div>
                 </div>
             ) : (
@@ -67,6 +75,14 @@ const SidebarProfile = (props) => {
                                 className="py-[5px] text-[#333333] text-[14px] font-normal"
                             >
                                 Đơn hàng của tôi
+                            </Link>
+                        </div>
+                        <div className="border-b-[1px] border-solid border-[#f2f2f2] py-[5px]">
+                            <Link
+                                to="/login"
+                                className="py-[5px] text-[#333333] text-[14px] font-normal"
+                            >
+                                Đăng xuất
                             </Link>
                         </div>
                     </div>

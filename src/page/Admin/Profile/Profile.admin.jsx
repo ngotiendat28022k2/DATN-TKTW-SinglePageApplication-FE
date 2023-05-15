@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import local from "../../../utiliti/local/local";
+import local from "../../../utiliti/local/localSesion";
 
 const ProfileAdmin = () => {
     const [user, setUser] = useState(local.get("user") || null);
