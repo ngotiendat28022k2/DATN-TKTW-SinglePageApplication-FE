@@ -7,6 +7,7 @@ import { getAllCategory } from "../../slice/categorySlice";
 import helper from "../../utiliti/helper/helper";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import ProductSlide from "../../components/productSlide/ProductSlide";
 const HomePage = () => {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -114,9 +115,7 @@ const HomePage = () => {
                                     alt=""
                                 />
                             </div>
-                            <div className="md:text-sm text-xs text-center pt-3">
-                                Văn Học
-                            </div>
+                            <div className="md:text-sm text-xs text-center pt-3">Văn Học</div>
                         </a>
                     </div>
                     <div className="col-span-1 p-4">
@@ -142,9 +141,7 @@ const HomePage = () => {
                                     alt=""
                                 />
                             </div>
-                            <div className="md:text-sm text-xs text-center pt-3">
-                                Đồ Chơi
-                            </div>
+                            <div className="md:text-sm text-xs text-center pt-3">Đồ Chơi</div>
                         </a>
                     </div>
                     <div className="col-span-1 p-4">
@@ -184,9 +181,7 @@ const HomePage = () => {
                                     alt=""
                                 />
                             </div>
-                            <div className="md:text-sm text-xs text-center pt-3">
-                                Kinh Tế
-                            </div>
+                            <div className="md:text-sm text-xs text-center pt-3">Kinh Tế</div>
                         </a>
                     </div>
                 </div>
@@ -203,177 +198,31 @@ const HomePage = () => {
                         </div>
                         <div className="font-bold text-lg">FLASH SALE</div>
                     </div>
-                    <div className="bg-white p-2">
-                        <div className="grid md:grid-cols-5 grid-cols-3 gap-2 md:mx-2">
-                            {products?.map((product) => (
-                                <div className="relative hover:border-2 hover:shadow-md">
-                                    <div className="md:m-2 m-2">
-                                        <Link to={`/detail/${product._id}`}>
-                                            <img
-                                                src={product.productImage[0]}
-                                                alt={product.name}
-                                            />
-                                        </Link>
-                                    </div>
-                                    <div className="mb-3">
-                                        <Link to={`/detail/${product._id}`}>
-                                            <h4 className="text-[#333333] md:text-lg text-base md:px-5 px-3">
-                                                {helper.truncateString(
-                                                    product.name,
-                                                    40
-                                                )}
-                                            </h4>
-                                            <span className="block md:px-5 px-3 text-base md:text-xl text-[#F7941E] font-semibold">
-                                                {helper.maskValuePrice(
-                                                    product.sale
-                                                )}
-                                            </span>
-                                            <span className="block md:px-5 px-3 text-sm md:text-base text-[#888888] line-through">
-                                                {helper.maskValuePrice(
-                                                    product.price
-                                                )}
-                                            </span>
-                                            <span className="block md:px-5 px-3 text-sm md:text-xs">
-                                                {" "}
-                                                Số lượng còn lại:{" "}
-                                                {product.quantity}
-                                            </span>
-                                        </Link>
-                                    </div>
-                                </div>
-                            ))}
-                            <div className="relative md:hidden block py-[100%] px-5">
-                                <div className="border-2 rounded-2xl text-center p-1 border-teal-400">
-                                    <button className="text-teal-500 hover:text-orange-400">
-                                        Xem Thêm
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        {products.length > 5 && (
-                            <div className="relative my-5">
-                                {startIndex > 0 && (
-                                    <button
-                                        className="absolute left-[10px] top-[-350px] text-slate-400 hover:text-slate-600 mr-5 border-[2px] w-[35px] h-[35px] flex justify-center items-center rounded-[50%] border-[#bbbbbb]"
-                                        onClick={handlePrev}
-                                    >
-                                        <FaArrowLeft className="text-[20px]" />
-                                    </button>
-                                )}
-                                {endIndex < products.length && (
-                                    <button
-                                        className="absolute right-[10px] top-[-350px]  text-slate-400 hover:text-slate-600 border-[2px] w-[35px] h-[35px] flex justify-center items-center rounded-[50%] border-[#bbbbbb]"
-                                        onClick={handleNext}
-                                    >
-                                        <FaArrowRight className="text-[20px]" />
-                                    </button>
-                                )}
-                            </div>
-                        )}
-                    </div>
-                </div>
-
+                    <ProductSlide {...{ products }} />
                 </div>
             </div>
-            <div className='my-5'>
-                <div className='bg-[#FFFFFF]'>
-                    <div className='flex md:py-5 py-3 px-3'>
-                        <div className='font-bold text-lg'>SẢN PHẨM MỚI</div>
-                    </div>
-                </div>
-                <ProductSlide {...{ products }} />
-            </div>
-            <div className='my-5'>
-                <div className='bg-[#FFFFFF]'>
-                    <div className='flex md:py-5 py-3 px-3'>
-                        <div className='font-bold text-lg'>SÁCH KINH TẾ</div>
-                    </div>
-                </div>
-
-                <div className="my-5">
-                    <div className="bg-[#FFFFFF]">
-                        <div className="flex md:py-5 py-3 px-3">
-                            <div className="font-bold text-lg">
-                                SẢN PHẨM MỚI
+            <div className="my-5">
+                <div className='md:mt-5 md:3 md:block rounded-3xl hidden'>
+                    <div className='bg-[#FFFFFF]'>
+                        <div className='flex md:py-5 py-3 px-3'>
+                            <div className='mr-3'>
+                                <img className='w-8 h-8' src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_menu.svg" alt="" />
                             </div>
+                            <div className='font-bold text-lg'>Danh mục sản phẩm</div>
                         </div>
                     </div>
-                    <div className="bg-white p-2">
-                        {product.length == 0 ? (
-                            <div className="bg-white pl-10 pb-4">
-                                Không có sản phẩm nào
+                    <div className='grid md:grid-cols-10 md:gap-2 grid-cols-5 gap-3 bg-white pb-4 px-[20px]'>
+                        {categories?.map((itemCategory) => (
+                            <div className='col-span-1 p-[5px] overflow-hidden rounded-md transition duration-300 ease-in-out hover:scale-110 hover:shadow-md dark:hover:shadow-black/30' title={itemCategory.name}>
+                                <Link to="">
+                                    <div className=''>
+                                        <img className='md:w-[100px] md:h-[100px] w-11 h-11 m-auto ' src={itemCategory.image} alt="" />
+                                    </div>
+                                    <div className='md:text-sm text-xs text-center pt-3'>{itemCategory.name}</div>
+                                </Link>
                             </div>
-                        ) : (
-                            <div className="grid md:grid-cols-5 grid-cols-3 gap-2 md:mx-2">
-                                {product?.map((product) => (
-                                    <>
-                                        <div className="relative hover:border-2 hover:shadow-md">
-                                            <div className="md:m-2 m-2">
-                                                <Link
-                                                    to={`/detail/${product._id}`}
-                                                >
-                                                    <img
-                                                        src={
-                                                            product
-                                                                .productImage[0]
-                                                        }
-                                                        alt={product.name}
-                                                    />
-                                                </Link>
-                                            </div>
-                                            <div className="mb-3">
-                                                <Link
-                                                    to={`/detail/${product._id}`}
-                                                >
-                                                    <h4 className="text-[#333333] md:text-lg text-base md:px-5 px-3 text-h4">
-                                                        {product.name}
-                                                    </h4>
-                                                    <span className="block md:px-5 px-3 text-base md:text-xl text-[#F7941E] font-semibold">
-                                                        {new Intl.NumberFormat(
-                                                            "vi-VN",
-                                                            {
-                                                                style: "currency",
-                                                                currency: "VND",
-                                                            }
-                                                        ).format(product.sale)}
-                                                    </span>
-                                                    <span className="block md:px-5 px-3 text-sm md:text-base text-[#888888] line-through">
-                                                        {new Intl.NumberFormat(
-                                                            "vi-VN",
-                                                            {
-                                                                style: "currency",
-                                                                currency: "VND",
-                                                            }
-                                                        ).format(product.price)}
-                                                    </span>
-                                                    <span className="block md:px-5 px-3 text-sm md:text-xs">
-                                                        Lượt xem: {product.view}
-                                                    </span>
-                                                </Link>
-                                            </div>
-                                        </div>
-                                        <div className="md:my-5 md:pr-5 p-1 text-left">
-                                            <a href="">
-                                                <h4 className="text-[#333333] md:text-base text-sm">
-                                                    Tinh Anh Công Sở 4.0
-                                                </h4>
-                                                <p className="flex md:mt-3">
-                                                    <span className="block text-base md:text-xl text-[#C92127] md:font-semibold font-medium md:mr-5 mr-3">
-                                                        56.000
-                                                    </span>
-                                                    <span className="bg-[#C92127] md:text-base text-sm text-[#FFF] rounded-lg md:font-semibold md:p-[2px] p-[1px">
-                                                        -50%
-                                                    </span>
-                                                </p>
-                                                <span className="block md:text-base text-sm text-[#888888] line-through">
-                                                    112.000
-                                                </span>
-                                            </a>
-                                        </div>
-                                    </>
-                                ))}
-                            </div>
-                        )}
+                        ))}
+
                     </div>
                 </div>
             </div>
