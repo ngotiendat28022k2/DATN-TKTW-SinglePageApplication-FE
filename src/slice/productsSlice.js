@@ -8,6 +8,13 @@ export const getAllProduct = createAsyncThunk(
     return response;
   }
 );
+export const getAllProductClient = createAsyncThunk(
+  "product/getAllProductClient",
+  async () => {
+    const response = await productApi.ProductListClient();
+    return response;
+  }
+);
 
 export const getProduct = createAsyncThunk("product/get", async (id) => {
   const res = await productApi.ProductDetail(id);

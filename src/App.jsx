@@ -17,10 +17,11 @@ import ProductList from "./page/Admin/ProductList";
 import PublishList from "./page/Admin/publishingList";
 import CategoryList from "./page/Admin/categoryList";
 import SupplierList from "./page/Admin/supplieresList";
-import PagePay from "./page/pay/index";
 import AuthorList from "./page/Admin/authorList";
 import UserList from "./page/Admin/userList";
 import UserRootList from "./page/Admin/userRootList";
+import DealHot from "./page/DealHot/DealHot";
+import SeriesBook from "./page/SeriesBook/SeriesBook";
 
 const ProfileAdmin = React.lazy(() =>
     import("./page/Admin/Profile/Profile.admin")
@@ -32,12 +33,19 @@ const ProfileInfo = React.lazy(() => import("./page/profile/Profile-Info"));
 const ProfileMyProduct = React.lazy(() =>
     import("./page/profile/Profile-MyProduct")
 );
+const ProfileNotification = React.lazy(() =>
+    import("./page/profile/Profile-Notification")
+);
+const ProfileVoucher = React.lazy(() =>
+    import("./page/profile/Profile-Voucher")
+);
 const HomePage = React.lazy(() => import("./page/home"));
 const DetailProduct = React.lazy(() => import("./page/Detail"));
 const Blog = React.lazy(() => import("./page/blog"));
 const Login = React.lazy(() => import("./page/auth/login"));
 const Register = React.lazy(() => import("./page/auth/register"));
 const PageSearch = React.lazy(() => import("./page/pageSearch"));
+const PagePay = React.lazy(() => import("./page/pay/index"));
 
 function App() {
     return (
@@ -49,6 +57,12 @@ function App() {
                             <Route index element={<Navigate to="home" />} />
                             <Route path="home" element={<HomePage />} />
                             <Route path="blog" element={<Blog />} />
+                            {/* Test */}
+                            <Route path="deal-hot" element={<DealHot />} />
+                            <Route
+                                path="series-book"
+                                element={<SeriesBook />}
+                            />
                             <Route
                                 path="/detail/:id"
                                 element={<DetailProduct />}
@@ -73,7 +87,20 @@ function App() {
                                     path="account/order/:id"
                                     element={<ProfileMyProduct />}
                                 />
+                            
+                                <Route
+                                    path="account/voucher"
+                                    element={<ProfileVoucher />}
+                                />
+                                <Route
+                                    path="account/notification"
+                                    element={<ProfileNotification />}
+                                />
                             </Route>
+                            {/* <Route
+                                path="/series-book"
+                                element={<SeriesBook />}
+                            /> */}
                             {/* <Route path="/paycart" element={<PayCart />} /> */}
                         </Route>
                     </Route>

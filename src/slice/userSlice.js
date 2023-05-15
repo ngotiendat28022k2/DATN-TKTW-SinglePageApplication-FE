@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import userApi from "../api/user";
-import local from "../utiliti/local/local";
+import local from "../utiliti/local/localSesion";
 
 export const login = createAsyncThunk("user/login", async (data) => {
     const response = await userApi.login(data);
@@ -75,23 +75,20 @@ export const userSlice = createSlice({
             };
         },
     },
-    extraReducers: (builder) => {
-        builder.addCase(login.fulfilled, (state, action) => {
-            if (action.payload.errorCode) {
-                return {
-                    ...state,
-                    isLogin: false,
-                    user: {},
-                };
-            } else {
-                state.user = action.payload.data;
-                state.isLogin = true;
-            }
-        });
-        builder.addCase(register.fulfilled, (state, action) => {
-            state.otp = action.payload;
-            state.isLogin = false;
-        });
+  extraReducers: (builder) => {
+    builder.addCase(login.fulfilled, (state, action) => {
+      if (action.payload.successCode) {
+        return {
+          ...state,
+          isLogin: true,
+          user: action.payload.data,
+        };
+      }
+    });
+    builder.addCase(register.fulfilled, (state, action) => {
+      state.otp = action.payload;
+      state.isLogin = false;
+    });
 
         builder.addCase(sendOtp.fulfilled, (state, action) => {
             console.log("user send otp slice", action.payload);

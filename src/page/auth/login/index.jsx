@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { login } from "../../../slice/userSlice";
-import hepler from "../../../utiliti/helper/helper";
-import local from "../../../utiliti/local/local";
+import { login } from '../../../slice/userSlice';
+import hepler from "../../../utiliti/helper/helper"
+import local from "../../../utiliti/local/localSesion"
 const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -13,29 +13,7 @@ const Login = () => {
     });
     const [showPassWord, setShowPassWord] = useState(false);
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // const handleSubmit = async (event) => {
-    //     event.preventDefault();
-    //     try {
-    //         const { payload } = await dispatch(login(user));
-    //         console.log("payload", payload);
-    //         if (payload?.errorCode) {
-    //             return hepler.toast("error", payload.message);
-    //         }
-    //         if (payload?.successCode) {
-    //             local.set("user", JSON.stringify(payload.data));
-    //             hepler.toast("success", "Login Success");
-    //             setTimeout(() => {
-    //                 if (payload.data.role === 0) {
-    //                     navigate("/home");
-    //                 } else {
-    //                     navigate("/admin");
-    //                 }
-    //             }, 2000);
-    //         }
-    //     } catch (error) {
-    //         hepler.toast("error", error);
-    //     }
-    // };
+   
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {

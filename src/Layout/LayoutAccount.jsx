@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
-import local from "../utiliti/local/local";
+import local from "../utiliti/local/localSesion";
 import SidebarProfile from "../components/sidebar-profile/sidebar_profile";
 
 const LayoutAccount = () => {
