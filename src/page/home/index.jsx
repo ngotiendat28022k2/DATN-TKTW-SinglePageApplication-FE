@@ -10,8 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 const HomePage = () => {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [startIndex, setStartIndex] = useState(0);
-    const [endIndex, setEndIndex] = useState(5);
+   
     const dispatch = useDispatch();
     const product = useSelector((state) => state.product.value);
     const category = useSelector((state) => state.category.value);
@@ -45,18 +44,6 @@ const HomePage = () => {
         setProducts(product);
         setCategories(category);
     }, [product, category]);
-
-    const handleNext = () => {
-        setStartIndex(startIndex + 5);
-        setEndIndex(endIndex + 5);
-    };
-
-    const handlePrev = () => {
-        if (startIndex >= 5) {
-            setStartIndex(startIndex - 5);
-            setEndIndex(endIndex - 5);
-        }
-    };
 
     return (
         <div>
@@ -287,41 +274,20 @@ const HomePage = () => {
                     </div>
                 </div>
 
-                <div className="md:mt-5 md:3 md:block rounded-3xl hidden">
-                    <div className="bg-[#FFFFFF]">
-                        <div className="flex md:py-5 py-3 px-3">
-                            <div className="mr-3">
-                                <img
-                                    className="w-8 h-8"
-                                    src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_menu.svg"
-                                    alt=""
-                                />
-                            </div>
-                            <div className="font-bold text-lg">
-                                Danh mục sản phẩm
-                            </div>
-                        </div>
+                </div>
+            </div>
+            <div className='my-5'>
+                <div className='bg-[#FFFFFF]'>
+                    <div className='flex md:py-5 py-3 px-3'>
+                        <div className='font-bold text-lg'>SẢN PHẨM MỚI</div>
                     </div>
-                    <div className="grid md:grid-cols-10 md:gap-2 grid-cols-5 gap-3 bg-white pb-4 px-[20px]">
-                        {categories?.map((itemCategory) => (
-                            <div
-                                className="col-span-1 p-[5px] overflow-hidden rounded-md transition duration-300 ease-in-out hover:scale-110 hover:shadow-md dark:hover:shadow-black/30"
-                                title={itemCategory.name}
-                            >
-                                <Link to="">
-                                    <div className="">
-                                        <img
-                                            className="md:w-[100px] md:h-[100px] w-11 h-11 m-auto "
-                                            src={itemCategory.image}
-                                            alt=""
-                                        />
-                                    </div>
-                                    <div className="md:text-sm text-xs text-center pt-3">
-                                        {itemCategory.name}
-                                    </div>
-                                </Link>
-                            </div>
-                        ))}
+                </div>
+                <ProductSlide {...{ products }} />
+            </div>
+            <div className='my-5'>
+                <div className='bg-[#FFFFFF]'>
+                    <div className='flex md:py-5 py-3 px-3'>
+                        <div className='font-bold text-lg'>SÁCH KINH TẾ</div>
                     </div>
                 </div>
 
