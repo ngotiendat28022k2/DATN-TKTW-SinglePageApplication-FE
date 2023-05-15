@@ -71,18 +71,19 @@ helper.userRole = (role) => {
 };
 
 helper.truncateString = (str, maxLength) => {
-  if (str.length > maxLength) {
-    return str.substring(0, maxLength) + "...";
-  } else {
-    return str;
-  }
+    if (!str) return str;
+    if (str.length > maxLength) {
+        return str.substring(0, maxLength) + "...";
+    } else {
+        return str;
+    }
 };
 
 helper.calculatePercentage = (originalPrice, salePrice) => {
-  const discountPercentage = (
-    ((originalPrice - salePrice) / originalPrice) *
-    100
-  ).toFixed();
-  return discountPercentage;
+    const discountPercentage = (
+        ((originalPrice - salePrice) / originalPrice) *
+        100
+    ).toFixed();
+    return discountPercentage;
 };
 export default helper;
