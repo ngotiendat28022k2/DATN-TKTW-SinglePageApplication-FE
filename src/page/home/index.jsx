@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 const HomePage = () => {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
-   
     const dispatch = useDispatch();
     const product = useSelector((state) => state.product.value);
     const category = useSelector((state) => state.category.value);
