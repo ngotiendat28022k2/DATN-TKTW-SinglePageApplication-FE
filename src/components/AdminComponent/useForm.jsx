@@ -8,7 +8,6 @@ export function useForm(initialFValues, validateOnChange = false, validate) {
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        console.log("name, value", name, value);
         setValues({
             ...values,
             [name]: value,
@@ -17,6 +16,13 @@ export function useForm(initialFValues, validateOnChange = false, validate) {
     };
 
     const handleChange = (name, value) => {
+        setValues({
+            ...values,
+            [name]: value,
+        });
+        if (validateOnChange) validate({ [name]: value });
+    };
+    const handleChangeDate = (name, value) => {
         setValues({
             ...values,
             [name]: value,
@@ -49,6 +55,7 @@ export function useForm(initialFValues, validateOnChange = false, validate) {
         errors,
         setErrors,
         handleInputChange,
+        handleChangeDate,
         resetForm,
         handleChange,
         handleImageChange,

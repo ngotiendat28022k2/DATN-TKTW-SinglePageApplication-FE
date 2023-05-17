@@ -53,6 +53,9 @@ export default function Sidebar() {
             case "supplieres":
                 setActiveDiv(divId);
                 break;
+            case "voucher":
+                setActiveDiv(divId);
+                break;
             case "author":
                 setActiveDiv(divId);
                 break;
@@ -215,6 +218,27 @@ export default function Sidebar() {
                                     className={styles.sidebarIcon}
                                 />
                                 Supplieres
+                            </li>
+                        </Link>
+                        <Link
+                            to="/admin/voucher"
+                            className={styles.link}
+                            onClick={handleClose}
+                        >
+                            <li
+                                className={`mb-1 ${styles.sidebarListItem}`}
+                                onClick={() => handleActive("voucher")}
+                                style={{
+                                    backgroundColor:
+                                        activeDiv === "voucher"
+                                            ? "#5a8d26"
+                                            : "",
+                                }}
+                            >
+                                <SupervisorAccountIcon
+                                    className={styles.sidebarIcon}
+                                />
+                                Voucher
                             </li>
                         </Link>
                         <Link to="/admin/author" onClick={handleClose}>

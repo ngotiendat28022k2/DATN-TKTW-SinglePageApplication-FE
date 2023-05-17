@@ -4,6 +4,7 @@ import productReducer from "../slice/productsSlice";
 import publishReducer from "../slice/publishSlice";
 import categoryReducer from "../slice/categorySlice";
 import supplierReducer from "../slice/supplieresSlice";
+import voucherReducer from "../slice/voucherSlice";
 import userReducer from "../slice/userSlice";
 import authorReducer from "../slice/authorSlice";
 import formBookReducer from "../slice/formBookSlice";
@@ -19,6 +20,7 @@ export const store = configureStore({
     formBook: formBookReducer,
     author: authorReducer,
     cart: cartReducer,
+    voucher: voucherReducer
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(logger);
