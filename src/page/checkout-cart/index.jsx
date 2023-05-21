@@ -380,11 +380,13 @@ const CheckoutCart = () => {
                   </div>
                 </div>
                 <div className="">
+                  <a href="/pay">
                   <div className=" w-full border-[2px] border-solid border-[#C92127] rounded-[10px] px-[30px] py-[10px] items-center justify-center flex uppercase bg-[#C92127] text-[19px]">
                     <span className="text-[#fff] font-semibold">
                       Thanh toán
                     </span>
                   </div>
+                  </a>
                   <div className="text-[13px] py-[3px]">
                     <span className="text-[#ff0008]">
                       (Giảm giá trên web chỉ áp dụng cho bán lẻ)
