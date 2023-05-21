@@ -27,6 +27,8 @@ import CategoryInfomation from "./page/Admin/category_information";
 import Voucher from "./page/Admin/voucherList";
 import ChatBox from "./components/chatbot";
 import { ChatBubbleOutline } from "@mui/icons-material";
+import ReportList from "./page/Admin/reportCommentList";
+import CommentList from "./page/Admin/commentList";
 
 const DynamicPage = React.lazy(() => import("./page/dynamicPage/DynamicPage"));
 const ProfileAdmin = React.lazy(() =>
@@ -148,6 +150,8 @@ function App() {
                             path="category-infomation"
                             element={<CategoryInfomation />}
                         />
+                        <Route path="report-comment" element={<ReportList />} />
+                        <Route path="comment" element={<CommentList />} />
                     </Route>
 
                     <Route path="/login" element={<Login />} />

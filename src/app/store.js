@@ -25,6 +25,7 @@ export const store = configureStore({
         infomationPage: infomationPageReducer,
         categoryInformation: categoryInformationReducer,
         voucher: voucherReducer,
+        comment: commentReducer,
     },
     middleware: (getDefaultMiddleware) => {
         return getDefaultMiddleware().concat(logger);

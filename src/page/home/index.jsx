@@ -1,5 +1,3 @@
-import "./index.css";
-import SlideShow from "../../components/slide-show/SlideShow.component";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getAllProductClient } from "../../slice/productsSlice";
@@ -9,41 +7,43 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import ProductSlide from "../../components/productSlide/ProductSlide";
 const HomePage = () => {
-    const [products, setProducts] = useState([]);
-    const [categories, setCategories] = useState([]);
-    const dispatch = useDispatch();
-    const product = useSelector((state) => state.product.value);
-    const category = useSelector((state) => state.category.value);
-    console.log("category", categories);
-    console.log("products", products);
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [startIndex, setStartIndex] = useState(0);
+  const [endIndex, setEndIndex] = useState(5);
+  const dispatch = useDispatch();
+  const product = useSelector((state) => state.product.value);
+  const category = useSelector((state) => state.category.value);
+  console.log("category", categories);
+  console.log("products", products);
 
-    useEffect(() => {
-        (async () => {
-            try {
-                const productss = await dispatch(getAllProductClient());
-                const category = await dispatch(getAllCategory());
-                if (productss.payload?.successCode) {
-                    setProducts(productss.payload.data);
-                }
-                if (productss.payload?.errorCode) {
-                    helper.toast("error", productss.payload.message);
-                }
-                if (category.payload.data?.successCode) {
-                    setCategories(category.payload.data.data);
-                }
-                if (category.payload.data?.errorCode) {
-                    helper.toast("error", category.payload.data.message);
-                }
-            } catch (error) {
-                console.log(error);
-            }
-        })();
-    }, []);
+  useEffect(() => {
+    (async () => {
+      try {
+        const productss = await dispatch(getAllProductClient());
+        const category = await dispatch(getAllCategory());
+        if (productss.payload?.successCode) {
+          setProducts(productss.payload.data);
+        }
+        if (productss.payload?.errorCode) {
+          helper.toast("error", productss.payload.message);
+        }
+        if (category.payload.data?.successCode) {
+          setCategories(category.payload.data.data);
+        }
+        if (category.payload.data?.errorCode) {
+          helper.toast("error", category.payload.data.message);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
 
-    useEffect(() => {
-        setProducts(product);
-        setCategories(category);
-    }, [product, category]);
+  useEffect(() => {
+    setProducts(product);
+    setCategories(category);
+  }, [product, category]);
 
     return (
         <div>
@@ -192,19 +192,24 @@ const HomePage = () => {
                     </div>
                 </div>
             </div>
-            <div className="my-5">
-                <div className="bg-[#FCDAB0]">
-                    <div className="flex md:py-5 py-3 px-3">
-                        <div className="mr-3">
-                            <img
-                                className="w-6 h-6"
-                                src="https://i.imgur.com/H63fkyZ.png"
-                                alt=""
-                            />
-                        </div>
-                        <div className="font-bold text-lg">FLASH SALE</div>
-                    </div>
-                    <ProductSlide {...{ products }} />
+            <div className="font-bold text-lg">FLASH SALE</div>
+          </div>
+        </div>
+        <div className="bg-white p-2">
+          <div className="grid md:grid-cols-5 grid-cols-3 gap-2 md:mx-2">
+            {products?.map((itemProduct) => (
+              <div
+                className="relative transition rounded-md hover:shadow-md ease-in-out"
+                title={itemProduct.name}
+              >
+                <div className="flex bg-[#F7941E] md:w-[44px] md:h-[44px] w-12 h-12 md:rounded-3xl rounded-[22px] justify-center items-center absolute top-[10px] right-[10px]">
+                  <span className="text-white font-semibold">
+                    {helper.calculatePercentage(
+                      itemProduct.price,
+                      itemProduct.sale
+                    )}
+                    %
+                  </span>
                 </div>
             </div>
             <div className="my-5">
@@ -246,8 +251,39 @@ const HomePage = () => {
                         ))}
                     </div>
                 </div>
+              </div>
+            ))}
+            <div className="relative md:hidden block py-[100%] px-5">
+              <div className="border-2 rounded-2xl text-center p-1 border-teal-400">
+                <button className="text-teal-500 hover:text-orange-400">
+                  Xem Thêm
+                </button>
+              </div>
             </div>
+          </div>
         </div>
-    );
+        {products.length > 5 && (
+          <div className="relative my-5">
+            {startIndex > 0 && (
+              <button
+                className="absolute left-[10px] top-[-350px] text-slate-400 hover:text-slate-600 mr-5 border-[2px] w-[35px] h-[35px] flex justify-center items-center rounded-[50%] border-[#bbbbbb]"
+                onClick={handlePrev}
+              >
+                <FaArrowLeft className="text-[20px]" />
+              </button>
+            )}
+            {endIndex < products.length && (
+              <button
+                className="absolute right-[10px] top-[-350px]  text-slate-400 hover:text-slate-600 border-[2px] w-[35px] h-[35px] flex justify-center items-center rounded-[50%] border-[#bbbbbb]"
+                onClick={handleNext}
+              >
+                <FaArrowRight className="text-[20px]" />
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };
 export default HomePage;
