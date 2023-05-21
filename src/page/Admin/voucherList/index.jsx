@@ -10,24 +10,27 @@ import ActionSave from "./ActionSave";
 import ActionDelete from "./ActionDelete";
 import ActionUpdate from "./ActionUpdate";
 import {
-    AddNewCategory,
-    getAllCategory,
-    UpdateCategory,
-} from "../../../slice/categorySlice";
+    getVoucher,
+    getAllVoucher,
+    AddNewVoucher,
+    UpdateVoucher,
+} from "../../../slice/vouchersSlice";
 import { useDispatch, useSelector } from "react-redux";
 import FormAddOrEdit from "./AddOrEdit/index";
 import helper from "../../../utiliti/helper/helper";
+import { getAllUserRoot } from "../../../slice/userSlice";
 
-export default function CategoryList() {
+export default function VoucherList() {
     const dispatch = useDispatch();
     const [openPopup, setOpenPopup] = useState(false);
     const [dataSearch, setDataSearch] = React.useState([]);
     const [rowId, setRowId] = useState(null);
     const [rowsData, setRowsData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const categorys = useSelector((state) => state.category.value);
     const [recordForEdit, setRecordForEdit] = useState(null);
+    const [optionVoucher, setOptionVoucher] = useState([]);
 
+    const voucher = useSelector((state) => state.voucher.value);
     const handleSearch = (e) => {
         console.log("e.target.value", e.target.value);
     };
@@ -36,34 +39,31 @@ export default function CategoryList() {
         setRecordForEdit(item);
     };
 
-    const addOrEdit = (values, resetForm) => {
+    const addOrEdit = async (values, resetForm) => {
+        // console.log("phuc", values);
         if (!values._id) {
             try {
-                (async () => {
-                    const { payload } = await dispatch(AddNewCategory(values));
-                    console.log(payload);
-                    if (payload?.successCode) {
-                        helper.toast("success", "Add success");
-                    }
-                    if (payload?.errorCode) {
-                        helper.toast("success", "Update false");
-                    }
-                })();
+                const { payload } = await dispatch(AddNewVoucher(values));
+                console.log(payload);
+                if (payload?.successCode) {
+                    helper.toast("success", "Add success");
+                }
+                if (payload?.errorCode) {
+                    helper.toast("success", "Update false");
+                }
             } catch (error) {
                 helper.toast("error", "fetching data false");
             }
         } else {
             try {
-                (async () => {
-                    const { payload } = await dispatch(UpdateCategory(values));
-                    console.log(payload.data);
-                    if (payload?.successCode) {
-                        helper.toast("success", "Update success");
-                    }
-                    if (payload?.errorCode) {
-                        helper.toast("success", "Update false");
-                    }
-                })();
+                const { payload } = await dispatch(UpdateVoucher(values));
+                console.log(payload.data);
+                if (payload?.successCode) {
+                    helper.toast("success", "Update success");
+                }
+                if (payload?.errorCode) {
+                    helper.toast("success", "Update false");
+                }
             } catch (error) {
                 helper.toast("error", "Edit data false");
             }
@@ -76,7 +76,7 @@ export default function CategoryList() {
         (async () => {
             try {
                 setIsLoading(true);
-                const { payload } = await dispatch(getAllCategory());
+                const { payload } = await dispatch(getAllVoucher());
                 console.log(payload);
                 if (payload?.successCode) {
                     setRowsData(payload.data);
@@ -90,30 +90,25 @@ export default function CategoryList() {
             }
         })();
     }, []);
+
     useEffect(() => {
-        setRowsData(categorys);
-    }, [categorys]);
+        setRowsData(voucher);
+    }, [voucher]);
 
     const columnsData = [
-        { field: "_id", headerName: "ID", width: 50 },
-        { field: "name", headerName: "Name", width: 200, editable: true },
+        { field: "_id", headerName: "ID", width: 150 },
+        { field: "code", headerName: "Code", width: 200, editable: true },
         {
-            field: "image",
-            headerName: "Image",
-            width: 200,
+            field: "discount",
+            headerName: "Discount",
+            width: 100,
             editable: true,
-            renderCell: (params) => (
-                <img src={params.row.image} className="w-full" alt="" />
-            ),
         },
         {
-            field: "icon",
-            headerName: "Icon",
-            width: 200,
+            field: "createdAt",
+            headerName: "Created At",
+            width: 300,
             editable: true,
-            renderCell: (params) => (
-                <img src={params.row.icon} className="w-full" alt="" />
-            ),
         },
         {
             field: "actions",
@@ -174,13 +169,14 @@ export default function CategoryList() {
             </Paper>
 
             <Popup
-                title={recordForEdit ? "Edit Category" : "Add Category"}
+                title={recordForEdit ? "Edit Voucher" : "Add Voucher"}
                 openPopup={openPopup}
                 setOpenPopup={setOpenPopup}
             >
                 <FormAddOrEdit
                     recordForEdit={recordForEdit}
                     addOrEdit={addOrEdit}
+                    optionUser={optionVoucher}
                 />
             </Popup>
         </>

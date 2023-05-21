@@ -7,23 +7,23 @@ import WidgetLg from "../../../components/AdminComponent/widgetLg/WidgetLg";
 import helper from "../../../utiliti/helper/helper";
 
 export default function AdminPage() {
-  const hihi = () => {
-    helper.toast("success", "error");
-  };
-  return (
-    <div className={styles.home}>
-      <button onClick={hihi}>hihi</button>
-      <FeaturedInfo />
-      <Chart
-        data={userData}
-        title="User Analytics"
-        grid
-        dataKey="Active User"
-      />
-      <div className={styles.homeWidgets}>
-        <WidgetSm />
-        <WidgetLg />
-      </div>
-    </div>
-  );
+    const hihi = () => {
+        helper.toast("success", "error");
+    };
+    return (
+        <div className={styles.home}>
+            <button onClick={hihi}></button>
+            <FeaturedInfo />
+            <Chart
+                data={userData}
+                title="User Analytics"
+                grid
+                dataKey="Active User"
+            />
+            <div className={styles.homeWidgets}>
+                <WidgetSm />
+                <WidgetLg />
+            </div>
+        </div>
+    );
 }

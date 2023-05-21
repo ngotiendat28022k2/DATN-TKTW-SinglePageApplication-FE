@@ -1,5 +1,44 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllInformationPage } from "../../slice/infomationPage";
+import { Link } from "react-router-dom";
+import { getAllCategoryInfor } from "../../slice/categoryInformation";
+import ListCategoryInfor from "../ListCategoryInfor";
 const Footer = () => {
+    const [informationPage, setInformationPage] = useState([]);
+    const [cateInfor, setCateInfor] = useState([]);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const { payload } = await dispatch(getAllCategoryInfor());
+                setCateInfor(payload.data);
+            } catch (error) {}
+        })();
+    }, []);
+
+    useEffect(() => {
+        (async () => {
+            try {
+                const { payload } = await dispatch(getAllInformationPage());
+                // console.log("payload", payload.data);
+                if (payload?.successCode) {
+                    setInformationPage(payload.data);
+                }
+                if (payload?.errorCode) {
+                    helper.toast("error", payload.message);
+                }
+            } catch (error) {
+                console.log(error);
+            }
+        })();
+    }, []);
+
+    /*  useEffect(() => {
+        setInformationPage([]);
+    }, [information]); */
+
     return (
         <>
             <footer className="max-w-[1280px] w-full m-auto bg-[#fff]">
@@ -112,68 +151,17 @@ const Footer = () => {
 
                     <div className="lg:max-w-[68%] lg:w-full mt-[20px] lg:mt-0">
                         <div className="lg:flex lg:justify-around lg:items-start lg:flex-wrap">
-                            <div className="mt-[10px] lg:mt-[20px]">
-                                <h2 className="uppercase text-[#333] text-[18px] font-medium tracking-wide">
-                                    dịch vụ
-                                </h2>
-                                <ul className="mt-[10px]">
-                                    <li className="mt-[5px] hover:text-PK-client hover:list-disc transition ease-in-out delay-150">
-                                        <a href="">Điều khoản sử dụng</a>
-                                    </li>
-                                    <li className="mt-[5px] hover:text-PK-client hover:list-disc transition ease-in-out delay-150">
-                                        <a href="">
-                                            Chính sách bảo mật thông tin cá nhân
-                                        </a>
-                                    </li>
-                                    <li className="mt-[5px] hover:text-PK-client hover:list-disc transition ease-in-out delay-150">
-                                        <a href="">
-                                            Chính sách bảo mật thanh toán
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div className="mt-[10px] lg:mt-[20px]">
-                                <h2 className="uppercase text-[#333] text-[18px] font-medium tracking-wide">
-                                    dịch vụ
-                                </h2>
-                                <ul className="mt-[10px]">
-                                    <li className="mt-[5px] hover:text-PK-client hover:list-disc transition ease-in-out delay-150">
-                                        <a href="">Điều khoản sử dụng</a>
-                                    </li>
-                                    <li className="mt-[5px] hover:text-PK-client hover:list-disc transition ease-in-out delay-150">
-                                        <a href="">
-                                            Chính sách bảo mật thông tin cá nhân
-                                        </a>
-                                    </li>
-                                    <li className="mt-[5px] hover:text-PK-client hover:list-disc transition ease-in-out delay-150">
-                                        <a href="">
-                                            Chính sách bảo mật thanh toán
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div className="mt-[10px] lg:mt-[20px]">
-                                <h2 className="uppercase text-[#333] text-[18px] font-medium tracking-wide">
-                                    dịch vụ
-                                </h2>
-                                <ul className="mt-[10px]">
-                                    <li className="mt-[5px] hover:text-PK-client hover:list-disc transition ease-in-out delay-150">
-                                        <a href="">Điều khoản sử dụng</a>
-                                    </li>
-                                    <li className="mt-[5px] hover:text-PK-client hover:list-disc transition ease-in-out delay-150">
-                                        <a href="">
-                                            Chính sách bảo mật thông tin cá nhân
-                                        </a>
-                                    </li>
-                                    <li className="mt-[5px] hover:text-PK-client hover:list-disc transition ease-in-out delay-150">
-                                        <a href="">
-                                            Chính sách bảo mật thanh toán
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+                            {cateInfor.map((eCate) => (
+                                <div
+                                    key={eCate.id}
+                                    className="mt-[10px] lg:mt-[20px]"
+                                >
+                                    <h2 className="uppercase text-[#333] text-[18px] font-medium tracking-wide">
+                                        {eCate.name}
+                                    </h2>
+                                    <ListCategoryInfor id={eCate._id} />
+                                </div>
+                            ))}
                         </div>
                         <div>
                             <div>

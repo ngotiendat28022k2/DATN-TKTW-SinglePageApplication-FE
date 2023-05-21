@@ -10,22 +10,24 @@ import ActionSave from "./ActionSave";
 import ActionDelete from "./ActionDelete";
 import ActionUpdate from "./ActionUpdate";
 import {
-    AddNewCategory,
-    getAllCategory,
-    UpdateCategory,
-} from "../../../slice/categorySlice";
+    AddNewCategoryInfor,
+    getAllCategoryInfor,
+    UpdateCategoryInfor,
+} from "../../../slice/categoryInformation";
 import { useDispatch, useSelector } from "react-redux";
 import FormAddOrEdit from "./AddOrEdit/index";
 import helper from "../../../utiliti/helper/helper";
 
-export default function CategoryList() {
+export default function CategoryInforList() {
     const dispatch = useDispatch();
     const [openPopup, setOpenPopup] = useState(false);
     const [dataSearch, setDataSearch] = React.useState([]);
     const [rowId, setRowId] = useState(null);
     const [rowsData, setRowsData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const categorys = useSelector((state) => state.category.value);
+    const categorysInfor = useSelector(
+        (state) => state.categoryInformation.value
+    );
     const [recordForEdit, setRecordForEdit] = useState(null);
 
     const handleSearch = (e) => {
@@ -40,7 +42,9 @@ export default function CategoryList() {
         if (!values._id) {
             try {
                 (async () => {
-                    const { payload } = await dispatch(AddNewCategory(values));
+                    const { payload } = await dispatch(
+                        AddNewCategoryInfor(values)
+                    );
                     console.log(payload);
                     if (payload?.successCode) {
                         helper.toast("success", "Add success");
@@ -55,7 +59,9 @@ export default function CategoryList() {
         } else {
             try {
                 (async () => {
-                    const { payload } = await dispatch(UpdateCategory(values));
+                    const { payload } = await dispatch(
+                        UpdateCategoryInfor(values)
+                    );
                     console.log(payload.data);
                     if (payload?.successCode) {
                         helper.toast("success", "Update success");
@@ -76,7 +82,7 @@ export default function CategoryList() {
         (async () => {
             try {
                 setIsLoading(true);
-                const { payload } = await dispatch(getAllCategory());
+                const { payload } = await dispatch(getAllCategoryInfor());
                 console.log(payload);
                 if (payload?.successCode) {
                     setRowsData(payload.data);
@@ -91,29 +97,17 @@ export default function CategoryList() {
         })();
     }, []);
     useEffect(() => {
-        setRowsData(categorys);
-    }, [categorys]);
+        setRowsData(categorysInfor);
+    }, [categorysInfor]);
 
     const columnsData = [
-        { field: "_id", headerName: "ID", width: 50 },
-        { field: "name", headerName: "Name", width: 200, editable: true },
+        { field: "_id", headerName: "ID", width: 200 },
+        { field: "name", headerName: "Name", width: 300, editable: true },
         {
-            field: "image",
-            headerName: "Image",
-            width: 200,
+            field: "location",
+            headerName: "Location",
+            width: 300,
             editable: true,
-            renderCell: (params) => (
-                <img src={params.row.image} className="w-full" alt="" />
-            ),
-        },
-        {
-            field: "icon",
-            headerName: "Icon",
-            width: 200,
-            editable: true,
-            renderCell: (params) => (
-                <img src={params.row.icon} className="w-full" alt="" />
-            ),
         },
         {
             field: "actions",
@@ -174,7 +168,11 @@ export default function CategoryList() {
             </Paper>
 
             <Popup
-                title={recordForEdit ? "Edit Category" : "Add Category"}
+                title={
+                    recordForEdit
+                        ? "Edit Category Information"
+                        : "Add Category Information"
+                }
                 openPopup={openPopup}
                 setOpenPopup={setOpenPopup}
             >

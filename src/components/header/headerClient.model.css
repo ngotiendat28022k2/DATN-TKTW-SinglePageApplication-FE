@@ -13,3 +13,11 @@
 .droplog:hover .droplog-dow{
     display: block;
 }
+
+.overlay{
+    top: 4rem;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+}
