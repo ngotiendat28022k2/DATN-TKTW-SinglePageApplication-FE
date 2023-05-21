@@ -1,11 +1,11 @@
-import { useDispatch, useSelector } from "react-redux";
-import SlideShow from "../../components/slide-show/SlideShow.component";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getAllProductClient } from "../../slice/productsSlice";
 import { getAllCategory } from "../../slice/categorySlice";
 import helper from "../../utiliti/helper/helper";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import ProductSlide from "../../components/productSlide/ProductSlide";
 const HomePage = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);

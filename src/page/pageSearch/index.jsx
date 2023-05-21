@@ -289,185 +289,199 @@ const PageSearch = () => {
                     </em>{" "}
                 </em>
                 <div className="flex flex-col sm:flex-row">
-                    <div className="w-full sm:w-1/4 p-4 bg-white">
-                        <div className="mb-4">
-                            <div>
-                                <p className="text-semibold">Tác giả</p>
-                                {authors?.map((itemAuthor, index) => (
-                                    <div
-                                        key={index.toString()}
-                                        className="flex items-center ml-4 mt-2"
-                                    >
-                                        <input
-                                            id={itemAuthor?._id}
-                                            type="radio"
-                                            className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out rounded-none"
-                                            name="radio-group-publish"
-                                            onChange={() => {
-                                                setSelectesAuthor(
-                                                    itemAuthor?._id
-                                                );
-                                            }}
-                                            onClick={(e) => {
-                                                if (
-                                                    itemAuthor?._id ==
-                                                    selectedAuthor
-                                                ) {
-                                                    setSelectesAuthor("All");
-                                                }
-                                            }}
-                                            checked={
-                                                selectedAuthor == "All"
-                                                    ? false
-                                                    : selectedAuthor ==
-                                                      itemAuthor?._id
-                                            }
-                                        />
-                                        <label
-                                            htmlFor={itemAuthor?._id}
-                                            className="ml-3"
+                    {dataSearch?.length > 0 ? (
+                        <div className="w-full sm:w-1/4 p-4 bg-white">
+                            <div className="mb-4">
+                                <div>
+                                    <p className="text-semibold">Tác giả</p>
+                                    {authors?.map((itemAuthor, index) => (
+                                        <div
+                                            key={index.toString()}
+                                            className="flex items-center ml-4 mt-2"
                                         >
-                                            <span className="block text-sm font-sm leading-5 text-gray-700">
-                                                {itemAuthor?.name}
-                                            </span>
-                                        </label>
-                                    </div>
-                                ))}
-                                <hr className="m-2" />
-                            </div>
-                            <div>
-                                <p className="text-semibold">Giá</p>
-                                {prices?.map((price, index) => (
-                                    <div
-                                        key={index.toString()}
-                                        className="flex items-center ml-4 mt-2"
-                                    >
-                                        <input
-                                            id={price?.value}
-                                            type="radio"
-                                            className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out rounded-none"
-                                            name="radio-group-price"
-                                            onChange={() => {
-                                                setSelectedPrices(price?.value);
-                                            }}
-                                            onClick={(e) => {
-                                                if (
-                                                    price?.value ==
-                                                    selectedPrices
-                                                ) {
-                                                    setSelectedPrices("None");
+                                            <input
+                                                id={itemAuthor?._id}
+                                                type="radio"
+                                                className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out rounded-none"
+                                                name="radio-group-publish"
+                                                onChange={() => {
+                                                    setSelectesAuthor(
+                                                        itemAuthor?._id
+                                                    );
+                                                }}
+                                                onClick={(e) => {
+                                                    if (
+                                                        itemAuthor?._id ==
+                                                        selectedAuthor
+                                                    ) {
+                                                        setSelectesAuthor(
+                                                            "All"
+                                                        );
+                                                    }
+                                                }}
+                                                checked={
+                                                    selectedAuthor == "All"
+                                                        ? false
+                                                        : selectedAuthor ==
+                                                          itemAuthor?._id
                                                 }
-                                            }}
-                                            checked={
-                                                selectedPrices == "None"
-                                                    ? false
-                                                    : selectedPrices ==
-                                                      price?.value
-                                            }
-                                        />
-                                        <label
-                                            htmlFor={price?.value}
-                                            className="ml-3"
+                                            />
+                                            <label
+                                                htmlFor={itemAuthor?._id}
+                                                className="ml-3"
+                                            >
+                                                <span className="block text-sm font-sm leading-5 text-gray-700">
+                                                    {itemAuthor?.name}
+                                                </span>
+                                            </label>
+                                        </div>
+                                    ))}
+                                    <hr className="m-2" />
+                                </div>
+                                <div>
+                                    <p className="text-semibold">Giá</p>
+                                    {prices?.map((price, index) => (
+                                        <div
+                                            key={index.toString()}
+                                            className="flex items-center ml-4 mt-2"
                                         >
-                                            <span className="block text-sm font-sm leading-5 text-gray-700">
-                                                {price?.name}
-                                            </span>
-                                        </label>
-                                    </div>
-                                ))}
-                            </div>
-                            <hr className="mt-4 mb-4" />
-                            <div>
-                                <p className="text-semibold">Nhà cung cấp</p>
-                                {suppliers?.map((itemSuppliers, index) => (
-                                    <div
-                                        key={index.toString()}
-                                        className="flex items-center ml-4 mt-2"
-                                    >
-                                        <input
-                                            id={itemSuppliers?._id}
-                                            type="radio"
-                                            className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out rounded-none"
-                                            name="radio-group-publish"
-                                            onChange={() => {
-                                                setSelectedSuppliers(
-                                                    itemSuppliers?._id
-                                                );
-                                            }}
-                                            onClick={(e) => {
-                                                if (
-                                                    itemSuppliers?._id ==
-                                                    selectedSuppliers
-                                                ) {
-                                                    setSelectedSuppliers("All");
+                                            <input
+                                                id={price?.value}
+                                                type="radio"
+                                                className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out rounded-none"
+                                                name="radio-group-price"
+                                                onChange={() => {
+                                                    setSelectedPrices(
+                                                        price?.value
+                                                    );
+                                                }}
+                                                onClick={(e) => {
+                                                    if (
+                                                        price?.value ==
+                                                        selectedPrices
+                                                    ) {
+                                                        setSelectedPrices(
+                                                            "None"
+                                                        );
+                                                    }
+                                                }}
+                                                checked={
+                                                    selectedPrices == "None"
+                                                        ? false
+                                                        : selectedPrices ==
+                                                          price?.value
                                                 }
-                                            }}
-                                            checked={
-                                                selectedSuppliers == "All"
-                                                    ? false
-                                                    : selectedSuppliers ==
-                                                      itemSuppliers?._id
-                                            }
-                                        />
-                                        <label
-                                            htmlFor={itemSuppliers?._id}
-                                            className="ml-3"
+                                            />
+                                            <label
+                                                htmlFor={price?.value}
+                                                className="ml-3"
+                                            >
+                                                <span className="block text-sm font-sm leading-5 text-gray-700">
+                                                    {price?.name}
+                                                </span>
+                                            </label>
+                                        </div>
+                                    ))}
+                                </div>
+                                <hr className="mt-4 mb-4" />
+                                <div>
+                                    <p className="text-semibold">
+                                        Nhà cung cấp
+                                    </p>
+                                    {suppliers?.map((itemSuppliers, index) => (
+                                        <div
+                                            key={index.toString()}
+                                            className="flex items-center ml-4 mt-2"
                                         >
-                                            <span className="block text-sm font-sm leading-5 text-gray-700">
-                                                {itemSuppliers?.name}
-                                            </span>
-                                        </label>
-                                    </div>
-                                ))}
-                            </div>
-                            <hr className="mt-4 mb-4" />
+                                            <input
+                                                id={itemSuppliers?._id}
+                                                type="radio"
+                                                className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out rounded-none"
+                                                name="radio-group-publish"
+                                                onChange={() => {
+                                                    setSelectedSuppliers(
+                                                        itemSuppliers?._id
+                                                    );
+                                                }}
+                                                onClick={(e) => {
+                                                    if (
+                                                        itemSuppliers?._id ==
+                                                        selectedSuppliers
+                                                    ) {
+                                                        setSelectedSuppliers(
+                                                            "All"
+                                                        );
+                                                    }
+                                                }}
+                                                checked={
+                                                    selectedSuppliers == "All"
+                                                        ? false
+                                                        : selectedSuppliers ==
+                                                          itemSuppliers?._id
+                                                }
+                                            />
+                                            <label
+                                                htmlFor={itemSuppliers?._id}
+                                                className="ml-3"
+                                            >
+                                                <span className="block text-sm font-sm leading-5 text-gray-700">
+                                                    {itemSuppliers?.name}
+                                                </span>
+                                            </label>
+                                        </div>
+                                    ))}
+                                </div>
+                                <hr className="mt-4 mb-4" />
 
-                            <div>
-                                <p className="text-semibold">Hình thức</p>
-                                {formBooks?.map((itemFormBook, index) => (
-                                    <div
-                                        key={index.toString()}
-                                        className="flex items-center ml-4 mt-2"
-                                    >
-                                        <input
-                                            id={itemFormBook?._id}
-                                            type="radio"
-                                            className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out rounded-none"
-                                            name="radio-group-formbook"
-                                            onChange={() => {
-                                                setSelectedFormBook(
-                                                    itemFormBook?._id
-                                                );
-                                            }}
-                                            onClick={(e) => {
-                                                if (
-                                                    itemFormBook?._id ==
-                                                    selectedFormBook
-                                                ) {
-                                                    setSelectedFormBook("All");
-                                                }
-                                            }}
-                                            checked={
-                                                selectedFormBook == "All"
-                                                    ? false
-                                                    : selectedFormBook ==
-                                                      itemFormBook?._id
-                                            }
-                                        />
-                                        <label
-                                            htmlFor={itemFormBook?._id}
-                                            className="ml-3"
+                                <div>
+                                    <p className="text-semibold">Hình thức</p>
+                                    {formBooks?.map((itemFormBook, index) => (
+                                        <div
+                                            key={index.toString()}
+                                            className="flex items-center ml-4 mt-2"
                                         >
-                                            <span className="block text-sm font-sm leading-5 text-gray-700">
-                                                {itemFormBook.name}
-                                            </span>
-                                        </label>
-                                    </div>
-                                ))}
+                                            <input
+                                                id={itemFormBook?._id}
+                                                type="radio"
+                                                className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out rounded-none"
+                                                name="radio-group-formbook"
+                                                onChange={() => {
+                                                    setSelectedFormBook(
+                                                        itemFormBook?._id
+                                                    );
+                                                }}
+                                                onClick={(e) => {
+                                                    if (
+                                                        itemFormBook?._id ==
+                                                        selectedFormBook
+                                                    ) {
+                                                        setSelectedFormBook(
+                                                            "All"
+                                                        );
+                                                    }
+                                                }}
+                                                checked={
+                                                    selectedFormBook == "All"
+                                                        ? false
+                                                        : selectedFormBook ==
+                                                          itemFormBook?._id
+                                                }
+                                            />
+                                            <label
+                                                htmlFor={itemFormBook?._id}
+                                                className="ml-3"
+                                            >
+                                                <span className="block text-sm font-sm leading-5 text-gray-700">
+                                                    {itemFormBook.name}
+                                                </span>
+                                            </label>
+                                        </div>
+                                    ))}
+                                </div>
+                                <hr className="mt-4 mb-4" />
                             </div>
-                            <hr className="mt-4 mb-4" />
                         </div>
-                    </div>
+                    ) : null}
 
                     <div className="w-full sm:w-3/4 p-4 bg-white ml-0 sm:ml-2">
                         {dataSearch?.length == 0 ? (

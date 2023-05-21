@@ -78,17 +78,18 @@ function App() {
                             <Route path="/" element={<AccountLayout />}>
                                 <Route
                                     index
-                                    path="account/edit"
+                                    path="account/edit/:id"
                                     element={<ProfileInfo />}
                                 />
                                 <Route
-                                    path="account/address"
+                                    path="account/address/:id"
                                     element={<ProfileAddress />}
                                 />
                                 <Route
-                                    path="account/order"
+                                    path="account/order/:id"
                                     element={<ProfileMyProduct />}
                                 />
+                            
                                 <Route
                                     path="account/voucher"
                                     element={<ProfileVoucher />}
