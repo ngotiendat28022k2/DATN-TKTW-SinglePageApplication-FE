@@ -8,21 +8,26 @@ import userReducer from "../slice/userSlice";
 import authorReducer from "../slice/authorSlice";
 import formBookReducer from "../slice/formBookSlice";
 import cartReducer from "../slice/cartSlice";
-import commentReducer from "../slice/commentSlice";
+import infomationPageReducer from "../slice/infomationPage";
+import categoryInformationReducer from "../slice/categoryInformation";
+import voucherReducer from "../slice/vouchersSlice";
 
 export const store = configureStore({
-  reducer: {
-    user: userReducer,
-    product: productReducer,
-    category: categoryReducer,
-    publish: publishReducer,
-    supplier: supplierReducer,
-    formBook: formBookReducer,
-    author: authorReducer,
-    cart: cartReducer,
-    comment: commentReducer,
-  },
-  middleware: (getDefaultMiddleware) => {
-    return getDefaultMiddleware().concat(logger);
-  },
+    reducer: {
+        user: userReducer,
+        product: productReducer,
+        category: categoryReducer,
+        publish: publishReducer,
+        supplier: supplierReducer,
+        formBook: formBookReducer,
+        author: authorReducer,
+        cart: cartReducer,
+        infomationPage: infomationPageReducer,
+        categoryInformation: categoryInformationReducer,
+        voucher: voucherReducer,
+        comment: commentReducer,
+    },
+    middleware: (getDefaultMiddleware) => {
+        return getDefaultMiddleware().concat(logger);
+    },
 });

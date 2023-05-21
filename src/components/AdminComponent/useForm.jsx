@@ -35,7 +35,7 @@ export function useForm(initialFValues, validateOnChange = false, validate) {
         const { name, checked } = event.target;
         setValues({ ...values, [name]: checked });
 
-        if (validateOnChange) validate({ [name]: value });
+        if (validateOnChange) validate({ [name]: checked });
     };
 
     const resetForm = () => {

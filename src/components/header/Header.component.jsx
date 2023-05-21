@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import ClientMenu from "../menu/MenuClient.component";
 import local from "../../utiliti/local/localSesion";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import SidebarProfile from "../sidebar-profile/sidebar_profile";
 import "./headerClient.model.css";
 import getOverlappingDaysInIntervals from "date-fns/esm/fp/getOverlappingDaysInIntervals/index.js";
@@ -13,10 +13,19 @@ import TableSearch from "./tablesearch";
 import { getCartToDatabase } from "../../slice/cartSlice";
 
 const Header = () => {
-    const [showProfile, setShowProfile] = useState(false);
+    const location = useLocation();
     const [showSidebar, setShowSidebar] = useState(false);
+    const [onSearch, setOnSearch] = useState({
+        dataSearch: false,
+        historySearch: false,
+    });
     const ref = useRef();
+    // Listen Event Navigate Page Start Section
+    useEffect(() => {
+        setOnSearch({ historySearch: false, dataSearch: false });
+    }, [location]);
 
+    // Listen Event Navigate Page End Section
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (ref.current && !ref.current.contains(event.target)) {
@@ -45,18 +54,26 @@ const Header = () => {
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
+    async function callbackSetData() {
+        const { payload } = await dispatch(searchProduct(objSearch));
+        setDataSearch(payload?.data?.data);
+    }
     const onHandleSearch = async (valueInput) => {
-        console.log("valueInput", valueInput);
-
+        if (!valueInput) {
+            setOnSearch({ historySearch: true, dataSearch: false });
+        }
         try {
             if (valueInput.length > 0) {
+                setOnSearch({ historySearch: false, dataSearch: true });
+
                 setObjSearch((prev) => ({
                     // ...prev, "search": e.target.value
                     ...prev,
                     search: valueInput,
                 }));
-                const { payload } = await dispatch(searchProduct(objSearch));
-                setDataSearch(payload?.data?.data);
+                callbackSetData();
+                /*  ban đầu  const { payload } = await dispatch(searchProduct(objSearch));
+                setDataSearch(payload?.data?.data)*/
             } else {
                 setDataSearch([]);
             }
@@ -119,7 +136,26 @@ const Header = () => {
     useEffect(() => {
         setCartLength(cartStore.length);
     }, [cartStore]);
+    //focus vào tài khoản
+    const [showAccountMenu, setShowAccountMenu] = useState(false);
+    const accountRef = useRef(null);
 
+    const handleClickOutside = (event) => {
+        if (accountRef.current && !accountRef.current.contains(event.target)) {
+            setShowAccountMenu(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener("click", handleClickOutside);
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
+
+    const handleAccountClick = () => {
+        setShowAccountMenu(!showAccountMenu);
+    };
     return (
         <div className="md:flex md:m-auto md:justify-between md:w-[1280px] md:h-16 bg-[#fff]">
             <div className="mt-3 mr-8 flex justify-center">
@@ -157,7 +193,7 @@ const Header = () => {
                         </svg>
                     </div>
                 </div>
-                <div className="absolute z-10 md:top-[40px] md:left-[-242px] dropdown-menu hidden pt-[30px]">
+                <div className="absolute z-10 md:top-[40px] md:left-[-238px] dropdown-menu hidden pt-[30px]">
                     <ClientMenu />
                 </div>
             </div>
@@ -165,18 +201,46 @@ const Header = () => {
                 <div className="flex items-center justify-center md:mr-28 mr-12 dropdowns">
                     <div className="test-1 flex border-2 rounded-xl w-[100%]">
                         <input
-                            onChange={(e) => onHandleSearch(e.target.value)}
+                            onChange={(e) => {
+                                onHandleSearch(e.target.value);
+                            }}
+                            onFocus={() =>
+                                setOnSearch({
+                                    historySearch: true,
+                                    dataSearch: false,
+                                })
+                            }
                             type="text"
                             className="px-4 py-2 md:w-[500px] sm:w-[490px] w-[270px] outline-none focus:bg-slate-100 "
                             placeholder="Tìm kiếm sản phẩm mong muốn..."
                         />
 
-                        {dataSearch?.length > 0 ? (
-                            <div className="hidden absolute z-10 mt-10 dropdown-menus">
+                        {onSearch.dataSearch || onSearch.historySearch ? (
+                            <div
+                                onClick={() =>
+                                    setOnSearch({
+                                        historySearch: false,
+                                        dataSearch: false,
+                                    })
+                                }
+                                className="absolute overlay z-10"
+                            ></div>
+                        ) : null}
+
+                        {onSearch.dataSearch ? (
+                            <div
+                                onClick={() =>
+                                    setOnSearch({
+                                        historySearch: false,
+                                        dataSearch: false,
+                                    })
+                                }
+                                className={`absolute z-20 mt-10 dropdown-menus`}
+                            >
                                 <TableSearch dataSearch={dataSearch} />
                             </div>
-                        ) : historySearch?.length > 0 ? (
-                            <div className="hidden absolute z-10 mt-10 dropdown-menus">
+                        ) : onSearch.historySearch ? (
+                            <div className="absolute z-20 mt-10 dropdown-menus">
                                 <div className="bg-amber-50 w-[500px] mt-5 rounded-md">
                                     <nav>
                                         <p className="px-5 pt-3 text-base font-medium">
@@ -290,22 +354,27 @@ const Header = () => {
                                 <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
                             </svg>
                         </div>
-                        <div className="relative text-center md:block cursor-pointer account">
-                            <span>Tài khoản</span>
-                            <div className="absolute capitalize bg-slate-300 max-w-[200px] w-full top-[33px] hidden menu-account">
-                                <Link
-                                    className="py-[5px] px-[20px] hover:bg-PK-client block"
-                                    to="/register"
-                                >
-                                    register
-                                </Link>
-                                <Link
-                                    className="py-[5px] px-[20px] hover:bg-PK-client block"
-                                    to="/login"
-                                >
-                                    login
-                                </Link>
-                            </div>
+                        <div
+                            className="relative text-center md:block cursor-pointer account"
+                            ref={accountRef}
+                        >
+                            <span onClick={handleAccountClick}>Tài khoản</span>
+                            {showAccountMenu && (
+                                <div className="absolute rounded capitalize w-[150px] bg-slate-100 top-[33px] right-0">
+                                    <Link
+                                        className="py-[5px] px-[20px] hover:bg-red-600 hover:text-white rounded block"
+                                        to="/register"
+                                    >
+                                        register
+                                    </Link>
+                                    <Link
+                                        className="py-[5px] px-[20px] hover:bg-red-600 hover:text-white rounded block"
+                                        to="/login"
+                                    >
+                                        login
+                                    </Link>
+                                </div>
+                            )}
                         </div>
                     </div>
                 ) : (
@@ -319,7 +388,7 @@ const Header = () => {
                         {showSidebar && (
                             <div
                                 ref={ref}
-                                className="absolute top-[35px] right-0 mt-[17px] droplog-dow"
+                                className="absolute top-[35px] right-0 mt-[17px] droplog-dow z-10"
                                 onClick={() => setShowSidebar(false)}
                             >
                                 <SidebarProfile user={user} />

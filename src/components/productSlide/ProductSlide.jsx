@@ -25,32 +25,48 @@ const ProductSlide = ({ products }) => {
             <div className="bg-white p-2">
                 <div className="grid md:grid-cols-5 grid-cols-3 gap-2 md:mx-2">
                     {products &&
-                        products.slice(startIndex, endIndex).map((product) => (
-                            <div className="relative hover:border-2 hover:shadow-md">
-                                <div className="md:m-2 m-2">
-                                    <Link to={`/detail/${product._id}`}>
-                                        <img src={product.productImage[0]} alt={product.name} />
-                                    </Link>
+                        products
+                            .slice(startIndex, endIndex)
+                            .map((product, index) => (
+                                <div
+                                    key={index}
+                                    className="relative hover:border-2 hover:shadow-md"
+                                >
+                                    <div className="md:m-2 m-2">
+                                        <Link to={`/detail/${product._id}`}>
+                                            <img
+                                                src={product.productImage[0]}
+                                                alt={product.name}
+                                            />
+                                        </Link>
+                                    </div>
+                                    <div className="mb-3">
+                                        <Link to={`/detail/${product._id}`}>
+                                            <h4 className="text-[#333333] md:text-lg text-base md:px-5 px-3">
+                                                {helper.truncateString(
+                                                    product.name,
+                                                    40
+                                                )}
+                                            </h4>
+                                            <span className="block md:px-5 px-3 text-base md:text-xl text-[#F7941E] font-semibold">
+                                                {helper.maskValuePrice(
+                                                    product.sale
+                                                )}
+                                            </span>
+                                            <span className="block md:px-5 px-3 text-sm md:text-base text-[#888888] line-through">
+                                                {helper.maskValuePrice(
+                                                    product.price
+                                                )}
+                                            </span>
+                                            <span className="block md:px-5 px-3 text-sm md:text-xs">
+                                                {" "}
+                                                Số lượng còn lại:{" "}
+                                                {product.quantity}
+                                            </span>
+                                        </Link>
+                                    </div>
                                 </div>
-                                <div className="mb-3">
-                                    <Link to={`/detail/${product._id}`}>
-                                        <h4 className="text-[#333333] md:text-lg text-base md:px-5 px-3">
-                                            {helper.truncateString(product.name, 40)}
-                                        </h4>
-                                        <span className="block md:px-5 px-3 text-base md:text-xl text-[#F7941E] font-semibold">
-                                            {helper.maskValuePrice(product.sale)}
-                                        </span>
-                                        <span className="block md:px-5 px-3 text-sm md:text-base text-[#888888] line-through">
-                                            {helper.maskValuePrice(product.price)}
-                                        </span>
-                                        <span className="block md:px-5 px-3 text-sm md:text-xs">
-                                            {" "}
-                                            Số lượng còn lại: {product.quantity}
-                                        </span>
-                                    </Link>
-                                </div>
-                            </div>
-                        ))}
+                            ))}
                     <div className="relative md:hidden block py-[100%] px-5">
                         <div className="border-2 rounded-2xl text-center p-1 border-teal-400">
                             <button className="text-teal-500 hover:text-orange-400">

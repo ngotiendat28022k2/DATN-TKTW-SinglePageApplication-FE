@@ -11,118 +11,31 @@ import FormDynamic from "../../../../components/AdminComponent/formdynamic/FormD
 import { v4 as uuidv4 } from "uuid";
 
 const initialFValues = {
-    descriptionShort: "",
-    descriptionLong: "",
-    name: "",
-    price: undefined,
-    productImage: [],
-    previewImage: [],
-    sale: undefined,
-    quantity: "",
-    isHidden: false,
-    categories: [],
-    publishings: [],
-    formbooks: [],
-    authors: [],
-    supplieres: [],
-    other: [{ id: uuidv4(), k: "", v: "" }],
+    html: "",
+    title: "",
+    categoryInfor: [],
 };
 
 export default function FormAddOrEdit({
     recordForEdit,
     addOrEdit,
-    optionCategory,
-    optionSupplier,
-    optionPublish,
-    optionFormBook,
-    optionAuthor,
+    optioncategoryInfor,
 }) {
     const validate = (fieldValues = values) => {
         let temp = { ...errors };
-        if ("name" in fieldValues)
-            temp.name = fieldValues.name ? "" : "Name is required.";
-        if ("price" in fieldValues) {
-            if (!fieldValues.price) {
-                temp.price = "Price is required.";
-            } else if (fieldValues.price <= 0) {
-                temp.price = "The value must be greater than zero.";
-            } else {
-                temp.price = "";
-            }
+        if ("title" in fieldValues)
+            temp.title = fieldValues.title ? "" : "Title is required.";
+        if ("html" in fieldValues) {
+            temp.html = fieldValues.html ? "" : "HTML is required.";
+        }
+        if ("categoryInfor" in fieldValues) {
+            console.log(temp);
+            temp.categoryInfor =
+                fieldValues.categoryInfor.length > 0
+                    ? ""
+                    : "Category Information is required.";
         }
 
-        if ("sale" in fieldValues) {
-            // if (!fieldValues.sale) {
-            //     temp.sale = "This field is required.";
-            // } else
-            if (parseInt(fieldValues.sale) >= parseInt(values.price)) {
-                temp.sale =
-                    "The selling price must be lower than the original price";
-            } else {
-                temp.sale = "";
-            }
-        }
-
-        if ("quantity" in fieldValues) {
-            if (!fieldValues.quantity) {
-                temp.quantity = "This field is required.";
-            } else if (parseInt(fieldValues.quantity) <= 0) {
-                temp.quantity = "Quantity must be greater than 0";
-            } else {
-                temp.quantity = "";
-            }
-        }
-
-        if ("productImage" in fieldValues) {
-            temp.productImage =
-                fieldValues.productImage.length > 0
-                    ? ""
-                    : "Product Image is required.";
-        }
-        // if ("previewImage" in fieldValues) {
-        //     temp.previewImage =
-        //         fieldValues.previewImage.length > 0
-        //             ? ""
-        //             : "Preview Image is required.";
-        // }
-        if ("categories" in fieldValues) {
-            temp.categories =
-                fieldValues.categories.length > 0
-                    ? ""
-                    : "Categories is required.";
-        }
-        if ("publishings" in fieldValues) {
-            temp.publishings =
-                fieldValues.publishings.length > 0
-                    ? ""
-                    : "Publishings is required.";
-        }
-        if ("supplieres" in fieldValues) {
-            temp.supplieres =
-                fieldValues.supplieres.length > 0
-                    ? ""
-                    : "Supplieres is required.";
-        }
-        if ("formbooks" in fieldValues) {
-            temp.formbooks =
-                fieldValues.formbooks.length > 0
-                    ? ""
-                    : "Form book is required.";
-        }
-        if ("authors" in fieldValues) {
-            temp.authors =
-                fieldValues.authors.length > 0 ? "" : "Author is required.";
-        }
-        if ("descriptionShort" in fieldValues) {
-            temp.descriptionShort = fieldValues.descriptionShort
-                ? ""
-                : "Description Short is required.";
-        }
-        if ("descriptionLong" in fieldValues) {
-            temp.descriptionLong = fieldValues.descriptionLong
-                ? ""
-                : "Description Long is required.";
-        }
         setErrors({
             ...temp,
         });
@@ -130,6 +43,7 @@ export default function FormAddOrEdit({
         if (fieldValues == values)
             return Object.values(temp).every((x) => x == "");
     };
+
     const {
         values,
         setValues,
@@ -140,7 +54,6 @@ export default function FormAddOrEdit({
         handleImageChange,
         resetForm,
     } = useForm(initialFValues, true, validate);
-
     useEffect(() => {
         if (recordForEdit != null)
             setValues({
@@ -159,49 +72,28 @@ export default function FormAddOrEdit({
     const handleEditorChange = (name, value) => {
         setValues((prev) => ({ ...prev, [name]: value }));
     };
-    const handleDyanmicChange = (value) => {
-        setValues((prev) => ({ ...prev, other: value }));
-    };
-
-    const handleProductImageChange = (name, urls) => {
-        setProductImageUrls(urls);
-    };
-
-    const handlePreviewImageChange = (name, urls) => {
-        setPreviewImageUrls(urls);
-    };
-
-    // const filterColors = (option, inputValue) => {
-    //   return option.filter((i) =>
-    //     i.label.toLowerCase().includes(inputValue.toLowerCase())
-    //   );
-    // };
-    // const loadOptions = (event) => {
-    //   setTimeout(() => {
-    //     console.log("event", event)
-    //     // filterColors(valueCategory, e)
-    //   }, 1000);
-    // };
     console.log("values", values);
     return (
         <Box onSubmit={handleSubmit} width="100%">
             <Grid container spacing={3}>
                 <Grid item xs={12}>
                     <div className="w-full">
-                        <label htmlFor="">Product Name:</label>
+                        <label htmlFor="">Title:</label>
                         <br />
                         <input
-                            name="name"
+                            name="title"
                             type="text"
                             className="w-full mt-[10px] py-[7px] border-[1px] border-[#787878] outline-none rounded-md pl-[20px] focus:border-PK-client focus:border-[1px] transition-all"
-                            value={values.name}
+                            value={values.title}
                             onChange={handleInputChange}
                         />
                         <br />
-                        <span className="text-red-600 mt-2">{errors.name}</span>
+                        <span className="text-red-600 mt-2">
+                            {errors.title}
+                        </span>
                     </div>
                 </Grid>
-                <Grid item xs={6}>
+                {/* <Grid item xs={6}>
                     <div className="w-full">
                         <label htmlFor="">Price:</label>
                         <br />
@@ -409,22 +301,46 @@ export default function FormAddOrEdit({
                             {errors.descriptionShort}
                         </span>
                     </div>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12}>
                     <div className="w-full">
-                        <label htmlFor="">Description Long:</label>
+                        <label htmlFor="">HTML:</label>
                         <br />
                         <Ckeditor
-                            value={values.descriptionLong}
-                            name="descriptionLong"
+                            value={values.html}
+                            name="html"
                             onChange={handleEditorChange}
                         />
-                        <span className="text-red-600">
-                            {errors.descriptionLong}
-                        </span>
+                        <span className="text-red-600">{errors.html}</span>
                     </div>
                 </Grid>
                 <Grid item xs={12}>
+                    <div className="w-full flex justify-start items-start flex-wrap gap-[25px] z-11">
+                        <div className="w-full max-w-[250px] ">
+                            <label htmlFor="">Category Information:</label>
+                            <br />
+                            <Select
+                                name="categoryInfor"
+                                closeMenuOnSelect={false}
+                                // components={animatedComponents}
+                                value={values.categoryInfor.map((a) => ({
+                                    ...a,
+                                    label: a.name,
+                                    value: a.name,
+                                }))}
+                                isMulti
+                                options={optioncategoryInfor}
+                                onChange={(value) =>
+                                    handleChange("categoryInfor", value)
+                                }
+                            />
+                            <span className="text-red-600">
+                                {errors.categoryInfor}
+                            </span>
+                        </div>
+                    </div>
+                </Grid>
+                {/* <Grid item xs={12}>
                     <div className="w-full">
                         <label htmlFor="">More detailed description:</label>
                         <br />
@@ -436,7 +352,7 @@ export default function FormAddOrEdit({
                             />
                         </div>
                     </div>
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12}>
                     <div className="text-right mt-[30px]">
                         <Controls.Button

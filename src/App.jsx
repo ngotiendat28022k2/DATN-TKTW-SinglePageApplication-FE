@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 
 import React from "react";
 import Layout from "./Layout/layout";
@@ -22,9 +22,15 @@ import UserList from "./page/Admin/userList";
 import UserRootList from "./page/Admin/userRootList";
 import DealHot from "./page/DealHot/DealHot";
 import SeriesBook from "./page/SeriesBook/SeriesBook";
+import InfomationPage from "./page/Admin/infomation_page";
+import CategoryInfomation from "./page/Admin/category_information";
+import Voucher from "./page/Admin/voucherList";
+import ChatBox from "./components/chatbot";
+import { ChatBubbleOutline } from "@mui/icons-material";
 import ReportList from "./page/Admin/reportCommentList";
 import CommentList from "./page/Admin/commentList";
 
+const DynamicPage = React.lazy(() => import("./page/dynamicPage/DynamicPage"));
 const ProfileAdmin = React.lazy(() =>
     import("./page/Admin/Profile/Profile.admin")
 );
@@ -50,6 +56,12 @@ const PageSearch = React.lazy(() => import("./page/pageSearch"));
 const PagePay = React.lazy(() => import("./page/pay/index"));
 
 function App() {
+    const location = useLocation();
+    const isLayoutRoute =
+        location.pathname !== "/admin" &&
+        location.pathname !== "/login" &&
+        location.pathname !== "/register" &&
+        location.pathname !== "*";
     return (
         <div className="App">
             <React.Suspense fallback={<Loader />}>
@@ -59,6 +71,10 @@ function App() {
                             <Route index element={<Navigate to="home" />} />
                             <Route path="home" element={<HomePage />} />
                             <Route path="blog" element={<Blog />} />
+                            <Route
+                                path="infomation-page/:id"
+                                element={<DynamicPage />}
+                            />
                             {/* Test */}
                             <Route path="deal-hot" element={<DealHot />} />
                             <Route
@@ -89,7 +105,7 @@ function App() {
                                     path="account/order/:id"
                                     element={<ProfileMyProduct />}
                                 />
-                            
+
                                 <Route
                                     path="account/voucher"
                                     element={<ProfileVoucher />}
@@ -125,6 +141,15 @@ function App() {
                         <Route path="supplieres" element={<SupplierList />} />
                         <Route path="publishs" element={<PublishList />} />
                         <Route path="profile" element={<ProfileAdmin />} />
+                        <Route path="voucher" element={<Voucher />} />
+                        <Route
+                            path="infomation-page"
+                            element={<InfomationPage />}
+                        />
+                        <Route
+                            path="category-infomation"
+                            element={<CategoryInfomation />}
+                        />
                         <Route path="report-comment" element={<ReportList />} />
                         <Route path="comment" element={<CommentList />} />
                     </Route>
@@ -133,6 +158,7 @@ function App() {
                     <Route path="/register" element={<Register />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>
+                {isLayoutRoute && <ChatBox />}
             </React.Suspense>
         </div>
     );
