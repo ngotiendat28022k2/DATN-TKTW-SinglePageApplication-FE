@@ -71,6 +71,7 @@ helper.userRole = (role) => {
 };
 
 helper.truncateString = (str, maxLength) => {
+  if (!str) return str;
   if (str.length > maxLength) {
     return str.substring(0, maxLength) + "...";
   } else {

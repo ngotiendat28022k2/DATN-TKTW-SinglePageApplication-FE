@@ -75,7 +75,6 @@ export default function ProductList() {
   };
 
   const addOrEdit = async (values, resetForm) => {
-    console.log("values", values);
     if (!values._id) {
       const { payload } = await dispatch(AddNewProduct(values));
       console.log("payload", payload)
@@ -98,7 +97,6 @@ export default function ProductList() {
     }
     resetForm();
     setRecordForEdit(null);
-    // setRecords(records);
     setOpenPopup(false);
   };
 

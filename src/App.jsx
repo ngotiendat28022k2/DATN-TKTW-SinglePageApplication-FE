@@ -22,6 +22,8 @@ import UserList from "./page/Admin/userList";
 import UserRootList from "./page/Admin/userRootList";
 import DealHot from "./page/DealHot/DealHot";
 import SeriesBook from "./page/SeriesBook/SeriesBook";
+import ReportList from "./page/Admin/reportCommentList";
+import CommentList from "./page/Admin/commentList";
 
 const ProfileAdmin = React.lazy(() =>
     import("./page/Admin/Profile/Profile.admin")
@@ -122,6 +124,8 @@ function App() {
                         <Route path="supplieres" element={<SupplierList />} />
                         <Route path="publishs" element={<PublishList />} />
                         <Route path="profile" element={<ProfileAdmin />} />
+                        <Route path="report-comment" element={<ReportList />} />
+                        <Route path="comment" element={<CommentList />} />
                     </Route>
 
                     <Route path="/login" element={<Login />} />

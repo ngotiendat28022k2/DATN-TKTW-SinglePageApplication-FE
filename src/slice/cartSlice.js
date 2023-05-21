@@ -28,8 +28,8 @@ export const readCartToDatabase = createAsyncThunk(
 export const updateCartToDatabase = createAsyncThunk(
   "cart/updateCartToDatabase",
   async (data) => {
-    const respone = await cartApi.CartUpdate(data);
-    console.log("respone", respone);
+    await cartApi.CartUpdate(data);
+    const respone = await cartApi.CartList(data.user._id);
     return respone;
   }
 );

@@ -51,17 +51,17 @@ export const formBookSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getAllFormBook.fulfilled, (state, action) => {
-      state.value = action.payload.data.data;
+      state.value = action.payload.data;
     });
 
     builder.addCase(AddNewFormBook.fulfilled, (state, action) => {
-      state.value = action.payload.data.data;
+      state.value = action.payload.data;
     });
     builder.addCase(RemoveFormBook.fulfilled, (state, action) => {
-      state.value = action.payload.data.data;
+      state.value = action.payload.data;
     });
     builder.addCase(UpdateFormBook.fulfilled, (state, action) => {
-      state.value = action.payload.data.data;
+      state.value = action.payload.data;
     });
   },
 });

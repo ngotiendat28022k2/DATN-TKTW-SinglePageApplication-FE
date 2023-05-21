@@ -5,18 +5,27 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import helper from "../../utiliti/helper/helper";
 import { Button } from "@mui/material";
 import local from "../../utiliti/local/localSesion";
-import {addToCart, getToCart, saveCartToDatabase} from "../../slice/cartSlice"
+import {
+  addToCart,
+  getToCart,
+  saveCartToDatabase,
+} from "../../slice/cartSlice";
+import WSPGallery from "./CarouselImage/WSPGallery";
+import CommentList from "./CommentList/CommentList";
+import { getAllComment } from "../../slice/commentSlice";
 const DetailProduct = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [product, setProduct] = useState(null);
-  const [user, setUser] = useState(local.get("user"))
+  const [user, setUser] = useState(local.get("user"));
+  const [comments, setComments] = useState([]);
   const [cart, setCart] = useState({
     product: id,
     selected: false,
     quantity: 1,
     user: user ? user._id : undefined,
   });
+  const [showFullDescription, setShowFullDescription] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     try {
@@ -39,44 +48,79 @@ const DetailProduct = () => {
 
   const handleQuantity = (action) => {
     if (action === "increase" && cart.quantity < product.quantity) {
-      setCart({...cart,"quantity":cart.quantity + 1 });
+      setCart({ ...cart, quantity: cart.quantity + 1 });
     } else if (action === "decrease" && cart.quantity > 1) {
-      setCart({...cart,"quantity":cart.quantity - 1 });
+      setCart({ ...cart, quantity: cart.quantity - 1 });
     }
-  }
+  };
 
-  const handleAddToCart =async () => {
-    console.log("handleAddToCart", cart)
-      if(user){
-        try {
-          const {payload} = await dispatch(saveCartToDatabase(cart))
-          console.log("payload", payload)
-          if(payload?.successCode){
-            helper.toast("success", "Product added to cart")
-          }
-          if(payload?.errorCode){
-            helper.toast("success", payload.message)
-          }
-        } catch (error) {
-          console.log("error", error)
+  const handleAddToCart = async () => {
+    if (user) {
+      try {
+        const { payload } = await dispatch(saveCartToDatabase(cart));
+        console.log("payload", payload);
+        if (payload?.successCode) {
+          helper.toast("success", "Product added to cart");
         }
-      }else{
-        const {user, ...other} = cart
-        const newCart = {...other, product:product}
-        dispatch(getToCart())
-        const {payload} = dispatch(addToCart(newCart))
-        console.log("payload", payload)
-        if(payload.successCode){
-          helper.toast("success", payload.message)
-        }else{
-          helper.toast("error", payload.message)
+        if (payload?.errorCode) {
+          helper.toast("success", payload.message);
         }
+      } catch (error) {
+        console.log("error", error);
       }
-  }
-  console.log("user", user);
-  console.log("cart", cart);
-  console.log("product", product);
+    } else {
+      const { user, ...other } = cart;
+      const newCart = { ...other, product: product };
+      dispatch(getToCart());
+      const { payload } = dispatch(addToCart(newCart));
+      console.log("payload", payload);
+      if (payload.successCode) {
+        helper.toast("success", payload.message);
+      } else {
+        helper.toast("error", payload.message);
+      }
+    }
+  };
 
+  const handlePayCart = async () => {
+    if (user) {
+      try {
+        const { payload } = await dispatch(saveCartToDatabase(cart));
+        if (payload?.successCode) {
+          navigate("/checkout/cart");
+        }
+        if (payload?.errorCode) {
+          helper.toast("success", payload.message);
+        }
+      } catch (error) {
+        console.log("error", error);
+      }
+    } else {
+      const { user, ...other } = cart;
+      const newCart = { ...other, product: product };
+      dispatch(getToCart());
+      const { payload } = dispatch(addToCart(newCart));
+      console.log("payload", payload);
+      if (payload.successCode) {
+        navigate("/checkout/cart");
+      } else {
+        helper.toast("error", payload.message);
+      }
+    }
+  };
+
+  useEffect(() => {
+    (async () => {
+      const { payload } = await dispatch(getAllComment(id));
+      if (payload.success) {
+        setComments(payload.data);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <div className="">
@@ -94,11 +138,7 @@ const DetailProduct = () => {
             <div className="flex">
               <div className=" object-contain items-center">
                 <div className="">
-                  <img
-                    className="max-w-[76px] max-h-[76px] mt-[5px]"
-                    src={product?.productImage[0]}
-                    alt=""
-                  />
+                  <WSPGallery galleryImages={product?.productImage} />
                 </div>
               </div>
               <div className=" object-contain p-[6px]">
@@ -109,24 +149,22 @@ const DetailProduct = () => {
                 />
               </div>
             </div>
-            <div className="text-center mt-[20px]">
-              <Button color="inherit" variant="contained">
-                <i className="fa-solid fa-eye mr-3"></i>
-                xem trước
-              </Button>
-            </div>
             <div className="flex justify-center gap-[10px] mt-[25px]">
-              
-                <div 
-                  className=" max-w-[220px] w-full border-[2px] border-solid border-[#C92127] hover:bg-red-100 transition-all rounded-[10px] px-[30px] py-[10px] items-center justify-center flex cursor-pointer"
-                  onClick={handleAddToCart}
-                >
-                  <span className="text-[#C92127] font-semibold " >
-                    Thêm vào giỏ hàng
-                  </span>
-                </div>
+              <div
+                className=" max-w-[220px] w-full border-[2px] border-solid border-[#C92127] hover:bg-red-100 transition-all rounded-[10px] px-[30px] py-[10px] items-center justify-center flex cursor-pointer"
+                onClick={handleAddToCart}
+              >
+                <span className="text-[#C92127] font-semibold ">
+                  Thêm vào giỏ hàng
+                </span>
+              </div>
               <div className="max-w-[220px] w-full border-[2px] border-solid border-[#C92127] hover:bg-[#d3343a] hover:border-[#d3343a] transition-all rounded-[10px] px-[30px] py-[10px] bg-[#C92127] items-center justify-center flex cursor-pointer">
-                <span className="text-[#fff] font-semibold ">Mua ngay</span>
+                <span
+                  className="text-[#fff] font-semibold "
+                  onClick={handlePayCart}
+                >
+                  Mua ngay
+                </span>
               </div>
             </div>
           </div>
@@ -146,7 +184,8 @@ const DetailProduct = () => {
                     {product?.supplieres.map((suppliere) => (
                       <Link
                         className="text-[#2f80ec] font-semibold pl-[5px] hover:text-[red]"
-                        to
+                        to=""
+                        key={suppliere.name}
                       >
                         {suppliere.name}
                       </Link>
@@ -159,7 +198,8 @@ const DetailProduct = () => {
                     {product?.publishings.map((publishing) => (
                       <Link
                         className="text-[#2f80ec] font-semibold pl-[5px] hover:text-[red]"
-                        to
+                        to=""
+                        key={publishing.name}
                       >
                         {publishing.name}
                       </Link>
@@ -174,7 +214,8 @@ const DetailProduct = () => {
                     {product?.authors.map((author) => (
                       <Link
                         className="text-[#2f80ec] font-semibold pl-[5px] hover:text-[red]"
-                        to
+                        to=""
+                        key={author.name}
                       >
                         {author.name}
                       </Link>
@@ -187,7 +228,8 @@ const DetailProduct = () => {
                     {product?.formbooks.map((formbook) => (
                       <Link
                         className="text-[#2f80ec] font-semibold pl-[5px] hover:text-[red]"
-                        to
+                        to=""
+                        key={formbook.name}
                       >
                         {formbook.name}
                       </Link>
@@ -198,30 +240,35 @@ const DetailProduct = () => {
             </div>
             <div className="flex  my-[20px]">
               <div className="flex justify-center items-center">
-                {product?.sale !== 0 || product?.sale ? (<>
+                {product?.sale !== 0 || product?.sale ? (
+                  <>
+                    <div className="pr-[20px]">
+                      <span className="text-[33px] text-[#C92127] font-bold ">
+                        {helper.maskValuePrice(product?.sale)}
+                      </span>
+                    </div>
+                    <div className="pr-[20px]">
+                      <span className="text-[17px] line-through">
+                        {helper.maskValuePrice(product?.price)}
+                      </span>
+                    </div>
+                    <div className="">
+                      <span className="text-[17px] p-[5px] bg-[#C92127] rounded-[5px] text-[white] font-medium">
+                        {(
+                          ((product?.price - product?.sale) / product?.price) *
+                          100
+                        ).toFixed(0)}
+                        %
+                      </span>
+                    </div>
+                  </>
+                ) : (
                   <div className="pr-[20px]">
-                  <span className="text-[33px] text-[#C92127] font-bold ">
-                    {helper.maskValuePrice(product?.sale)}
-                  </span>
-                </div>
-                <div className="pr-[20px]">
-                  <span className="text-[17px] line-through">
-                    {helper.maskValuePrice(product?.price)}
-                  </span>
-                </div>
-                <div className="">
-                  <span className="text-[17px] p-[5px] bg-[#C92127] rounded-[5px] text-[white] font-medium">
-                    {(
-                      ((product?.price - product?.sale) / product?.price) *
-                      100
-                    ).toFixed(0)}
-                    %
-                  </span>
-                </div></>) : (<div className="pr-[20px]">
-                  <span className="text-[33px] text-[#C92127] font-bold">
-                    {helper.maskValuePrice(product?.price)}
-                  </span>
-                </div>)}
+                    <span className="text-[33px] text-[#C92127] font-bold">
+                      {helper.maskValuePrice(product?.price)}
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
             <div className="w-[100%] pb-[10px]">
@@ -258,7 +305,10 @@ const DetailProduct = () => {
               </div>
               <div className="  border border-solid border-[#9e9e9e] rounded-[4px]">
                 <div className="flex items-center">
-                  <div className="p-[15px]" onClick={() => handleQuantity("decrease")}>
+                  <div
+                    className="p-[15px]"
+                    onClick={() => handleQuantity("decrease")}
+                  >
                     <img
                       className="w-[12px] h-auto"
                       src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_minus2x.png"
@@ -273,7 +323,10 @@ const DetailProduct = () => {
                       value={cart.quantity}
                     />
                   </div>
-                  <div className="p-[15px]" onClick={() => handleQuantity("increase")}>
+                  <div
+                    className="p-[15px]"
+                    onClick={() => handleQuantity("increase")}
+                  >
                     <img
                       className="w-[12px] h-auto"
                       src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_plus2x.png"
@@ -566,7 +619,11 @@ const DetailProduct = () => {
                     <td className="w-[100%] p-[4px]">
                       {" "}
                       {product?.supplieres.map((suppliere) => (
-                        <Link className="hover:text-[red]" to>
+                        <Link
+                          className="hover:text-[red]"
+                          to=""
+                          key={suppliere.name}
+                        >
                           {suppliere.name}
                         </Link>
                       ))}
@@ -576,7 +633,8 @@ const DetailProduct = () => {
                     <td className="w-[25%] p-[4px] text-[#777]">Tác giả</td>
                     <td className="w-[100%] p-[4px]">
                       {product?.authors.map((author) => (
-                        <Link className=" hover:text-[red]" to>
+                        <Link className=" hover:text-[red]" to=""
+                        key={author.name}>
                           {author.name}
                         </Link>
                       ))}
@@ -586,31 +644,41 @@ const DetailProduct = () => {
                     <td className="w-[25%] p-[4px] text-[#777]">Hình Thức</td>
                     <td className="w-[100%] p-[4px]">
                       {product?.formbooks.map((formbook) => (
-                        <Link className="hover:text-[red]" to>
+                        <Link className="hover:text-[red]" to=""
+                        key={formbook.name}>
                           {formbook.name}
                         </Link>
                       ))}
                     </td>
                   </tr>
                   {product?.other.map((item) => (
-                    <tr className="">
+                    <tr className="" key={item.id}>
                       <td className="w-[25%] p-[4px] text-[#777]">{item.k}</td>
                       <td className="w-[100%] p-[4px]">{item.v}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-              <div className="border-b-[1px] border-solid border-[#adadad] pb-[10px]">
-                {product?.descriptionShort}
-              </div>
+              <div
+                className="border-b-[1px] border-solid border-[#adadad] pb-[10px]"
+                dangerouslySetInnerHTML={{ __html: product?.descriptionShort }}
+              ></div>
               <div className="pt-[20px]">
-                <div className="pt-[10px]">{product?.descriptionLong}</div>
+                <div
+                  className="pt-[10px]"
+                  dangerouslySetInnerHTML={{
+                    __html: showFullDescription
+                      ? product?.descriptionLong
+                      : helper.truncateString(product?.descriptionLong, 200),
+                  }}
+                ></div>
                 <div className="items-center justify-center flex cursor-pointer pt-[15px] pb-[8px]">
-                  <div className="max-w-[220px] w-full border-[2px] border-solid border-[#C92127] rounded-[10px] px-[30px] py-[10px] items-center justify-center flex">
-                    <span className="text-[#C92127] font-semibold">
-                      Xem Thêm
-                    </span>
-                  </div>
+                  <button
+                    className="w-full text-[#C92127] font-semibold max-w-[220px]  w-full border-[2px] border-solid border-[#C92127] rounded-[10px] px-[30px] py-[10px] items-center justify-center flex"
+                    onClick={() => setShowFullDescription(!showFullDescription)}
+                  >
+                    {showFullDescription ? "Rút gọn" : "Xem thêm"}
+                  </button>
                 </div>
               </div>
             </div>
@@ -618,95 +686,7 @@ const DetailProduct = () => {
         </div>
         <br />
         {/* Block 4: Đánh giá sản phẩm */}
-        <div className="bg-[white] px-[20px] py-[15px] rounded-[7px] text-[15px]">
-          <div className="">
-            {/* Tiêu đề block đánh giá */}
-            <div className="text-[20px] font-semibold">
-              <span className="">Đánh giá sản phẩm</span>
-            </div>
-            {/* Block main bao gồm 2 block đánh giá phụ  */}
-            <div className="flex max-w-[100%] w-full justify-start gap-[20px] py-[15px]">
-              {/* Block 1 đánh giá */}
-              <div className="w-[12%] ">
-                <div className="font-bold flex justify-center items-center">
-                  <span className="text-[53px]">0</span>
-                  <span className="text-[27px]">/5</span>
-                </div>
-                <div className="flex justify-center items-center">
-                  <span className="text-[#7A7E7F] text-[14px]">
-                    (0 đánh giá)
-                  </span>
-                </div>
-              </div>
-              {/* Block 2 đánh giá */}
-              <div className="grid grid-cols-1 w-[35%]">
-                <div className="flex w-[100%] justify-start items-center gap-[10px]">
-                  <div className="">
-                    <span className="text-[18px]">5 sao</span>
-                  </div>
-                  <div className="max-w-[250px] max-h-[6px] h-full w-full bg-[#e6e6e6]">
-                    <span className=""></span>
-                  </div>
-                  <div className="text-[18px]">
-                    <span className="">0%</span>
-                  </div>
-                </div>
-                <div className="flex w-[100%] justify-start items-center gap-[10px]">
-                  <div className="">
-                    <span className="text-[18px]">4 sao</span>
-                  </div>
-                  <div className="max-w-[250px] max-h-[6px] h-full w-full bg-[#e6e6e6]">
-                    <span className=""></span>
-                  </div>
-                  <div className="text-[18px]">
-                    <span className="">0%</span>
-                  </div>
-                </div>
-                <div className="flex w-[100%] justify-start items-center gap-[10px]">
-                  <div className="">
-                    <span className="text-[18px]">3 sao</span>
-                  </div>
-                  <div className="max-w-[250px] max-h-[6px] h-full w-full bg-[#e6e6e6]">
-                    <span className=""></span>
-                  </div>
-                  <div className="text-[18px]">
-                    <span className="">0%</span>
-                  </div>
-                </div>
-                <div className="flex w-[100%] justify-start items-center gap-[10px]">
-                  <div className="">
-                    <span className="text-[18px]">2 sao</span>
-                  </div>
-                  <div className="max-w-[250px] max-h-[6px] h-full w-full bg-[#e6e6e6]">
-                    <span className=""></span>
-                  </div>
-                  <div className="text-[18px]">
-                    <span className="">0%</span>
-                  </div>
-                </div>
-                <div className="flex w-[100%] justify-start items-center gap-[10px]">
-                  <div className="">
-                    <span className="text-[18px]">1 sao</span>
-                  </div>
-                  <div className="max-w-[250px] max-h-[6px] h-full w-full bg-[#e6e6e6]">
-                    <span className=""></span>
-                  </div>
-                  <div className="text-[18px]">
-                    <span className="">0%</span>
-                  </div>
-                </div>
-              </div>
-              {/* Button viết đánh giá */}
-              <div className=" max-w-[50%] w-full items-center justify-center flex">
-                <div className="max-w-[60%] w-full border-[2px] border-solid border-[#C92127] rounded-[10px] px-[30px] py-[10px] items-center justify-center flex font-bold cursor-pointer">
-                  <span className="text-[#C92127]  text-[17px]">
-                    Viết đánh giá
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <CommentList {...{ user, product, comments }} />
         <br />
         <div className="bg-[white] px-[20px] py-[15px] rounded-[7px] text-[15px] flex justify-around ">
           <div className="flex px-[27px] py-[10px]">
