@@ -4,6 +4,9 @@ const productApi = {
   ProductList: async () => {
     return await instance.get("product");
   },
+  ProductRelated: async () => {
+    return await instance.get("product/${id}/related");
+  },
   ProductListClient: async () => {
     return await instance.get("product?type=client");
   },

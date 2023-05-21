@@ -14,7 +14,7 @@ const ClientMenu = () => {
                 <div className="md:mt-4 md:w-[25%] w-[40%]">
                     <div className="font-bold md:text-2xl md:text-gray-500 md:text-left md:mr-0  mb-4 flex md:ml-9 ml-6 md:w-[90%] w-[230%] text-lg text-center justify-between">
                         Danh mục sản phẩm
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-x-lg md:hidden block m-0 w-7 h-7 pl-2" viewBox="0 0 16 16">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-x-lg md:hidden block m-0 w-7 h-7 pl-2" viewBox="0 0 16 16">
                             <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z" />
                         </svg>
                     </div>
