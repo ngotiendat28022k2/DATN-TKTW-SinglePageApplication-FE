@@ -108,8 +108,23 @@ export default function FormAddresUser(props) {
   }, []);
 
   useEffect(() => {
-    if(values.selectedDistrictId !==){
-      fetch(`https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${values.selectedDistrictId}`, {
+    if(values.selectedProvince !== ""){
+      fetch(`https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${values.selectedProvince}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Token': '6918bfab-f625-11ed-a281-3aa62a37e0a5'
+        },
+      })
+        .then(response => response.json())
+        .then(data => console.log("data", data))
+        .catch(error => console.error(error));
+    }
+  }, [values.selectedProvince])
+
+  useEffect(() => {
+    if(values.selectedDistrict !== ""){
+      fetch(`https://online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=${values.selectedDistrict}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -120,24 +135,10 @@ export default function FormAddresUser(props) {
         .then(data => setWards(data.data))
         .catch(error => console.error(error));  
     }
-  },[values.selectedDistrictId])
+  },[values.selectedDistrict])
 
-  useEffect(() => {
-    if(values.selectedProvince !== ""){
-      fetch(`https://online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=${selectedProvinceId}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Token': '6918bfab-f625-11ed-a281-3aa62a37e0a5'
-        },
-      })
-        .then(response => response.json())
-        .then(data => setDistricts(data.data))
-        .catch(error => console.error(error));
-    }
-  }, [values.selectedProvince])
-
-
+  
+console.log("values", values)
   
 
   return (
