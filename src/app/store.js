@@ -8,6 +8,7 @@ import userReducer from "../slice/userSlice";
 import authorReducer from "../slice/authorSlice";
 import formBookReducer from "../slice/formBookSlice";
 import cartReducer from "../slice/cartSlice";
+import bannerReducer from "../slice/bannerSlice";
 import infomationPageReducer from "../slice/infomationPage";
 import categoryInformationReducer from "../slice/categoryInformation";
 import voucherReducer from "../slice/vouchersSlice";
@@ -24,6 +25,7 @@ export const store = configureStore({
     formBook: formBookReducer,
     author: authorReducer,
     cart: cartReducer,
+    banner: bannerReducer,
     infomationPage: infomationPageReducer,
     categoryInformation: categoryInformationReducer,
     voucher: voucherReducer,
