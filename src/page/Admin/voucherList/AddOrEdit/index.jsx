@@ -1,59 +1,57 @@
 import React, { useState, useEffect } from "react";
-import { Grid } from "@mui/material";
+
+import { FormControlLabel, Grid, Switch } from "@mui/material";
 import Controls from "../../../../components/AdminComponent/controls/Controls";
 import { useForm, Form } from "../../../../components/AdminComponent/useForm";
-import helper from "../../../../utiliti/helper/helper";
+import Select from "../../../../components/AdminComponent/controls/Select";
 import Ckeditor from "../../../../components/CKeditor/Ckeditor";
-import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import helper from "../../../../utiliti/helper/helper";
+// import UploadImage from "../../../../components/AdminComponent/uploadImg/upload";
 
 const initialFValues = {
     code: "",
-    discount: null,
-    createdAt: "",
-    expirationDate: null,
-    usageLimit: 1,
-    usedCount: 0,
+    discount: undefined,
+    createdAt: Date,
+    expirationDate: Date,
+    usageLimit: undefined,
+    usedCount: undefined,
     description: "",
-    isActive: false
+    user: [],
+    isActive: true,
 };
 
-export default function NewVoucher(props) {
-    const { recordForEdit, addOrEdit } = props;
-
+export default function NewVoucher({ recordForEdit, addOrEdit, optionUser }) {
+    // const { recordForEdit, addOrEdit, optionUser } = props;
+    useEffect(() => {
+        if (recordForEdit != null)
+            setValues({
+                ...recordForEdit,
+            });
+    }, [recordForEdit]);
     const validate = (fieldValues = values) => {
         let temp = { ...errors };
         if ("code" in fieldValues)
             temp.code = fieldValues.code ? "" : "Code is required.";
 
-        if ("discount" in fieldValues)
-            temp.discount = fieldValues.discount ? "" : "Discount is required.";
-
-        if ("expirationDate" in fieldValues)
-            temp.expirationDate = fieldValues.expirationDate
-                ? ""
-                : "Expiration Date is required.";
-
-        if ("createdAt" in fieldValues)
-            temp.createdAt = fieldValues.createdAt ? "" : "Created At is required.";
-
-        if ("usageLimit" in fieldValues)
-            temp.usageLimit = fieldValues.usageLimit ? "" : "Usage Limit is required.";
-
-        if ("usedCount" in fieldValues)
-            temp.usedCount = fieldValues.usedCount ? "" : "Used Count is required.";
-
-        if ("description" in fieldValues)
-            temp.description = fieldValues.description
-                ? ""
-                : "Description is required.";
-
+        // if ("icon" in fieldValues) {
+        //     temp.icon = fieldValues.icon ? "" : "Icon is required.";
+        // }
+        // if ("image" in fieldValues) {
+        //     console.log(fieldValues.image);
+        //     temp.image =
+        //         fieldValues.image.length > 0 ? "" : "Image is required.";
+        // }
+        // console.log("temp", temp);
+        // if ("user" in fieldValues) {
+        //     console.log(temp);
+        //     temp.user = fieldValues.user.length > 0 ? "" : "User is required.";
+        // }
         setErrors({
             ...temp,
         });
 
-        if (fieldValues === values)
-            return Object.values(temp).every((x) => x === "");
+        if (fieldValues == values)
+            return Object.values(temp).every((x) => x == "");
     };
 
     const {
@@ -61,20 +59,16 @@ export default function NewVoucher(props) {
         setValues,
         errors,
         setErrors,
-        handleInputChange,
-        handleChangeDate,
         handleChange,
+        handleInputChange,
+        handleCheckedChange,
+        handleImageChange,
         resetForm,
     } = useForm(initialFValues, true, validate);
-
-    useEffect(() => {
-        if (recordForEdit != null) {
-            setValues({
-                ...recordForEdit,
-            });
-        }
-    }, [recordForEdit]);
-
+    // console.log("values-use", use);
+    const handleEditorChange = (name, value) => {
+        setValues((prev) => ({ ...prev, [name]: value }));
+    };
     const handleSubmit = (e) => {
         e.preventDefault();
         if (validate()) {
@@ -82,79 +76,141 @@ export default function NewVoucher(props) {
         }
     };
 
-    console.log("values", values);
+    // console.log("value", values);
+
     return (
         <Form onSubmit={handleSubmit}>
             <Grid container>
+                <Grid item xs={6}>
+                    <div className="w-full">
+                        <label htmlFor="">Code:</label>
+                        <br />
+                        <input
+                            className="w-full max-w-[300px] mt-[10px] py-[7px] border-[1px] border-[#787878] outline-none rounded-md pl-[20px] focus:border-PK-client focus:border-[1px] transition-all"
+                            type="text"
+                            name="code"
+                            value={values.code}
+                            onChange={(e) => handleInputChange(e)}
+                        />
+                        <br />
+                        <span className="text-red-600 mt-2">{errors.code}</span>
+                    </div>
+                </Grid>
+                <Grid item xs={6}>
+                    <div className="w-full">
+                        <label htmlFor="">Discount:</label>
+                        <br />
+                        <input
+                            className="w-full max-w-[300px] mt-[10px] py-[7px] border-[1px] border-[#787878] outline-none rounded-md pl-[20px] focus:border-PK-client focus:border-[1px] transition-all"
+                            type="text"
+                            name="discount"
+                            value={helper.maskValuePrice(values.discount)}
+                            onChange={(e) =>
+                                handleInputChange(helper.maskPrice(e))
+                            }
+                        />
+                        <br />
+                        <span className="text-red-600 mt-2">
+                            {errors.discount}
+                        </span>
+                    </div>
+                </Grid>
+                <Grid item xs={6}>
+                    <div className="w-full pt-[20px]">
+                        <label htmlFor="">Usage Limit:</label>
+                        <br />
+                        <input
+                            className="w-full max-w-[300px] mt-[10px] py-[7px] border-[1px] border-[#787878] outline-none rounded-md pl-[20px] focus:border-PK-client focus:border-[1px] transition-all"
+                            type="text"
+                            name="usageLimit"
+                            value={helper.maskValuePrice(values.usageLimit)}
+                            onChange={(e) =>
+                                handleInputChange(helper.maskPrice(e))
+                            }
+                        />
+                        <br />
+                        <span className="text-red-600 mt-2">
+                            {errors.usageLimit}
+                        </span>
+                    </div>
+                </Grid>
+                <Grid item xs={6}>
+                    <div className="w-full pt-[20px]">
+                        <label htmlFor="">Expiration Date:</label>
+                        <br />
+                        <input
+                            className="w-full max-w-[300px] mt-[10px] py-[7px] border-[1px] border-[#787878] outline-none rounded-md pl-[20px] focus:border-PK-client focus:border-[1px] transition-all"
+                            type="date"
+                            name="expirationDate"
+                            value={helper.formatDate(values.expirationDate)}
+                            onChange={(e) =>
+                                handleChange(
+                                    "expirationDate",
+                                    helper.formatDate(e.target.value)
+                                )
+                            }
+                        />
+                        <br />
+                        <span className="text-red-600 mt-2">
+                            {errors.expirationDate}
+                        </span>
+                    </div>
+                </Grid>
                 <Grid item xs={12}>
-                    <Controls.Input
-                        name="code"
-                        label="Code"
-                        value={values.code}
-                        onChange={handleInputChange}
-                        error={errors.code}
-                    />
-
-                    <Controls.Input
-                        name="discount"
-                        label="Discount"
-                        value={helper.maskValuePrice(values.discount)}
-                        onChange={handleInputChange}
-                        error={errors.discount}
-                    />
-
-                    <Controls.Input
-                        name="createdAt"
-                        label="Created At"
-                        type="date"
-                        value={values.createdAt}
-                        onChange={handleInputChange}
-                        error={errors.createdAt}
-                    />
-
-                    <Controls.Input
-                        name="expirationDate"
-                        label="expirationDate"
-                        type="date"
-                        value={values.expirationDate}
-                        onChange={handleInputChange}
-                        error={errors.expirationDate}
-                    />
-
-                    <Controls.Input
-                        name="usageLimit"
-                        label="Usage Limit"
-                        value={helper.maskValuePrice(values.usageLimit)}
-                        onChange={handleInputChange}
-                        error={errors.usageLimit}
-                    />
-
-                    <Controls.Input
-                        name="usedCount"
-                        label="Used Count"
-                        value={values.usedCount}
-                        onChange={handleInputChange}
-                        error={errors.usedCount}
-                    />
-
-                    <div>
+                    <div className="w-full mt-[20px]">
                         <label htmlFor="">Description:</label>
+                        <br />
                         <Ckeditor
                             value={values.description}
                             name="description"
-                            onChange={handleChange}
+                            onChange={handleEditorChange}
                         />
+                        <span className="text-red-600">
+                            {errors.description}
+                        </span>
                     </div>
-
-                    <Controls.Input
-                        name="isActive"
-                        label="Active"
-                        value={helper.maskValuePrice(values.isActive)}
-                        onChange={handleInputChange}
-                        error={errors.isActive}
+                </Grid>
+                <Grid item xs={12}>
+                    <FormControlLabel
+                        control={
+                            <Switch
+                                defaultChecked
+                                checked={Boolean(values.isActive)}
+                                onChange={handleCheckedChange}
+                                color="primary"
+                                name="isActive"
+                            />
+                        }
+                        label="Active: "
+                        labelPlacement="start"
                     />
-
-                    <div className="text-right">
+                </Grid>
+                {/* <Grid item xs={12}>
+                    <div className="w-full flex justify-start items-start flex-wrap gap-[25px] z-11 mt-[20px]">
+                        <div className="w-full max-w-[250px] ">
+                            <label htmlFor="">User:</label>
+                            <br />
+                            <Select
+                                name="user"
+                                closeMenuOnSelect={false}
+                                // components={animatedComponents}
+                                value={values.user?.map((a) => ({
+                                    ...a,
+                                    label: a.email,
+                                    value: a.email,
+                                }))}
+                                isMulti
+                                options={optionUser}
+                                onChange={(value) =>
+                                    handleChange("user", value)
+                                }
+                            />
+                            <span className="text-red-600">{errors.user}</span>
+                        </div>
+                    </div>
+                </Grid> */}
+                <Grid item xs={12}>
+                    <div className="text-right mt-[20px]">
                         <Controls.Button type="submit" text="Submit" />
                         <Controls.Button text="Reset" onClick={resetForm} />
                     </div>

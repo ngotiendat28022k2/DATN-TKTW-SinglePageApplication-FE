@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import ClientMenu from "../menu/MenuClient.component";
 import local from "../../utiliti/local/localSesion";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import SidebarProfile from "../sidebar-profile/sidebar_profile";
 import "./headerClient.model.css";
 import getOverlappingDaysInIntervals from "date-fns/esm/fp/getOverlappingDaysInIntervals/index.js";
@@ -13,10 +13,19 @@ import TableSearch from "./tablesearch";
 import { getCartToDatabase } from "../../slice/cartSlice";
 
 const Header = () => {
-    const [showProfile, setShowProfile] = useState(false);
+    const location = useLocation();
     const [showSidebar, setShowSidebar] = useState(false);
+    const [onSearch, setOnSearch] = useState({
+        dataSearch: false,
+        historySearch: false,
+    });
     const ref = useRef();
+    // Listen Event Navigate Page Start Section
+    useEffect(() => {
+        setOnSearch({ historySearch: false, dataSearch: false });
+    }, [location]);
 
+    // Listen Event Navigate Page End Section
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (ref.current && !ref.current.contains(event.target)) {
@@ -45,18 +54,26 @@ const Header = () => {
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
+    async function callbackSetData() {
+        const { payload } = await dispatch(searchProduct(objSearch));
+        setDataSearch(payload?.data?.data);
+    }
     const onHandleSearch = async (valueInput) => {
-        console.log("valueInput", valueInput);
-
+        if (!valueInput) {
+            setOnSearch({ historySearch: true, dataSearch: false });
+        }
         try {
             if (valueInput.length > 0) {
+                setOnSearch({ historySearch: false, dataSearch: true });
+
                 setObjSearch((prev) => ({
                     // ...prev, "search": e.target.value
                     ...prev,
                     search: valueInput,
                 }));
-                const { payload } = await dispatch(searchProduct(objSearch));
-                setDataSearch(payload?.data?.data);
+                callbackSetData();
+                /*  ban đầu  const { payload } = await dispatch(searchProduct(objSearch));
+                setDataSearch(payload?.data?.data)*/
             } else {
                 setDataSearch([]);
             }
@@ -119,7 +136,26 @@ const Header = () => {
     useEffect(() => {
         setCartLength(cartStore.length);
     }, [cartStore]);
+    //focus vào tài khoản
+    const [showAccountMenu, setShowAccountMenu] = useState(false);
+    const accountRef = useRef(null);
 
+    const handleClickOutside = (event) => {
+        if (accountRef.current && !accountRef.current.contains(event.target)) {
+            setShowAccountMenu(false);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener("click", handleClickOutside);
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, []);
+
+    const handleAccountClick = () => {
+        setShowAccountMenu(!showAccountMenu);
+    };
     return (
         <div className="md:flex md:m-auto md:w-[1280px] bg-PK-client md:bg-[#fff] justify-between w-[100%] md:py-[20px]">
             <div className="flex justify-center md:py-0 md:w-[20%]">
@@ -150,6 +186,148 @@ const Header = () => {
                                 src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_menu_white.svg"
                                 alt=""
                             />
+                        </svg>
+                    </div>
+                </div>
+                <div className="absolute z-10 md:top-[40px] md:left-[-238px] dropdown-menu hidden pt-[30px]">
+                    <ClientMenu />
+                </div>
+            </div>
+            <div className="flex md:mt-0 mt-3">
+                <div className="flex items-center justify-center md:mr-28 mr-12 dropdowns">
+                    <div className="test-1 flex border-2 rounded-xl w-[100%]">
+                        <input
+                            onChange={(e) => {
+                                onHandleSearch(e.target.value);
+                            }}
+                            onFocus={() =>
+                                setOnSearch({
+                                    historySearch: true,
+                                    dataSearch: false,
+                                })
+                            }
+                            type="text"
+                            className="px-4 py-2 md:w-[500px] sm:w-[490px] w-[270px] outline-none focus:bg-slate-100 "
+                            placeholder="Tìm kiếm sản phẩm mong muốn..."
+                        />
+
+                        {onSearch.dataSearch || onSearch.historySearch ? (
+                            <div
+                                onClick={() =>
+                                    setOnSearch({
+                                        historySearch: false,
+                                        dataSearch: false,
+                                    })
+                                }
+                                className="absolute overlay z-10"
+                            ></div>
+                        ) : null}
+
+                        {onSearch.dataSearch ? (
+                            <div
+                                onClick={() =>
+                                    setOnSearch({
+                                        historySearch: false,
+                                        dataSearch: false,
+                                    })
+                                }
+                                className={`absolute z-20 mt-10 dropdown-menus`}
+                            >
+                                <TableSearch dataSearch={dataSearch} />
+                            </div>
+                        ) : onSearch.historySearch ? (
+                            <div className="absolute z-20 mt-10 dropdown-menus">
+                                <div className="bg-amber-50 w-[500px] mt-5 rounded-md">
+                                    <nav>
+                                        <p className="px-5 pt-3 text-base font-medium">
+                                            Lịch sử tìm kiếm
+                                        </p>
+                                        <ul className="px-5 py-3">
+                                            {historySearch?.map(
+                                                (item, index) => (
+                                                    <Link
+                                                        to={`/search?q=${item?.name}`}
+                                                        key={index.toString()}
+                                                        className="flex justify-between"
+                                                    >
+                                                        <li className="py-1 font-normal text-sm hover:text-orange-300">
+                                                            {item?.name}
+                                                        </li>
+                                                        <span
+                                                            className="hover:text-red-400"
+                                                            onClick={(e) => {
+                                                                const filteredSearchList =
+                                                                    historySearch.filter(
+                                                                        (
+                                                                            item1
+                                                                        ) =>
+                                                                            item1.name !==
+                                                                            item?.name
+                                                                    );
+                                                                window.localStorage.setItem(
+                                                                    "search_list",
+                                                                    JSON.stringify(
+                                                                        filteredSearchList
+                                                                    )
+                                                                );
+                                                                setHistorySearch(
+                                                                    filteredSearchList
+                                                                );
+                                                                e.preventDefault();
+                                                            }}
+                                                        >
+                                                            xóa
+                                                        </span>
+                                                    </Link>
+                                                )
+                                            )}
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        ) : null}
+
+                        <button className="flex items-center justify-center px-4 border-l">
+                            <svg
+                                className="w-6 h-6 text-gray-600"
+                                fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                            >
+                                <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div className="md:mt-3 md:w-24 hidden md:block cursor-pointer">
+                    <div className="flex justify-center">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="19"
+                            height="19"
+                            fill="currentColor"
+                            className="bi bi-bell"
+                            viewBox="0 0 16 16"
+                        >
+                            <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z" />
+                        </svg>
+                    </div>
+                    <div className="text-center">Thông báo</div>
+                </div>
+                <Link to="/checkout/cart">
+                    <div className="md:mt-3 md:w-24 w-24 cursor-pointer relative">
+                        <div className="flex justify-center">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor"
+                                className="bi bi-cart2 md:w-[19px] md:h-[19px] w-[24px] h-[24px] mt-2 md:mt-0 z-10"
+                                viewBox="0 0 16 16"
+                            >
+                                <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
+                            </svg>
+                        </div>
+                        <div className="text-center hidden md:block">
+                            Giỏ hàng
                         </div>
                         <div className="m-0 pt-3 pl-1 md:block hidden">
                             <svg
@@ -167,113 +345,45 @@ const Header = () => {
                                 />
                             </svg>
                         </div>
-                    </div>
-                    <div className="absolute w-[450px] md:w-auto z-10 md:top-[40px] md:left-[-256px] dropdown-menu hidden pt-[20px]">
-                        <ClientMenu />
-                    </div>
-                </div>
-                <div className="flex w-[88%] justify-between">
-                    <div className="flex w-[100%]">
-                        <div className="flex items-center justify-start dropdowns w-[100%]">
-                            <div className="test-1 flex border-2 rounded-xl ">
-                                <input
-                                    onChange={(e) => onHandleSearch(e.target.value)}
-                                    type="text"
-                                    className="px-4 py-2 md:w-[500px] w-full outline-none focus:bg-slate-100 rounded-l-[10px]"
-                                    placeholder="Tìm kiếm sản phẩm mong muốn..."
-                                />
-
-                                {dataSearch?.length > 0 ? (
-                                    <div className="hidden absolute z-10 mt-10 dropdown-menus">
-                                        <TableSearch dataSearch={dataSearch} />
-                                    </div>
-                                ) : historySearch?.length > 0 ? (
-                                    <div className="hidden absolute z-10 mt-10 dropdown-menus">
-                                        <div className="bg-amber-50 w-[500px] mt-5 rounded-md">
-                                            <nav>
-                                                <p className="px-5 pt-3 text-base font-medium">
-                                                    Lịch sử tìm kiếm
-                                                </p>
-                                                <ul className="px-5 py-3">
-                                                    {historySearch?.map(
-                                                        (item, index) => (
-                                                            <Link
-                                                                to={`/search?q=${item?.name}`}
-                                                                key={index.toString()}
-                                                                className="flex justify-between"
-                                                            >
-                                                                <li className="py-1 font-normal text-sm hover:text-orange-300">
-                                                                    {item?.name}
-                                                                </li>
-                                                                <span
-                                                                    className="hover:text-red-400"
-                                                                    onClick={(e) => {
-                                                                        const filteredSearchList =
-                                                                            historySearch.filter(
-                                                                                (
-                                                                                    item1
-                                                                                ) =>
-                                                                                    item1.name !==
-                                                                                    item?.name
-                                                                            );
-                                                                        window.localStorage.setItem(
-                                                                            "search_list",
-                                                                            JSON.stringify(
-                                                                                filteredSearchList
-                                                                            )
-                                                                        );
-                                                                        setHistorySearch(
-                                                                            filteredSearchList
-                                                                        );
-                                                                        e.preventDefault();
-                                                                    }}
-                                                                >
-                                                                    xóa
-                                                                </span>
-                                                            </Link>
-                                                        )
-                                                    )}
-                                                </ul>
-                                            </nav>
-                                        </div>
-                                    </div>
-                                ) : null}
-
-                                <button className="flex items-center justify-center px-4 border-l">
-                                    <svg
-                                        className="w-6 h-6 text-white md:text-gray-600"
-                                        fill="currentColor"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
+                        <div
+                            className="relative text-center md:block cursor-pointer account"
+                            ref={accountRef}
+                        >
+                            <span onClick={handleAccountClick}>Tài khoản</span>
+                            {showAccountMenu && (
+                                <div className="absolute rounded capitalize w-[150px] bg-slate-100 top-[33px] right-0">
+                                    <Link
+                                        className="py-[5px] px-[20px] hover:bg-red-600 hover:text-white rounded block"
+                                        to="/register"
                                     >
-                                        <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
-                                    </svg>
-                                </button>
-                            </div>
+                                        register
+                                    </Link>
+                                    <Link
+                                        className="py-[5px] px-[20px] hover:bg-red-600 hover:text-white rounded block"
+                                        to="/login"
+                                    >
+                                        login
+                                    </Link>
+                                </div>
+                            )}
                         </div>
 
                     </div>
-                    <div className="flex justify-start items-center pl-[10px]">
-                        <Link className=" cursor-pointer relative w-[50px] md:w-[80px] items-center flex justify-center" to="/checkout/cart">
-                            <div className="">
-                                <div className="flex justify-center">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="currentColor"
-                                        className="bi bi-cart2 md:w-[19px] md:h-[19px] w-[30px] h-[30px] z-10 text-white md:text-gray-600"
-                                        viewBox="0 0 16 16"
-                                    >
-                                        <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
-                                    </svg>
-                                </div>
-                                <div className="text-center hidden md:block h-[25px]">
-                                    Giỏ hàng
-                                </div>
-                                {cartLength ? (
-                                    <div className=" absolute top-[-17px] left-[50%] bg-slate-200 w-[30px] p-[5px] text-[15px] md:text-[10px] text-center rounded-[50%]">
-                                        {cartLength}
-                                    </div>
-                                ) : null}
+                ) : (
+                    <div className="relative droplog">
+                        <div
+                            className="rounded-[50%] overflow-hidden ml-[15px] max-w-[40px] cursor-pointer"
+                            onClick={() => setShowSidebar(true)}
+                        >
+                            <img src={user.avatar} className="w-full" />
+                        </div>
+                        {showSidebar && (
+                            <div
+                                ref={ref}
+                                className="absolute top-[35px] right-0 mt-[17px] droplog-dow z-10"
+                                onClick={() => setShowSidebar(false)}
+                            >
+                                <SidebarProfile user={user} />
                             </div>
                         </Link>
                         <div className="">

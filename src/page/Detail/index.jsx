@@ -8,9 +8,9 @@ import local from "../../utiliti/local/localSesion";
 
 
 import {
-    addToCart,
-    getToCart,
-    saveCartToDatabase,
+  addToCart,
+  getToCart,
+  saveCartToDatabase,
 } from "../../slice/cartSlice";
 // import Voucher from "./voucher/Voucher";
 // import WSPGallery from "./CarouselImage/WSPGallery";
@@ -52,66 +52,51 @@ const DetailProduct = () => {
     }, [id]);
    
 
-    const handleQuantity = (action) => {
-        if (action === "increase" && cart.quantity < product.quantity) {
-            setCart({ ...cart, quantity: cart.quantity + 1 });
-        } else if (action === "decrease" && cart.quantity > 1) {
-            setCart({ ...cart, quantity: cart.quantity - 1 });
-        }
-    };
+  const handleQuantity = (action) => {
+    if (action === "increase" && cart.quantity < product.quantity) {
+      setCart({ ...cart, quantity: cart.quantity + 1 });
+    } else if (action === "decrease" && cart.quantity > 1) {
+      setCart({ ...cart, quantity: cart.quantity - 1 });
+    }
+  };
 
-    const handleAddToCart = async () => {
-        if (user) {
-            try {
-                const { payload } = await dispatch(saveCartToDatabase(cart));
-                console.log("payload", payload);
-                if (payload?.successCode) {
-                    helper.toast("success", "Product added to cart");
-                }
-                if (payload?.errorCode) {
-                    helper.toast("success", payload.message);
-                }
-            } catch (error) {
-                console.log("error", error);
-            }
-        } else {
-            const { user, ...other } = cart;
-            const newCart = { ...other, product: product };
-            dispatch(getToCart());
-            const { payload } = dispatch(addToCart(newCart));
-            console.log("payload", payload);
-            if (payload.successCode) {
-                helper.toast("success", payload.message);
-            } else {
-                helper.toast("error", payload.message);
-            }
+  const handleAddToCart = async () => {
+    if (user) {
+      try {
+        const { payload } = await dispatch(saveCartToDatabase(cart));
+        console.log("payload", payload);
+        if (payload?.successCode) {
+          helper.toast("success", "Product added to cart");
         }
-    };
+        if (payload?.errorCode) {
+          helper.toast("success", payload.message);
+        }
+      } catch (error) {
+        console.log("error", error);
+      }
+    } else {
+      const { user, ...other } = cart;
+      const newCart = { ...other, product: product };
+      dispatch(getToCart());
+      const { payload } = dispatch(addToCart(newCart));
+      console.log("payload", payload);
+      if (payload.successCode) {
+        helper.toast("success", payload.message);
+      } else {
+        helper.toast("error", payload.message);
+      }
+    }
+  };
 
-    const handlePayCart = async () => {
-        if (user) {
-            try {
-                const { payload } = await dispatch(saveCartToDatabase(cart));
-                if (payload?.successCode) {
-                    navigate("/checkout/cart");
-                }
-                if (payload?.errorCode) {
-                    helper.toast("success", payload.message);
-                }
-            } catch (error) {
-                console.log("error", error);
-            }
-        } else {
-            const { user, ...other } = cart;
-            const newCart = { ...other, product: product };
-            dispatch(getToCart());
-            const { payload } = dispatch(addToCart(newCart));
-            console.log("payload", payload);
-            if (payload.successCode) {
-                navigate("/checkout/cart");
-            } else {
-                helper.toast("error", payload.message);
-            }
+  const handlePayCart = async () => {
+    if (user) {
+      try {
+        const { payload } = await dispatch(saveCartToDatabase(cart));
+        if (payload?.successCode) {
+          navigate("/checkout/cart");
+        }
+        if (payload?.errorCode) {
+          helper.toast("success", payload.message);
         }
     };
     console.log("user", user);
@@ -483,9 +468,52 @@ const DetailProduct = () => {
                         </div>
                     </div>
                 </div>
-                <br />
-                {/* Block 3: Thông tin chi tiết về sản phẩm */}
-                <div className="bg-[white] px-[20px] py-[15px] rounded-[7px] text-[15px]">
+              </div>
+              <div className="text-[14px] mr-[100px]">
+                <div className="">
+                  <span className=" text-[#000]">
+                    Tác giả:
+                    {product?.authors.map((author) => (
+                      <Link
+                        className="text-[#2f80ec] font-semibold pl-[5px] hover:text-[red]"
+                        to=""
+                        key={author.name}
+                      >
+                        {author.name}
+                      </Link>
+                    ))}
+                  </span>
+                </div>
+                <div className="">
+                  <span className=" text-[#000]">
+                    Hình thức bìa:
+                    {product?.formbooks.map((formbook) => (
+                      <Link
+                        className="text-[#2f80ec] font-semibold pl-[5px] hover:text-[red]"
+                        to=""
+                        key={formbook.name}
+                      >
+                        {formbook.name}
+                      </Link>
+                    ))}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div className="flex  my-[20px]">
+              <div className="flex justify-center items-center">
+                {product?.sale !== 0 || product?.sale ? (
+                  <>
+                    <div className="pr-[20px]">
+                      <span className="text-[33px] text-[#C92127] font-bold ">
+                        {helper.maskValuePrice(product?.sale)}
+                      </span>
+                    </div>
+                    <div className="pr-[20px]">
+                      <span className="text-[17px] line-through">
+                        {helper.maskValuePrice(product?.price)}
+                      </span>
+                    </div>
                     <div className="">
                         {/* Tên tiêu đề Block 3 */}
                         <div className="text-[20px] font-semibold">
@@ -601,6 +629,78 @@ const DetailProduct = () => {
                             </div>
                         </div>
                     </div>
+                  </>
+                ) : (
+                  <div className="pr-[20px]">
+                    <span className="text-[33px] text-[#C92127] font-bold">
+                      {helper.maskValuePrice(product?.price)}
+                    </span>
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="w-[100%] pb-[10px]">
+              <div className="text-[14px]">
+                <div className="flex gap-[30px] pb-[10px]">
+                  <div className="w-[17%]">
+                    <span className=" text-[#000]">Thời gian giao hàng</span>
+                  </div>
+                  <div className="w-[75%]">
+                    <span className=" text-[#000] cursor-pointer">
+                      <span className=" font-semibold pl-[2px]">
+                        Từ 3 đến 7 ngày (Tùy thuộc vào địa chỉ của bạn)
+                      </span>
+                    </span>
+                  </div>
+                </div>
+                <div className="flex gap-[30px] ">
+                  <div className="w-[17%]">
+                    <span className=" text-[#000]">Chính sách đổi trả</span>
+                  </div>
+                  <div className="w-[75%]">
+                    <span className=" text-[#000]">
+                      Đổi trả sản phẩm trong 30 ngày
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex gap-[30px] pt-[10px]">
+              <div className="w-[17%]">
+                <span className="text-[#555555] font-medium text-[18px]">
+                  Số lượng:
+                </span>
+              </div>
+              <div className="  border border-solid border-[#9e9e9e] rounded-[4px]">
+                <div className="flex items-center">
+                  <div
+                    className="p-[15px]"
+                    onClick={() => handleQuantity("decrease")}
+                  >
+                    <img
+                      className="w-[12px] h-auto"
+                      src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_minus2x.png"
+                      alt=""
+                    />
+                  </div>
+                  <div className="max-w-[60px] w-full text-[18px] font-medium p-[3px]">
+                    <input
+                      className="max-w-[60px] w-full text-center focus-visible:outline-0"
+                      type="text"
+                      defaultValue={1}
+                      value={cart.quantity}
+                    />
+                  </div>
+                  <div
+                    className="p-[15px]"
+                    onClick={() => handleQuantity("increase")}
+                  >
+                    <img
+                      className="w-[12px] h-auto"
+                      src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_plus2x.png"
+                      alt=""
+                    />
+                  </div>
                 </div>
                 <br />
                 {/* Block 4: Đánh giá sản phẩm */}
@@ -643,11 +743,161 @@ const DetailProduct = () => {
                             <span className="text-[17px] md:hidden block">Đổi Trả</span>
                         </div>
                     </div>
+                  </div>
                 </div>
-                <br /> <br />
+              </div>
             </div>
-        </>
-    );
+          </div>
+        </div>
+        <br />
+
+        {/* Block 3: Thông tin chi tiết về sản phẩm */}
+        <div className="bg-[white] px-[20px] py-[15px] rounded-[7px] text-[15px]">
+          <div className="">
+            {/* Tên tiêu đề Block 3 */}
+            <div className="text-[20px] font-semibold">
+              <span className="">Thông tin sản phẩm</span>
+            </div>
+            <div className="max-w-[100%] w-full">
+              {/* Bảng thông tin chi tiết về sản phẩm */}
+              <table className="max-w-[100%] w-full text-[15px]">
+                <thead></thead>
+                <tbody>
+                  <tr className="">
+                    <td className="w-[25%] p-[4px] text-[#777]">Mã hàng</td>
+                    <td className="w-[100%] p-[4px]">{product?._id}</td>
+                  </tr>
+                  <tr className="">
+                    <td className="w-[25%] p-[4px] text-[#777]">
+                      Tên Nhà Cung Cấp
+                    </td>
+                    <td className="w-[100%] p-[4px]">
+                      {" "}
+                      {product?.supplieres.map((suppliere) => (
+                        <Link
+                          className="hover:text-[red]"
+                          to=""
+                          key={suppliere.name}
+                        >
+                          {suppliere.name}
+                        </Link>
+                      ))}
+                    </td>
+                  </tr>
+                  <tr className="">
+                    <td className="w-[25%] p-[4px] text-[#777]">Tác giả</td>
+                    <td className="w-[100%] p-[4px]">
+                      {product?.authors.map((author) => (
+                        <Link
+                          className=" hover:text-[red]"
+                          to=""
+                          key={author.name}
+                        >
+                          {author.name}
+                        </Link>
+                      ))}
+                    </td>
+                  </tr>
+                  <tr className="">
+                    <td className="w-[25%] p-[4px] text-[#777]">Hình Thức</td>
+                    <td className="w-[100%] p-[4px]">
+                      {product?.formbooks.map((formbook) => (
+                        <Link
+                          className="hover:text-[red]"
+                          to=""
+                          key={formbook.name}
+                        >
+                          {formbook.name}
+                        </Link>
+                      ))}
+                    </td>
+                  </tr>
+                  {product?.other.map((item) => (
+                    <tr className="" key={item.id}>
+                      <td className="w-[25%] p-[4px] text-[#777]">{item.k}</td>
+                      <td className="w-[100%] p-[4px]">{item.v}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <div
+                className="border-b-[1px] border-solid border-[#adadad] pb-[10px]"
+                dangerouslySetInnerHTML={{ __html: product?.descriptionShort }}
+              ></div>
+              <div className="pt-[20px]">
+                <div
+                  className="pt-[10px]"
+                  dangerouslySetInnerHTML={{
+                    __html: showFullDescription
+                      ? product?.descriptionLong
+                      : helper.truncateString(product?.descriptionLong, 200),
+                  }}
+                ></div>
+                <div className="items-center justify-center flex cursor-pointer pt-[15px] pb-[8px]">
+                  <button
+                    className="w-full text-[#C92127] font-semibold max-w-[220px]  w-full border-[2px] border-solid border-[#C92127] rounded-[10px] px-[30px] py-[10px] items-center justify-center flex"
+                    onClick={() => setShowFullDescription(!showFullDescription)}
+                  >
+                    {showFullDescription ? "Rút gọn" : "Xem thêm"}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br />
+        {/* Block 4: Đánh giá sản phẩm */}
+        <CommentList {...{ user, product, comments }} />
+        <br />
+        <div className="bg-[white] px-[20px] py-[15px] rounded-[7px] text-[15px] flex justify-around ">
+          <div className=" md:flex md:px-[12px] md:py-[12px]">
+            <div className="flex justify-center items-center">
+              <img
+                src="https://cdn0.fahasa.com/media/wysiwyg/Thang-1-2020/icon/ico_shop_1.png"
+                alt=""
+              />
+            </div>
+            <div className="md:flex md:justify-center md:items-center md:pl-[10px] font-bold text-[#646464]">
+              <span className="text-[17px] hidden md:block">
+                Chính Sách Khách Sỉ
+              </span>
+              <span className="text-[17px] md:hidden block">Khách Sỉ</span>
+            </div>
+          </div>
+          <div className="md:flex md:px-[12px] md:py-[12px]">
+            <div className="flex justify-center items-center">
+              <img
+                src="https://cdn0.fahasa.com/media/wysiwyg/Thang-1-2020/icon/ico_truck.png"
+                alt=""
+              />
+            </div>
+            <div className="flex justify-center items-center md:pl-[10px] font-bold text-[#646464]">
+              <span className="text-[17px] hidden md:block">
+                Thời Gian Giao Hàng
+              </span>
+              <span className="text-[17px] md:hidden block">Giao Hàng</span>
+            </div>
+          </div>
+          <div className="md:flex md:px-[12px] md:py-[12px]">
+            <div className="flex justify-center items-center">
+              <img
+                src="https://cdn0.fahasa.com/media/wysiwyg/Thang-1-2020/icon/ico_transfer.png"
+                alt=""
+              />
+            </div>
+            <div className="flex justify-center items-center md:pl-[10px] font-bold text-[#646464]">
+              <span className="text-[17px] hidden md:block">
+                Chính Sách Đổi Trả
+              </span>
+              <span className="text-[17px] md:hidden block">Đổi Trả</span>
+            </div>
+          </div>
+        </div>
+        <br />
+        <br />
+      </div>
+    </>
+  );
 };
 
 export default DetailProduct;

@@ -83,7 +83,7 @@ const UploadImage = ({name, imageUrls, setImageUrls }) => {
           />
         </label>
       </div>
-      {imageUrls.map((url, index) => {
+      {imageUrls && imageUrls.map((url, index) => {
         return (
           <div
             key={index}

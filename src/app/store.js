@@ -9,6 +9,10 @@ import authorReducer from "../slice/authorSlice";
 import formBookReducer from "../slice/formBookSlice";
 import cartReducer from "../slice/cartSlice";
 import bannerReducer from "../slice/bannerSlice";
+import infomationPageReducer from "../slice/infomationPage";
+import categoryInformationReducer from "../slice/categoryInformation";
+import voucherReducer from "../slice/vouchersSlice";
+import commentReducer from "../slice/commentSlice";
 
 export const store = configureStore({
   reducer: {
@@ -21,6 +25,10 @@ export const store = configureStore({
     author: authorReducer,
     cart: cartReducer,
     banner: bannerReducer,
+    infomationPage: infomationPageReducer,
+    categoryInformation: categoryInformationReducer,
+    voucher: voucherReducer,
+    comment: commentReducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(logger);
