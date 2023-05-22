@@ -59,7 +59,9 @@ export default function Sidebar() {
             case "author":
                 setActiveDiv(divId);
                 break;
-
+            case "footerDetail":
+                setActiveDiv(divId);
+                break;
             default:
                 setActiveDiv(divId === activeDiv ? "" : divId);
                 break;
@@ -179,6 +181,25 @@ export default function Sidebar() {
                             </li>
                         </Link>
                         <Link
+                            to="/admin/banner"
+                            className={styles.link}
+                            onClick={handleClose}
+                        >
+                            <li
+                                className={`mb-1 ${styles.sidebarListItem}`}
+                                onClick={() => handleActive("banner")}
+                                style={{
+                                    backgroundColor:
+                                        activeDiv === "banner"
+                                            ? "#5a8d26"
+                                            : "",
+                                }}
+                            >
+                                <CategoryIcon className={styles.sidebarIcon} />
+                                Banner Manage
+                            </li>
+                        </Link>
+                        <Link
                             to="/admin/publishs"
                             className={styles.link}
                             onClick={handleClose}
@@ -199,6 +220,56 @@ export default function Sidebar() {
                                 Publishing
                             </li>
                         </Link>
+                        <li
+                            onClick={handleOpen}
+                            className={`mb-1 ${styles.sidebarListItem}`}
+                        >
+                            <PermIdentity className={styles.sidebarIcon} />
+                            Footer
+                        </li>
+                        {/* </Link> */}
+                        <div className={`pl-5 ${open ? "block" : "hidden"}`}>
+                            <div
+                                className={`mb-1 ${styles.sidebarListItem}`}
+                                onClick={() => handleActive("footer-detail")}
+                                style={{
+                                    backgroundColor:
+                                        activeDiv === "footer-detail"
+                                            ? "#5a8d26"
+                                            : "",
+                                }}
+                            >
+                                <Link
+                                    to="/admin/footer/detail"
+                                    className={styles.link}
+                                >
+                                    <PermIdentity
+                                        className={styles.sidebarIcon}
+                                    />
+                                    Footer Detail
+                                </Link>
+                            </div>
+                            <div
+                                className={`mb-1 ${styles.sidebarListItem}`}
+                                onClick={() => handleActive("user-service")}
+                                style={{
+                                    backgroundColor:
+                                        activeDiv === "user-service"
+                                            ? "#5a8d26"
+                                            : "",
+                                }}
+                            >
+                                <Link
+                                    to="/admin/footer/service"
+                                    className={styles.link}
+                                >
+                                    <PermIdentity
+                                        className={styles.sidebarIcon}
+                                    />
+                                    Footer Service
+                                </Link>
+                            </div>
+                        </div>
                         <Link
                             to="/admin/supplieres"
                             className={styles.link}

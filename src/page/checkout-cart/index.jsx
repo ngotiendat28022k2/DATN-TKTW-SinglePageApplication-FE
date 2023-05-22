@@ -180,7 +180,7 @@ const CheckoutCart = () => {
                     />
                   </div>
                   <div className="text-[16px] w-[55%]  md:w-[55%]  flex justify-start">
-                    <div className=" max-w-[100px] md:max-w-[100px] flex items-center">
+                    <div className=" max-w-[100px] md:max-w-[100px] flex items-center pr-[5px]">
                       <img
                         className="w-full md:w-full object-contain"
                         src={cartItem.product?.productImage[0]}
@@ -198,12 +198,12 @@ const CheckoutCart = () => {
                       <div className="text-[20px] md:text-[16px] font-semibold py-[5px] md:py-[0]">
                         {cartItem.product.sale === 0 ||
                           !cartItem.product.sale ? (
-                          <span className="text-[17px] md:mr-[20px]">
+                          <span className="text-[17px] md:mr-[10px]">
                             {helper.maskValuePrice(cartItem.product.price)}
                           </span>
                         ) : (
                           <>
-                            <span className="text-[17px] mr-[20px]">
+                            <span className="text-[17px] mr-[10px]">
                               {helper.maskValuePrice(cartItem.product.sale)}
                             </span>
                             <span className="text-[13px] line-through text-[#7A7E7F]">
@@ -214,11 +214,11 @@ const CheckoutCart = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="w-[25%]">
+                  <div className="w-[25%] md:w-[15%]">
                     <div className="  border border-solid border-[#9e9e9e] rounded-[4px]">
                       <div className="flex items-center">
                         <div
-                          className="p-[5px]"
+                          className="p-[5px] md:p-[14px]"
                           onClick={() =>
                             handleQuantityChange(cartItem._id, "decrease")
                           }
@@ -236,7 +236,7 @@ const CheckoutCart = () => {
                           />
                         </div>
                         <div
-                          className="p-[5px]"
+                          className="p-[5px] md:p-[14px]"
                           onClick={() =>
                             handleQuantityChange(cartItem._id, "increase")
                           }

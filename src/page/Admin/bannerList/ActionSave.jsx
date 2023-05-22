@@ -3,8 +3,8 @@ import { Box, Button, CircularProgress, Fab } from "@mui/material";
 import { green } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { UpdateVoucher} from "../../../slice/voucherSlice";
 import helper from "../../../utiliti/helper/helper";
+import { UpdateBanner } from "../../../slice/bannerSlice";
 
 const ActionSave = ({ params, rowId, setRowId }) => {
   const dispatch = useDispatch();
@@ -13,22 +13,16 @@ const ActionSave = ({ params, rowId, setRowId }) => {
   const handleSave = () => {
     try {
       setLoading(true);
-      const { code, discount, createdAt, expirationDate, usageLimit, usedCount, description, nameCreated, isActive } = params.row;
+      // console.log("params", params)
+      const { name, avatar } = params.row;
       const data = {
         _id: params.id,
-        code,
-        discount,
-        createdAt,
-        expirationDate,
-        usageLimit,
-        usedCount,
-        description,
-        nameCreated,
-        isActive
+        name,
+        avatar
       };
       console.log("data", data)
       setTimeout(async () => {
-        const { payload } = await dispatch(UpdateVoucher(data));
+        const { payload } = await dispatch(UpdateBanner(data));
         if (payload?.successCode) {
           helper.toast("success", "Update successful");
           setSuccess(true);
@@ -38,7 +32,7 @@ const ActionSave = ({ params, rowId, setRowId }) => {
           }, 3000);
         }
         if (payload?.errorCode) {
-          helper.toast("error", "Update failed");
+          helper.toast("error", "Ppdate failed");
         }
         setLoading(false);
       }, 300);

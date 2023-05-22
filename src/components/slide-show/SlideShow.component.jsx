@@ -58,7 +58,7 @@ class SlideshowImages extends Component {
       <Slider {...settings}>
         {slideImages.map((each, index) => (
           <img
-            className="w-[100%] md:h-[95%] h-[100%] md:rounded-sm"
+            className="w-[100%] md:h-[95%] h-[100%] md:rounded-sm py-[15px] md:py-0"
             style={{ objectFit: "left" }}
             src={each}
             key={index}
@@ -78,21 +78,21 @@ class SlideShow extends Component {
 
   render() {
     return (
-      <div className="z-1 md:mt-4 flex">
-        <div className="w-[100%] md:w-[70%] p-2 rounded-md md:rounded-lg overflow-hidden">
+      <div className="z-1 flex gap-[10px] md:py-[20px]">
+        <div className="w-[100%] md:w-[70%] rounded-md md:rounded-lg overflow-hidden">
           <SlideshowImages ref={this.slideRef} />
         </div>
-        <div className="w-[30%] hidden md:block pt-2 pb-2">
-          <div className="mb-3">
+        <div className="w-[30%] hidden md:block">
+          <div className="mb-[10px]">
             <img
-              className="w-[100%] h-[100%] rounded-md"
+              className="w-[100%] h-[164.5px] rounded-md"
               src="https://i.imgur.com/toPyown.jpg"
               alt=""
             />
           </div>
           <div>
             <img
-              className="w-[100%] h-[100%] rounded-md"
+              className="w-[100%] h-[164.5px] rounded-md"
               src="https://i.imgur.com/I1bSewT.jpg"
               alt=""
             />

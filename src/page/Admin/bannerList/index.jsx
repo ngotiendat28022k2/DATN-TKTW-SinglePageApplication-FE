@@ -2,31 +2,31 @@ import React, { useEffect, useState } from "react";
 import { Add, EditOutlined, Close, Image } from "@mui/icons-material";
 import { Button, Paper, Toolbar } from "@mui/material";
 import Controls from "../../../components/AdminComponent/controls/Controls";
-import Select from "react-select";
 import Popup from "../../../components/AdminComponent/MyPopup/MyPopup";
 // Services
 import InputSearch from "../../../components/AdminComponent/inputSearch/inputSearch.component";
 import CustomPaginationActionsTable from "../../../components/AdminComponent/table/table.component";
-import ActionSave from "./ActionSave";
-import ActionDelete from "./ActionDelete";
-import ActionUpdate from "./ActionUpdate";
-import {
-  AddNewVoucher,
-  getAllVoucher,
-  UpdateVoucher,
-} from "../../../slice/voucherSlice";
+import ActionSave from "../authorList/ActionSave";
+import ActionDelete from "../authorList/ActionDelete";
+import ActionUpdate from "../authorList/ActionUpdate";
+
 import { useDispatch, useSelector } from "react-redux";
 import FormAddOrEdit from "./AddOrEdit/index";
 import helper from "../../../utiliti/helper/helper";
+import {
+  AddNewBanner,
+  UpdateBanner,
+  getAllBanner,
+} from "../../../slice/bannerSlice";
 
-export default function VoucherList() {
+export default function BannerList() {
   const dispatch = useDispatch();
   const [openPopup, setOpenPopup] = useState(false);
   const [dataSearch, setDataSearch] = React.useState([]);
   const [rowId, setRowId] = useState(null);
   const [rowsData, setRowsData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const voucher = useSelector((state) => state.voucher.value);
+  const bannerStore = useSelector((state) => state.banner.value);
   const [recordForEdit, setRecordForEdit] = useState(null);
 
   const handleSearch = (e) => {
@@ -41,9 +41,9 @@ export default function VoucherList() {
     if (!values._id) {
       try {
         (async () => {
-          const { payload } = await dispatch(AddNewVoucher(values));
+          const { payload } = await dispatch(AddNewBanner(values));
           console.log(payload);
-          if (payload?.successCode) {
+          if (payload?.succsessCode) {
             helper.toast("success", "Add success");
           }
           if (payload?.errorCode) {
@@ -56,8 +56,8 @@ export default function VoucherList() {
     } else {
       try {
         (async () => {
-          const { payload } = await dispatch(UpdateVoucher(values));
-          console.log(payload.data);
+          const { payload } = await dispatch(UpdateBanner(values));
+          console.log("payload update", payload);
           if (payload?.successCode) {
             helper.toast("success", "Update success");
           }
@@ -77,8 +77,8 @@ export default function VoucherList() {
     (async () => {
       try {
         setIsLoading(true);
-        const { payload } = await dispatch(getAllVoucher());
-        console.log("payload", payload);
+        const { payload } = await dispatch(getAllBanner());
+        console.log(payload);
         if (payload?.successCode) {
           setRowsData(payload.data);
         }
@@ -88,28 +88,22 @@ export default function VoucherList() {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
-        // Xử lý lỗi ở đây, ví dụ:
-        helper.toast("error", "Failed to fetch data");
-        setIsLoading(false);
       }
-
     })();
   }, []);
   useEffect(() => {
-    setRowsData(voucher);
-  }, [voucher]);
+    console.log("bannerStore", bannerStore);
+    setRowsData(bannerStore);
+  }, [bannerStore]);
 
   const columnsData = [
-    { field: "_id", headerName: "ID", width: 230 },
-    { field: "code", headerName: "Code", width: 250, editable: true },
-    { field: "discount", headerName: "Discount", width: 150, editable: true },
-    { field: "createdAt", headerName: "Created At", width: 250, editable: true },
-    { field: "expirationDate", headerName: "Expiration Date", width: 250, editable: true },
-    { field: "usageLimit", headerName: "Usage Limit", width: 120, editable: true },
-    { field: "usedCount", headerName: "Used Count", width: 120, editable: true },
-    { field: "description", headerName: "Description", width: 300, editable: true },
-    { field: "nameCreated", headerName: "Name Created", width: 250, editable: true },
-    { field: "isActive", headerName: "Active", width: 100, editable: true },
+    {
+      field: "image",
+      headerName: "Image",
+      width: 250,
+      renderCell: (params) =>params.row.image.map((image) => <img src={image} />),
+    },
+    { field: "link", headerName: "Link", width: 150 },
     {
       field: "actions",
       headerName: "Actions",
@@ -126,7 +120,6 @@ export default function VoucherList() {
       },
     },
   ];
-
 
   //   return () => {
   //   };
@@ -167,7 +160,7 @@ export default function VoucherList() {
       </Paper>
 
       <Popup
-        title={recordForEdit ? "Edit Voucher" : "Add Voucher"}
+        title={recordForEdit ? "Edit Author" : "Add Author"}
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >

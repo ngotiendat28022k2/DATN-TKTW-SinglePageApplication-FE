@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ConfirmDialog from "../../../utiliti/Notify/confirmDialog";
 import helper from "../../../utiliti/helper/helper";
-import { RemoveVoucher } from "../../../slice/voucherSlice";
+import { RemoveBanner } from "../../../slice/bannerSlice";
 
 const ActionDelete = ({ params }) => {
   const dispatch = useDispatch();
@@ -34,7 +34,7 @@ const ActionDelete = ({ params }) => {
         onConfirm={async (id) => {
           console.log("id", id);
           try {
-            const {payload} = await dispatch(RemoveVoucher(id));
+            const {payload} = await dispatch(RemoveBanner(id));
             if (payload?.successCode) {
               helper.toast("success", "Remove SuccessFully!");
             }

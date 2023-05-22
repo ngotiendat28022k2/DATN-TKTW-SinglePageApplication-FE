@@ -121,213 +121,223 @@ const Header = () => {
     }, [cartStore]);
 
     return (
-        <div className="md:flex md:m-auto md:justify-between md:w-[1280px] md:h-16 bg-[#fff]">
-            <div className="mt-3 mr-8 flex justify-center">
-                <Link to="/home">
+        <div className="md:flex md:m-auto md:w-[1280px] bg-PK-client md:bg-[#fff] justify-between w-[100%] md:py-[20px]">
+            <div className="flex justify-center md:py-0 md:w-[20%]">
+                <Link className="flex justify-center items-center" to="/home">
                     <img
-                        className="md:h-[36px] h-[20px] "
+                        className="md:h-[36px] h-[20px] hidden md:block"
                         src="https://i.imgur.com/SmXRS7C.png"
+                        alt=""
+                    />
+                    <img
+                        className="w-full max-w-[70px] block md:hidden"
+                        src="https://logos.textgiraffe.com/logos/logo-name/Niki-designstyle-smoothie-m.png"
                         alt=""
                     />
                 </Link>
             </div>
-            <div className="relative dropdown">
-                <div className="flex md:mt-3 mt-4 float-left md:float-none pr-5 md:pr-0">
-                    <div>
-                        <img
-                            className="md:h-[36px] h-[36px]"
-                            src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_menu.svg"
-                            alt=""
-                        />
-                    </div>
-                    <div className="m-0 pt-3 pl-1 md:block hidden">
-                        <svg
-                            // className="text-gray-600"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="18"
-                            height="18"
-                            fill="currentColor"
-                            className="bi bi-chevron-down text-gray-600"
-                            viewBox="0 0 16 16"
-                        >
-                            <path
-                                fillRule="evenodd"
-                                d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+            <div className="flex justify-start items-center md:justify-start md:items-center px-[20px] md:px-0 pb-[20px] md:pb-0 md:w-[80%]">
+                <div className="relative dropdown w-[12%] md:w-auto md:pr-[10px]">
+                    <div className="flex ">
+                        <div>
+                            <img
+                                className="md:h-[36px] h-[36px] hidden md:block"
+                                src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_menu.svg"
+                                alt=""
                             />
-                        </svg>
+                            <img
+                                className="md:h-[36px] h-[36px] md:hidden"
+                                src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_menu_white.svg"
+                                alt=""
+                            />
+                        </div>
+                        <div className="m-0 pt-3 pl-1 md:block hidden">
+                            <svg
+                                // className="text-gray-600"
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="18"
+                                height="18"
+                                fill="currentColor"
+                                className="bi bi-chevron-down text-gray-600"
+                                viewBox="0 0 16 16"
+                            >
+                                <path
+                                    fillRule="evenodd"
+                                    d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+                                />
+                            </svg>
+                        </div>
+                    </div>
+                    <div className="absolute w-[450px] md:w-auto z-10 md:top-[40px] md:left-[-256px] dropdown-menu hidden pt-[20px]">
+                        <ClientMenu />
                     </div>
                 </div>
-                <div className="absolute z-10 md:top-[40px] md:left-[-242px] dropdown-menu hidden pt-[30px]">
-                    <ClientMenu />
-                </div>
-            </div>
-            <div className="flex md:mt-0 mt-3">
-                <div className="flex items-center justify-center md:mr-28 mr-12 dropdowns">
-                    <div className="test-1 flex border-2 rounded-xl w-[100%]">
-                        <input
-                            onChange={(e) => onHandleSearch(e.target.value)}
-                            type="text"
-                            className="px-4 py-2 md:w-[500px] sm:w-[490px] w-[270px] outline-none focus:bg-slate-100 "
-                            placeholder="Tìm kiếm sản phẩm mong muốn..."
-                        />
+                <div className="flex w-[88%] justify-between">
+                    <div className="flex w-[100%]">
+                        <div className="flex items-center justify-start dropdowns w-[100%]">
+                            <div className="test-1 flex border-2 rounded-xl ">
+                                <input
+                                    onChange={(e) => onHandleSearch(e.target.value)}
+                                    type="text"
+                                    className="px-4 py-2 md:w-[500px] w-full outline-none focus:bg-slate-100 rounded-l-[10px]"
+                                    placeholder="Tìm kiếm sản phẩm mong muốn..."
+                                />
 
-                        {dataSearch?.length > 0 ? (
-                            <div className="hidden absolute z-10 mt-10 dropdown-menus">
-                                <TableSearch dataSearch={dataSearch} />
+                                {dataSearch?.length > 0 ? (
+                                    <div className="hidden absolute z-10 mt-10 dropdown-menus">
+                                        <TableSearch dataSearch={dataSearch} />
+                                    </div>
+                                ) : historySearch?.length > 0 ? (
+                                    <div className="hidden absolute z-10 mt-10 dropdown-menus">
+                                        <div className="bg-amber-50 w-[500px] mt-5 rounded-md">
+                                            <nav>
+                                                <p className="px-5 pt-3 text-base font-medium">
+                                                    Lịch sử tìm kiếm
+                                                </p>
+                                                <ul className="px-5 py-3">
+                                                    {historySearch?.map(
+                                                        (item, index) => (
+                                                            <Link
+                                                                to={`/search?q=${item?.name}`}
+                                                                key={index.toString()}
+                                                                className="flex justify-between"
+                                                            >
+                                                                <li className="py-1 font-normal text-sm hover:text-orange-300">
+                                                                    {item?.name}
+                                                                </li>
+                                                                <span
+                                                                    className="hover:text-red-400"
+                                                                    onClick={(e) => {
+                                                                        const filteredSearchList =
+                                                                            historySearch.filter(
+                                                                                (
+                                                                                    item1
+                                                                                ) =>
+                                                                                    item1.name !==
+                                                                                    item?.name
+                                                                            );
+                                                                        window.localStorage.setItem(
+                                                                            "search_list",
+                                                                            JSON.stringify(
+                                                                                filteredSearchList
+                                                                            )
+                                                                        );
+                                                                        setHistorySearch(
+                                                                            filteredSearchList
+                                                                        );
+                                                                        e.preventDefault();
+                                                                    }}
+                                                                >
+                                                                    xóa
+                                                                </span>
+                                                            </Link>
+                                                        )
+                                                    )}
+                                                </ul>
+                                            </nav>
+                                        </div>
+                                    </div>
+                                ) : null}
+
+                                <button className="flex items-center justify-center px-4 border-l">
+                                    <svg
+                                        className="w-6 h-6 text-white md:text-gray-600"
+                                        fill="currentColor"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
+                                    </svg>
+                                </button>
                             </div>
-                        ) : historySearch?.length > 0 ? (
-                            <div className="hidden absolute z-10 mt-10 dropdown-menus">
-                                <div className="bg-amber-50 w-[500px] mt-5 rounded-md">
-                                    <nav>
-                                        <p className="px-5 pt-3 text-base font-medium">
-                                            Lịch sử tìm kiếm
-                                        </p>
-                                        <ul className="px-5 py-3">
-                                            {historySearch?.map(
-                                                (item, index) => (
-                                                    <Link
-                                                        to={`/search?q=${item?.name}`}
-                                                        key={index.toString()}
-                                                        className="flex justify-between"
-                                                    >
-                                                        <li className="py-1 font-normal text-sm hover:text-orange-300">
-                                                            {item?.name}
-                                                        </li>
-                                                        <span
-                                                            className="hover:text-red-400"
-                                                            onClick={(e) => {
-                                                                const filteredSearchList =
-                                                                    historySearch.filter(
-                                                                        (
-                                                                            item1
-                                                                        ) =>
-                                                                            item1.name !==
-                                                                            item?.name
-                                                                    );
-                                                                window.localStorage.setItem(
-                                                                    "search_list",
-                                                                    JSON.stringify(
-                                                                        filteredSearchList
-                                                                    )
-                                                                );
-                                                                setHistorySearch(
-                                                                    filteredSearchList
-                                                                );
-                                                                e.preventDefault();
-                                                            }}
-                                                        >
-                                                            xóa
-                                                        </span>
-                                                    </Link>
-                                                )
-                                            )}
-                                        </ul>
-                                    </nav>
+                        </div>
+
+                    </div>
+                    <div className="flex justify-start items-center pl-[10px]">
+                        <Link className=" cursor-pointer relative w-[50px] md:w-[80px] items-center flex justify-center" to="/checkout/cart">
+                            <div className="">
+                                <div className="flex justify-center">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor"
+                                        className="bi bi-cart2 md:w-[19px] md:h-[19px] w-[30px] h-[30px] z-10 text-white md:text-gray-600"
+                                        viewBox="0 0 16 16"
+                                    >
+                                        <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
+                                    </svg>
                                 </div>
+                                <div className="text-center hidden md:block h-[25px]">
+                                    Giỏ hàng
+                                </div>
+                                {cartLength ? (
+                                    <div className=" absolute top-[-17px] left-[50%] bg-slate-200 w-[30px] p-[5px] text-[15px] md:text-[10px] text-center rounded-[50%]">
+                                        {cartLength}
+                                    </div>
+                                ) : null}
                             </div>
-                        ) : null}
+                        </Link>
+                        <div className="">
+                            {!user ? (
+                                <div className="w-[50px] md:w-[80px]">
+                                    <div className="flex justify-center items-center">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="currentColor"
+                                            className="bi bi-person md:w-[19px] md:h-[19px] w-[30px] h-[30px] md:text-gray-600 text-white"
+                                            viewBox="0 0 16 16"
+                                        >
+                                            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
+                                        </svg>
+                                    </div>
+                                    <div className="relative text-center md:block cursor-pointer account">
+                                        <span className="hidden md:block h-[25px]">Tài khoản</span>
+                                        <div className="absolute capitalize bg-neutral-50 top-[25px] right-[0px] hidden menu-account rounded-[5px] shadow-2xl">
+                                            <div className="py-[10px]">
+                                            <div className="px-[15px] py-[5px] ">
+                                            <Link
+                                                className="w-[240px] block py-[10px] bg-PK-client text-white rounded-[15px]"
+                                                to="/login"
+                                            >
+                                                Đăng nhập
+                                            </Link>
+                                            </div>
+                                            <div className="px-[15px] py-[5px] ">
+                                            <Link
+                                                className="w-[240px] block py-[10px] border-[2px] border-PK-client text-PK-client rounded-[15px]"
+                                                to="/register"
+                                            >
+                                                Đăng ký
+                                            </Link>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="relative droplog">
+                                    <div
+                                        className="rounded-[50%] overflow-hidden ml-[15px] max-w-[40px] cursor-pointer"
+                                        onClick={() => setShowSidebar(true)}
+                                    >
+                                        <img src={user.avatar} className="w-full" />
+                                    </div>
+                                    {showSidebar && (
+                                        <div
+                                            ref={ref}
+                                            className="absolute top-[35px] right-0 mt-[17px] droplog-dow"
+                                            onClick={() => setShowSidebar(false)}
+                                        >
+                                            <SidebarProfile user={user} />
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-                        <button className="flex items-center justify-center px-4 border-l">
-                            <svg
-                                className="w-6 h-6 text-gray-600"
-                                fill="currentColor"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                            >
-                                <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-                <div className="md:mt-3 md:w-24 hidden md:block cursor-pointer">
-                    <div className="flex justify-center">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="19"
-                            height="19"
-                            fill="currentColor"
-                            className="bi bi-bell"
-                            viewBox="0 0 16 16"
-                        >
-                            <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zM8 1.918l-.797.161A4.002 4.002 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4.002 4.002 0 0 0-3.203-3.92L8 1.917zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5.002 5.002 0 0 1 13 6c0 .88.32 4.2 1.22 6z" />
-                        </svg>
-                    </div>
-                    <div className="text-center">Thông báo</div>
-                </div>
-                <Link to="/checkout/cart">
-                    <div className="md:mt-3 md:w-24 w-24 cursor-pointer relative">
-                        <div className="flex justify-center">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="currentColor"
-                                className="bi bi-cart2 md:w-[19px] md:h-[19px] w-[24px] h-[24px] mt-2 md:mt-0 z-10"
-                                viewBox="0 0 16 16"
-                            >
-                                <path d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l1.25 5h8.22l1.25-5H3.14zM5 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z" />
-                            </svg>
-                        </div>
-                        <div className="text-center hidden md:block">
-                            Giỏ hàng
-                        </div>
-                        {cartLength ? (
-                            <div className=" absolute top-[-10px] left-[55%] bg-slate-200 p-[5px] text-[10px] text-center rounded-[50%]">
-                                {cartLength}
-                            </div>
-                        ) : null}
-                    </div>
-                </Link>
-            </div>
-            <div className="md:mt-3 md:w-24 w-20">
-                {!user ? (
-                    <div>
-                        <div className="flex justify-center">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="currentColor"
-                                className="bi bi-person md:w-[19px] md:h-[19px] w-[24px] h-[24px] mt-2 md:mt-0"
-                                viewBox="0 0 16 16"
-                            >
-                                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
-                            </svg>
-                        </div>
-                        <div className="relative text-center md:block cursor-pointer account">
-                            <span>Tài khoản</span>
-                            <div className="absolute capitalize bg-slate-300 max-w-[200px] w-full top-[33px] hidden menu-account">
-                                <Link
-                                    className="py-[5px] px-[20px] hover:bg-PK-client block"
-                                    to="/register"
-                                >
-                                    register
-                                </Link>
-                                <Link
-                                    className="py-[5px] px-[20px] hover:bg-PK-client block"
-                                    to="/login"
-                                >
-                                    login
-                                </Link>
-                            </div>
-                        </div>
-                    </div>
-                ) : (
-                    <div className="relative droplog">
-                        <div
-                            className="rounded-[50%] overflow-hidden ml-[15px] max-w-[40px] cursor-pointer"
-                            onClick={() => setShowSidebar(true)}
-                        >
-                            <img src={user.avatar} className="w-full" />
-                        </div>
-                        {showSidebar && (
-                            <div
-                                ref={ref}
-                                className="absolute top-[35px] right-0 mt-[17px] droplog-dow"
-                                onClick={() => setShowSidebar(false)}
-                            >
-                                <SidebarProfile user={user} />
-                            </div>
-                        )}
-                    </div>
-                )}
-            </div>
+
         </div>
     );
 };
