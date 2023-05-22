@@ -28,8 +28,7 @@ export const readCartToDatabase = createAsyncThunk(
 export const updateCartToDatabase = createAsyncThunk(
   "cart/updateCartToDatabase",
   async (data) => {
-    await cartApi.CartUpdate(data);
-    const respone = await cartApi.CartList(data.user._id);
+    const respone = await cartApi.CartUpdate(data);
     return respone;
   }
 );
@@ -57,7 +56,6 @@ export const cartSlice = createSlice({
       state.value = cart ? JSON.parse(cart) : [];
     },
     addToCart: (state, action) => {
-      console.log("state.value", state.value);
       const { product, quantity } = action.payload;
       const existingItem = state.value.find(
         (item) => item.product._id === product._id
@@ -106,28 +104,28 @@ export const cartSlice = createSlice({
       }
       localStorage.setItem("cart", JSON.stringify(state.value));
     },
-    extraReducers: (builder) => {
-      builder.addCase(saveCartToDatabase.fulfilled, (state, action) => {
-        if (action.payload?.successCode) {
-          state.value = action.payload.data;
-        }
-      });
-      builder.addCase(getCartToDatabase.fulfilled, (state, action) => {
-        if (action.payload?.successCode) {
-          state.value = action.payload.data;
-        }
-      });
-      builder.addCase(updateCartToDatabase.fulfilled, (state, action) => {
-        if (action.payload?.successCode) {
-          state.value = action.payload.data;
-        }
-      });
-      builder.addCase(removeCartToDatabase.fulfilled, (state, action) => {
-        if (action.payload?.successCode) {
-          state.value = action.payload.data;
-        }
-      });
-    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(saveCartToDatabase.fulfilled, (state, action) => {
+      if (action.payload?.successCode) {
+        state.value = action.payload.data;
+      }
+    });
+    builder.addCase(getCartToDatabase.fulfilled, (state, action) => {
+      if (action.payload?.successCode) {
+        state.value = action.payload.data;
+      }
+    });
+    builder.addCase(updateCartToDatabase.fulfilled, (state, action) => {
+      if (action.payload?.successCode) {
+        state.value = action.payload.data;
+      }
+    });
+    builder.addCase(removeCartToDatabase.fulfilled, (state, action) => {
+      if (action.payload?.successCode) {
+        state.value = action.payload.data;
+      }
+    });
   },
 });
 

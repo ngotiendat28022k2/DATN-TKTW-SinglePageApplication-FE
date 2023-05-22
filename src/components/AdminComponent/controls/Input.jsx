@@ -10,6 +10,12 @@ export default function Input(props) {
       name={name}
       value={value}
       onChange={onChange}
+      InputLabelProps={{
+        shrink: true,
+      }}
+      InputProps={{
+        placeholder: " ", // Đặt placeholder là một khoảng trắng
+      }}
       {...other}
       {...(error && { error: true, helperText: error })}
     />

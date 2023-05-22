@@ -7,6 +7,7 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import ProductSlide from "../../components/productSlide/ProductSlide";
 import ListProduct from "../../components/listProduct/listProducts";
+import SlideShow from "../../components/slide-show/SlideShow.component";
 const HomePage = () => {
     const [show, setShow] = useState(6);
     const [products, setProducts] = useState([]);
@@ -218,6 +219,7 @@ const HomePage = () => {
                         </div>
                         <div className="font-bold text-lg">FLASH SALE</div>
                     </div>
+                    <ProductSlide {...{ products }} />
                 </div>
                 <div className="bg-white p-2">
                     <div className="grid md:grid-cols-5 grid-cols-3 gap-2 md:mx-2">
@@ -307,135 +309,56 @@ const HomePage = () => {
                                 alt=""
                             />
                         </div>
-                        <div className="font-bold text-lg">
-                            Danh mục sản phẩm
-                        </div>
                     </div>
-                </div>
-                <div className="grid md:grid-cols-10 md:gap-2 grid-cols-5 gap-3 bg-white pb-4 px-[20px]">
-                    {categories?.map((itemCategory, index) => (
-                        <div
-                            key={index}
-                            className="col-span-1 p-[5px] overflow-hidden rounded-md transition duration-300 ease-in-out hover:scale-110 hover:shadow-md dark:hover:shadow-black/30"
-                            title={itemCategory.name}
-                        >
-                            <Link to={`/series-book/${itemCategory._id}`}>
-                                <div className="">
-                                    <img
-                                        className="md:w-[100px] md:h-[100px] w-11 h-11 m-auto "
-                                        src={itemCategory.image}
-                                        alt=""
-                                    />
-                                </div>
-                                <div className="md:text-sm text-xs text-center pt-3">
-                                    {itemCategory.name}
-                                </div>
-                            </Link>
-                        </div>
-                    ))}
-                </div>
-            </div>
-            <div className="my-5">
-                <div className="bg-[#FFFFFF]">
-                    <div className="flex md:py-5 py-3 px-3">
-                        <div className="font-bold text-lg">SẢN PHẨM MỚI</div>
-                    </div>
-                </div>
-                <div className="bg-white p-2">
-                    <div className="grid md:grid-cols-5 grid-cols-3 gap-2 md:mx-2">
-                        {products?.map((product) => (
-                            <div className="relative hover:border-2 hover:shadow-md">
-                                <div className="md:m-2 m-2">
-                                    <Link to={`/detail/${product._id}`}>
-                                        <img
-                                            src={product.productImage[0]}
-                                            alt={product.name}
-                                        />
-                                    </Link>
-                                </div>
-                                <div className="mb-3">
-                                    <Link to={`/detail/${product._id}`}>
-                                        <h4 className="text-[#333333] md:text-lg text-base md:px-5 px-3">
-                                            {helper.truncateString(
-                                                product.name,
-                                                40
-                                            )}
-                                        </h4>
-                                        <span className="block md:px-5 px-3 text-base md:text-xl text-[#F7941E] font-semibold">
-                                            {helper.maskValuePrice(
-                                                product.sale
-                                            )}
-                                        </span>
-                                        <span className="block md:px-5 px-3 text-sm md:text-base text-[#888888] line-through">
-                                            {helper.maskValuePrice(
-                                                product.price
-                                            )}
-                                        </span>
-                                        <span className="block md:px-5 px-3 text-sm md:text-xs">
-                                            {" "}
-                                            Số lượng còn lại: {product.quantity}
-                                        </span>
-                                    </Link>
-                                </div>
+                    <div className='grid md:grid-cols-10 md:gap-2 grid-cols-5 gap-3 bg-white pb-4 px-[20px]'>
+                        {categories?.map((itemCategory) => (
+                            <div className='col-span-1 p-[5px] overflow-hidden rounded-md transition duration-300 ease-in-out hover:scale-110 hover:shadow-md dark:hover:shadow-black/30' title={itemCategory.name}>
+                                <Link to="">
+                                    <div className=''>
+                                        <img className='md:w-[100px] md:h-[100px] w-11 h-11 m-auto ' src={itemCategory.image} alt="" />
+                                    </div>
+                                    <div className='md:text-sm text-xs text-center pt-3 h-[60px] md:h-auto'>{itemCategory.name}</div>
+                                </Link>
                             </div>
                         ))}
-                        <div className="relative md:hidden block py-[100%] px-5">
-                            <div className="border-2 rounded-2xl text-center p-1 border-teal-400">
-                                <button className="text-teal-500 hover:text-orange-400">
-                                    Xem Thêm
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {products.length > 5 && (
-                    <div className="relative my-5">
-                        {startIndex > 0 && (
-                            <button
-                                className="absolute left-[10px] top-[-350px] text-slate-400 hover:text-slate-600 mr-5 border-[2px] w-[35px] h-[35px] flex justify-center items-center rounded-[50%] border-[#bbbbbb]"
-                                onClick={handlePrev}
-                            >
-                                <FaArrowLeft className="text-[20px]" />
-                            </button>
-                        )}
-                        {endIndex < products.length && (
-                            <button
-                                className="absolute right-[10px] top-[-350px]  text-slate-400 hover:text-slate-600 border-[2px] w-[35px] h-[35px] flex justify-center items-center rounded-[50%] border-[#bbbbbb]"
-                                onClick={handleNext}
-                            >
-                                <FaArrowRight className="text-[20px]" />
-                            </button>
-                        )}
-                    </div>
-                )}
+
+
+            <div className="relative md:hidden block py-[100%] px-5">
+              <div className="border-2 rounded-2xl text-center p-1 border-teal-400">
+                <button className="text-teal-500 hover:text-orange-400">
+                  Xem Thêm
+                </button>
+              </div>
             </div>
-            {categories?.map((list, index) => (
-                <>
-                    {index <= show ? (
-                        <ListProduct key={list._id} list={list} />
-                    ) : null}
-                </>
-            ))}
-            {show < categories.length ? (
-                <div className="my-8 text-center">
-                    <span
-                        onClick={() => setShow(categories.length)}
-                        className="border-[1px] border-slate-900 py-3 px-6 hover:text-PK-client hover:border-green-500"
-                    >
-                        Xem thêm
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            fill="currentColor"
-                            className="bi bi-chevron-down inline text-black ml-1 hover:text-green-500"
-                            viewBox="0 0 16 16"
-                        >
-                            <path
-                                fill-rule="evenodd"
-                                d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
-                            />
-                        </svg>
+          </div>
+        </div>
+      </div>
+     
+      <div className="my-5">
+        <div className="bg-[#FFFFFF]">
+          <div className="flex md:py-5 py-3 px-3">
+            <div className="font-bold text-lg">SẢN PHẨM MỚI</div>
+          </div>
+        </div>
+        <div className="bg-white p-2">
+          <div className="grid md:grid-cols-5 grid-cols-3 gap-2 md:mx-2">
+            {products?.map((product) => (
+              <div className="relative hover:border-2 hover:shadow-md">
+                <div className="md:m-2 m-2">
+                  <Link to={`/detail/${product._id}`}>
+                    <img src={product.productImage[0]} alt={product.name} />
+                  </Link>
+                </div>
+                <div className="mb-3">
+                  <Link to={`/detail/${product._id}`}>
+                    <h4 className="text-[#333333] md:text-lg text-base md:px-5 px-3">
+                      {helper.truncateString(product.name, 40)}
+                    </h4>
+                    <span className="block md:px-5 px-3 text-base md:text-xl text-[#F7941E] font-semibold">
+                      {helper.maskValuePrice(product.sale)}
+                    </span>
+                    <span className="block md:px-5 px-3 text-sm md:text-base text-[#888888] line-through">
+                      {helper.maskValuePrice(product.price)}
                     </span>
                 </div>
             ) : (

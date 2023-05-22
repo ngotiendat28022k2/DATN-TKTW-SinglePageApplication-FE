@@ -157,38 +157,34 @@ const Header = () => {
         setShowAccountMenu(!showAccountMenu);
     };
     return (
-        <div className="md:flex md:m-auto md:justify-between md:w-[1280px] md:h-16 bg-[#fff]">
-            <div className="mt-3 mr-8 flex justify-center">
-                <Link to="/home">
+        <div className="md:flex md:m-auto md:w-[1280px] bg-PK-client md:bg-[#fff] justify-between w-[100%] md:py-[20px]">
+            <div className="flex justify-center md:py-0 md:w-[20%]">
+                <Link className="flex justify-center items-center" to="/home">
                     <img
-                        className="md:h-[36px] h-[20px] "
+                        className="md:h-[36px] h-[20px] hidden md:block"
                         src="https://i.imgur.com/SmXRS7C.png"
+                        alt=""
+                    />
+                    <img
+                        className="w-full max-w-[70px] block md:hidden"
+                        src="https://logos.textgiraffe.com/logos/logo-name/Niki-designstyle-smoothie-m.png"
                         alt=""
                     />
                 </Link>
             </div>
-            <div className="relative dropdown">
-                <div className="flex md:mt-3 mt-4 float-left md:float-none pr-5 md:pr-0">
-                    <div>
-                        <img
-                            className="md:h-[36px] h-[36px]"
-                            src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_menu.svg"
-                            alt=""
-                        />
-                    </div>
-                    <div className="m-0 pt-3 pl-1 md:block hidden">
-                        <svg
-                            // className="text-gray-600"
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="18"
-                            height="18"
-                            fill="currentColor"
-                            className="bi bi-chevron-down text-gray-600"
-                            viewBox="0 0 16 16"
-                        >
-                            <path
-                                fillRule="evenodd"
-                                d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+            <div className="flex justify-start items-center md:justify-start md:items-center px-[20px] md:px-0 pb-[20px] md:pb-0 md:w-[80%]">
+                <div className="relative dropdown w-[12%] md:w-auto md:pr-[10px]">
+                    <div className="flex ">
+                        <div>
+                            <img
+                                className="md:h-[36px] h-[36px] hidden md:block"
+                                src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_menu.svg"
+                                alt=""
+                            />
+                            <img
+                                className="md:h-[36px] h-[36px] md:hidden"
+                                src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_menu_white.svg"
+                                alt=""
                             />
                         </svg>
                     </div>
@@ -333,25 +329,20 @@ const Header = () => {
                         <div className="text-center hidden md:block">
                             Giỏ hàng
                         </div>
-                        {cartLength ? (
-                            <div className=" absolute top-[-10px] left-[55%] bg-slate-200 p-[5px] text-[10px] text-center rounded-[50%]">
-                                {cartLength}
-                            </div>
-                        ) : null}
-                    </div>
-                </Link>
-            </div>
-            <div className="md:mt-3 md:w-24 w-20">
-                {!user ? (
-                    <div>
-                        <div className="flex justify-center">
+                        <div className="m-0 pt-3 pl-1 md:block hidden">
                             <svg
+                                // className="text-gray-600"
                                 xmlns="http://www.w3.org/2000/svg"
+                                width="18"
+                                height="18"
                                 fill="currentColor"
-                                className="bi bi-person md:w-[19px] md:h-[19px] w-[24px] h-[24px] mt-2 md:mt-0"
+                                className="bi bi-chevron-down text-gray-600"
                                 viewBox="0 0 16 16"
                             >
-                                <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
+                                <path
+                                    fillRule="evenodd"
+                                    d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+                                />
                             </svg>
                         </div>
                         <div
@@ -376,6 +367,7 @@ const Header = () => {
                                 </div>
                             )}
                         </div>
+
                     </div>
                 ) : (
                     <div className="relative droplog">
@@ -393,10 +385,69 @@ const Header = () => {
                             >
                                 <SidebarProfile user={user} />
                             </div>
-                        )}
+                        </Link>
+                        <div className="">
+                            {!user ? (
+                                <div className="w-[50px] md:w-[80px]">
+                                    <div className="flex justify-center items-center">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="currentColor"
+                                            className="bi bi-person md:w-[19px] md:h-[19px] w-[30px] h-[30px] md:text-gray-600 text-white"
+                                            viewBox="0 0 16 16"
+                                        >
+                                            <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
+                                        </svg>
+                                    </div>
+                                    <div className="relative text-center md:block cursor-pointer account">
+                                        <span className="hidden md:block h-[25px]">Tài khoản</span>
+                                        <div className="absolute capitalize bg-neutral-50 top-[25px] right-[0px] hidden menu-account rounded-[5px] shadow-2xl">
+                                            <div className="py-[10px]">
+                                            <div className="px-[15px] py-[5px] ">
+                                            <Link
+                                                className="w-[240px] block py-[10px] bg-PK-client text-white rounded-[15px]"
+                                                to="/login"
+                                            >
+                                                Đăng nhập
+                                            </Link>
+                                            </div>
+                                            <div className="px-[15px] py-[5px] ">
+                                            <Link
+                                                className="w-[240px] block py-[10px] border-[2px] border-PK-client text-PK-client rounded-[15px]"
+                                                to="/register"
+                                            >
+                                                Đăng ký
+                                            </Link>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className="relative droplog">
+                                    <div
+                                        className="rounded-[50%] overflow-hidden ml-[15px] max-w-[40px] cursor-pointer"
+                                        onClick={() => setShowSidebar(true)}
+                                    >
+                                        <img src={user.avatar} className="w-full" />
+                                    </div>
+                                    {showSidebar && (
+                                        <div
+                                            ref={ref}
+                                            className="absolute top-[35px] right-0 mt-[17px] droplog-dow"
+                                            onClick={() => setShowSidebar(false)}
+                                        >
+                                            <SidebarProfile user={user} />
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+                        </div>
                     </div>
-                )}
+                </div>
             </div>
+
+
         </div>
     );
 };
