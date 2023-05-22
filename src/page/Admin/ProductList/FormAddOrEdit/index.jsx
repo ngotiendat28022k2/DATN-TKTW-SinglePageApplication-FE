@@ -52,9 +52,10 @@ export default function FormAddOrEdit({
         }
 
         if ("sale" in fieldValues) {
-            if (!fieldValues.sale) {
-                temp.sale = "This field is required.";
-            } else if (parseInt(fieldValues.sale) >= parseInt(values.price)) {
+            // if (!fieldValues.sale) {
+            //     temp.sale = "This field is required.";
+            // } else
+            if (parseInt(fieldValues.sale) >= parseInt(values.price)) {
                 temp.sale =
                     "The selling price must be lower than the original price";
             } else {
@@ -78,12 +79,12 @@ export default function FormAddOrEdit({
                     ? ""
                     : "Product Image is required.";
         }
-        if ("previewImage" in fieldValues) {
-            temp.previewImage =
-                fieldValues.previewImage.length > 0
-                    ? ""
-                    : "Preview Image is required.";
-        }
+        // if ("previewImage" in fieldValues) {
+        //     temp.previewImage =
+        //         fieldValues.previewImage.length > 0
+        //             ? ""
+        //             : "Preview Image is required.";
+        // }
         if ("categories" in fieldValues) {
             temp.categories =
                 fieldValues.categories.length > 0

@@ -15,7 +15,7 @@ const Ckeditor = ({value, name, onChange}) => {
                     } }
                     onChange={ ( event, editor ) => {
                         const data = editor.getData();
-                        console.log( { event, editor, data } );
+                        // console.log( { event, editor, data } );
                         onChange && onChange(name, data)
                     } }
                 />

@@ -122,15 +122,17 @@ const CheckoutCart = () => {
     carts.forEach((cart) => {
       let price = cart.product.sale || cart.product.price;
       let total = cart.quantity * price;
-      totalPrice += total;
+      if (cart.selected) {
+        totalPrice += total;
+      }
       totalPrices.push(total);
+
     });
   
     setTotalPerProduct(totalPrices);
     setTotalPerProducts(totalPrice);
   }, [carts]);
 
-  console.log("carts", carts);
   return (
     <div className="">
       {isLoading && <RequestLoading />}

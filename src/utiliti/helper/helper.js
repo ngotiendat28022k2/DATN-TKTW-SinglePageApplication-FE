@@ -71,12 +71,13 @@ helper.userRole = (role) => {
 };
 
 helper.truncateString = (str, maxLength) => {
-    if (!str) return str;
-    if (str.length > maxLength) {
-        return str.substring(0, maxLength) + "...";
-    } else {
-        return str;
-    }
+  if (!str) return str;
+  if (str.length > maxLength) {
+    return str.substring(0, maxLength) + "...";
+  } else {
+    return str;
+  }
+
 };
 
 helper.calculatePercentage = (originalPrice, salePrice) => {
@@ -86,4 +87,21 @@ helper.calculatePercentage = (originalPrice, salePrice) => {
     ).toFixed();
     return discountPercentage;
 };
+helper.formatDate = (inputDate) => {
+    var date = new Date(inputDate);
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+
+    if (day < 10) {
+        day = "0" + day;
+    }
+    if (month < 10) {
+        month = "0" + month;
+    }
+
+    var formattedDate = year + "-" + month + "-" + day;
+    return formattedDate;
+};
+
 export default helper;

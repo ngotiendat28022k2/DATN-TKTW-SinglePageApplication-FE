@@ -20,7 +20,6 @@ import CategoryIcon from "@mui/icons-material/Category";
 import { Link } from "react-router-dom";
 import { Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
-
 export default function Sidebar() {
     const [open, setOpen] = useState(false);
     const [activeDiv, setActiveDiv] = useState("");
@@ -56,7 +55,15 @@ export default function Sidebar() {
             case "author":
                 setActiveDiv(divId);
                 break;
-
+            case "infomation":
+                setActiveDiv(divId);
+                break;
+            case "category infomation":
+                setActiveDiv(divId);
+                break;
+            case "voucher":
+                setActiveDiv(divId);
+                break;
             default:
                 setActiveDiv(divId === activeDiv ? "" : divId);
                 break;
@@ -228,6 +235,56 @@ export default function Sidebar() {
                             >
                                 <BarChart className={styles.sidebarIcon} />
                                 Author
+                            </li>
+                        </Link>
+                        <Link to="/admin/voucher" onClick={handleClose}>
+                            <li
+                                className={`mb-1 ${styles.sidebarListItem}`}
+                                onClick={() => handleActive("voucher")}
+                                style={{
+                                    backgroundColor:
+                                        activeDiv === "voucher"
+                                            ? "#5a8d26"
+                                            : "",
+                                }}
+                            >
+                                <BarChart className={styles.sidebarIcon} />
+                                Voucher
+                            </li>
+                        </Link>
+                        <Link
+                            to="/admin/category-infomation"
+                            onClick={handleClose}
+                        >
+                            <li
+                                className={`mb-1 ${styles.sidebarListItem}`}
+                                onClick={() =>
+                                    handleActive("category infomation")
+                                }
+                                style={{
+                                    backgroundColor:
+                                        activeDiv === "category Infomation"
+                                            ? "#5a8d26"
+                                            : "",
+                                }}
+                            >
+                                <BarChart className={styles.sidebarIcon} />
+                                Category Infor
+                            </li>
+                        </Link>
+                        <Link to="/admin/infomation-page" onClick={handleClose}>
+                            <li
+                                className={`mb-1 ${styles.sidebarListItem}`}
+                                onClick={() => handleActive("infomation")}
+                                style={{
+                                    backgroundColor:
+                                        activeDiv === "infomation"
+                                            ? "#5a8d26"
+                                            : "",
+                                }}
+                            >
+                                <BarChart className={styles.sidebarIcon} />
+                                Infomation Page
                             </li>
                         </Link>
                     </ul>
