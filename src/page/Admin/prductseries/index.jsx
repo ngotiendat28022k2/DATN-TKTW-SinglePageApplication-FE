@@ -6,65 +6,64 @@ import Popup from "../../../components/AdminComponent/MyPopup/MyPopup";
 // Services
 import InputSearch from "../../../components/AdminComponent/inputSearch/inputSearch.component";
 import CustomPaginationActionsTable from "../../../components/AdminComponent/table/table.component";
-import ActionSave from "../authorList/ActionSave";
-import ActionDelete from "../authorList/ActionDelete";
-import ActionUpdate from "../authorList/ActionUpdate";
+import ActionSave from "../prductseries/ActionSave";
+import ActionDelete from "../prductseries/ActionDelete";
+import ActionUpdate from "../prductseries/ActionUpdate";
 
 import { useDispatch, useSelector } from "react-redux";
 import FormAddOrEdit from "./AddOrEdit/index";
 import helper from "../../../utiliti/helper/helper";
 import {
-    AddNewAuthor,
-    UpdateAuthor,
-    getAllAuthor,
-} from "../../../slice/authorSlice";
+    AddNewProductSeries,
+    UpdateProductSeries,
+    getAllProductSeries,
+} from "../../../slice/productseries";
+import { getAllCategory } from "../../../slice/categorySlice";
 
-export default function PublishList() {
+export default function ProductSeries() {
     const dispatch = useDispatch();
     const [openPopup, setOpenPopup] = useState(false);
     const [dataSearch, setDataSearch] = React.useState([]);
     const [rowId, setRowId] = useState(null);
     const [rowsData, setRowsData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const authorStore = useSelector((state) => state.author.value);
     const [recordForEdit, setRecordForEdit] = useState(null);
+    const [optionCategory, setoptionCategory] = useState([]);
 
+    const productSlice = useSelector((state) => state.productSeries.value);
     const handleSearch = (e) => {
         console.log("e.target.value", e.target.value);
     };
     const openInPopup = (item) => {
         setOpenPopup(true);
+        console.log("item", item);
         setRecordForEdit(item);
     };
 
-    const addOrEdit = (values, resetForm) => {
+    const addOrEdit = async (values, resetForm) => {
+        // console.log("phuc", values);
         if (!values._id) {
             try {
-                (async () => {
-                    const { payload } = await dispatch(AddNewAuthor(values));
-                    console.log(payload);
-                    if (payload?.successCode) {
-                        helper.toast("success", "Add success");
-                    }
-                    if (payload?.errorCode) {
-                        helper.toast("error", "Add false");
-                    }
-                })();
+                const { payload } = await dispatch(AddNewProductSeries(values));
+                if (payload?.successCode) {
+                    helper.toast("success", "Add success");
+                }
+                if (payload?.errorCode) {
+                    helper.toast("error", "Add false");
+                }
             } catch (error) {
                 helper.toast("error", "fetching data false");
             }
         } else {
             try {
-                (async () => {
-                    const { payload } = await dispatch(UpdateAuthor(values));
-                    console.log("payload update", payload);
-                    if (payload?.successCode) {
-                        helper.toast("success", "Update success");
-                    }
-                    if (payload?.errorCode) {
-                        helper.toast("error", "Update false");
-                    }
-                })();
+                const { payload } = await dispatch(UpdateProductSeries(values));
+                console.log("payload update", payload);
+                if (payload?.successCode) {
+                    helper.toast("success", "Update success");
+                }
+                if (payload?.errorCode) {
+                    helper.toast("error", "Update false");
+                }
             } catch (error) {
                 helper.toast("error", "Edit data false");
             }
@@ -77,8 +76,8 @@ export default function PublishList() {
         (async () => {
             try {
                 setIsLoading(true);
-                const { payload } = await dispatch(getAllAuthor());
-                console.log(payload);
+                const { payload } = await dispatch(getAllProductSeries());
+                // console.log(payload);
                 if (payload?.successCode) {
                     setRowsData(payload.data);
                 }
@@ -92,19 +91,36 @@ export default function PublishList() {
         })();
     }, []);
     useEffect(() => {
-        console.log("authorStore", authorStore);
-        setRowsData(authorStore);
-    }, [authorStore]);
+        (async () => {
+            try {
+                const categories = await dispatch(getAllCategory());
+                setoptionCategory(
+                    categories.payload.data.map((a) => ({
+                        ...a,
+                        label: a.name,
+                        value: a.name,
+                    }))
+                );
+            } catch (error) {
+                console.log(error);
+            }
+        })();
+    }, [productSlice]);
+
+    useEffect(() => {
+        // console.log("productSeries", productSeries);
+        setRowsData(productSlice);
+    }, [productSlice]);
 
     const columnsData = [
         { field: "_id", headerName: "ID", width: 150 },
-        { field: "name", headerName: "Name", width: 200, editable: true },
+        { field: "name", headerName: "Name", width: 350, editable: true },
         {
-            field: "avatar",
-            headerName: "Avatar",
-            width: 250,
+            field: "image",
+            headerName: "Image",
+            width: 280,
             renderCell: (params) =>
-                params.row.avatar.map((image) => <img src={image} />),
+                params.row.image.map((image) => <img src={image} />),
         },
         {
             field: "actions",
@@ -126,8 +142,7 @@ export default function PublishList() {
         },
     ];
 
-    //   return () => {
-    //   };
+    // console.log("optionCategory", optionCategory);
     return (
         <>
             <Paper
@@ -165,13 +180,16 @@ export default function PublishList() {
             </Paper>
 
             <Popup
-                title={recordForEdit ? "Edit Author" : "Add Author"}
+                title={
+                    recordForEdit ? "Edit Product Series" : "Add Product Series"
+                }
                 openPopup={openPopup}
                 setOpenPopup={setOpenPopup}
             >
                 <FormAddOrEdit
                     recordForEdit={recordForEdit}
                     addOrEdit={addOrEdit}
+                    optionCategories={optionCategory}
                 />
             </Popup>
         </>

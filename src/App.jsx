@@ -22,13 +22,14 @@ import UserList from "./page/Admin/userList";
 import UserRootList from "./page/Admin/userRootList";
 import DealHot from "./page/DealHot/DealHot";
 import SeriesBook from "./page/SeriesBook/SeriesBook";
-import InfomationPage from "./page/Admin/infomation_page";
+import BannerList from "./page/Admin/bannerList";
 import CategoryInfomation from "./page/Admin/category_information";
 import Voucher from "./page/Admin/voucherList";
 import ChatBox from "./components/chatbot";
 import { ChatBubbleOutline } from "@mui/icons-material";
 import ReportList from "./page/Admin/reportCommentList";
 import CommentList from "./page/Admin/commentList";
+import ProductSeries from "./page/Admin/prductseries";
 
 const DynamicPage = React.lazy(() => import("./page/dynamicPage/DynamicPage"));
 const ProfileAdmin = React.lazy(() =>
@@ -76,9 +77,9 @@ function App() {
                                 element={<DynamicPage />}
                             />
                             {/* Test */}
-                            <Route path="deal-hot" element={<DealHot />} />
+                            <Route path="deal-hot/:id" element={<DealHot />} />
                             <Route
-                                path="series-book"
+                                path="series-book/:id"
                                 element={<SeriesBook />}
                             />
                             <Route
@@ -141,6 +142,7 @@ function App() {
                         <Route path="supplieres" element={<SupplierList />} />
                         <Route path="publishs" element={<PublishList />} />
                         <Route path="profile" element={<ProfileAdmin />} />
+                        <Route path="banner" element={<BannerList />} />
                         <Route path="voucher" element={<Voucher />} />
                         <Route
                             path="infomation-page"
@@ -152,6 +154,10 @@ function App() {
                         />
                         <Route path="report-comment" element={<ReportList />} />
                         <Route path="comment" element={<CommentList />} />
+                        <Route
+                            path="product-series"
+                            element={<ProductSeries />}
+                        />
                     </Route>
 
                     <Route path="/login" element={<Login />} />

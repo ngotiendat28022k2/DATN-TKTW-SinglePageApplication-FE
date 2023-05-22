@@ -25,6 +25,7 @@ const initialFValues = {
     formbooks: [],
     authors: [],
     supplieres: [],
+    productseries: [],
     other: [{ id: uuidv4(), k: "", v: "" }],
 };
 
@@ -36,6 +37,7 @@ export default function FormAddOrEdit({
     optionPublish,
     optionFormBook,
     optionAuthor,
+    optionSeries,
 }) {
     const validate = (fieldValues = values) => {
         let temp = { ...errors };
@@ -113,6 +115,7 @@ export default function FormAddOrEdit({
             temp.authors =
                 fieldValues.authors.length > 0 ? "" : "Author is required.";
         }
+
         if ("descriptionShort" in fieldValues) {
             temp.descriptionShort = fieldValues.descriptionShort
                 ? ""
@@ -393,6 +396,25 @@ export default function FormAddOrEdit({
                             <span className="text-red-600">
                                 {errors.authors}
                             </span>
+                        </div>
+                        <div className="w-full max-w-[250px] ">
+                            <label htmlFor="">Product Series:</label>
+                            <br />
+                            <Select
+                                name="productseries"
+                                closeMenuOnSelect={false}
+                                // components={animatedComponents}
+                                value={values.productseries.map((a) => ({
+                                    ...a,
+                                    label: a.name,
+                                    value: a.name,
+                                }))}
+                                isMulti
+                                options={optionSeries}
+                                onChange={(value) =>
+                                    handleChange("productseries", value)
+                                }
+                            />
                         </div>
                     </div>
                 </Grid>

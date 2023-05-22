@@ -64,6 +64,7 @@ export default function NewSupplier(props) {
         handleCheckedChange,
         resetForm,
     } = useForm(initialFValues, true, validate);
+    
     useEffect(() => {
         if (recordForEdit != null)
             setValues({
