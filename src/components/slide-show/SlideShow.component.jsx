@@ -38,33 +38,20 @@ class SlideshowImages extends Component {
             "https://i.imgur.com/Ood0kMi.png",
         ];
 
-        const settings = {
-            dots: false,
-            infinite: true,
-            speed: 400,
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            arrows: true,
-            prevArrow: <PrevArrow className="slick-prev" />,
-            nextArrow: <NextArrow className="slick-next" />,
-            autoplay: true,
-            autoplaySpeed: 5000,
-        };
-
-        return (
-            <Slider {...settings}>
-                {slideImages.map((each, index) => (
-                    <img
-                        className="w-[100%] md:h-[95%] h-[100%] md:rounded-sm"
-                        style={{ objectFit: "left" }}
-                        src={each}
-                        key={index}
-                        alt="sample"
-                    />
-                ))}
-            </Slider>
-        );
-    }
+    return (
+      <Slider {...settings}>
+        {slideImages.map((each, index) => (
+          <img
+            className="w-[100%] md:h-[95%] h-[100%] md:rounded-sm py-[15px] md:py-0"
+            style={{ objectFit: "left" }}
+            src={each}
+            key={index}
+            alt="sample"
+          />
+        ))}
+      </Slider>
+    );
+  }
 }
 
 class SlideShow extends Component {
@@ -73,31 +60,31 @@ class SlideShow extends Component {
         this.slideRef = React.createRef();
     }
 
-    render() {
-        return (
-            <div className="z-1 md:mt-4 flex">
-                <div className="w-[100%] md:w-[70%] p-2 rounded-md md:rounded-lg overflow-hidden">
-                    <SlideshowImages ref={this.slideRef} />
-                </div>
-                <div className="w-[30%] hidden md:block pt-2 pb-2">
-                    <div className="mb-3">
-                        <img
-                            className="w-[100%] h-[100%] rounded-md"
-                            src="https://i.imgur.com/toPyown.jpg"
-                            alt=""
-                        />
-                    </div>
-                    <div>
-                        <img
-                            className="w-[100%] h-[100%] rounded-md"
-                            src="https://i.imgur.com/I1bSewT.jpg"
-                            alt=""
-                        />
-                    </div>
-                </div>
-            </div>
-        );
-    }
+  render() {
+    return (
+      <div className="z-1 flex gap-[10px] md:py-[20px]">
+        <div className="w-[100%] md:w-[70%] rounded-md md:rounded-lg overflow-hidden">
+          <SlideshowImages ref={this.slideRef} />
+        </div>
+        <div className="w-[30%] hidden md:block">
+          <div className="mb-[10px]">
+            <img
+              className="w-[100%] h-[164.5px] rounded-md"
+              src="https://i.imgur.com/toPyown.jpg"
+              alt=""
+            />
+          </div>
+          <div>
+            <img
+              className="w-[100%] h-[164.5px] rounded-md"
+              src="https://i.imgur.com/I1bSewT.jpg"
+              alt=""
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default SlideShow;
