@@ -13,6 +13,7 @@ import infomationPageReducer from "../slice/infomationPage";
 import categoryInformationReducer from "../slice/categoryInformation";
 import voucherReducer from "../slice/vouchersSlice";
 import commentReducer from "../slice/commentSlice";
+import productSeriesReducer from "../slice/productseries";
 import infoUserReducer from "../slice/addressUserSlide";
 
 export const store = configureStore({
@@ -31,6 +32,7 @@ export const store = configureStore({
     voucher: voucherReducer,
     comment: commentReducer,
     infoUser: infoUserReducer,
+   productSeries: productSeriesReducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(logger);
