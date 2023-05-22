@@ -58,10 +58,13 @@ export default function Sidebar() {
             case "infomation":
                 setActiveDiv(divId);
                 break;
-            case "category infomation":
+            case "category-infomation":
                 setActiveDiv(divId);
                 break;
             case "voucher":
+                setActiveDiv(divId);
+                break;
+            case "product-series":
                 setActiveDiv(divId);
                 break;
             default:
@@ -263,7 +266,7 @@ export default function Sidebar() {
                                 }
                                 style={{
                                     backgroundColor:
-                                        activeDiv === "category Infomation"
+                                        activeDiv === "category infomation"
                                             ? "#5a8d26"
                                             : "",
                                 }}
@@ -285,6 +288,21 @@ export default function Sidebar() {
                             >
                                 <BarChart className={styles.sidebarIcon} />
                                 Infomation Page
+                            </li>
+                        </Link>
+                        <Link to="/admin/product-series" onClick={handleClose}>
+                            <li
+                                className={`mb-1 ${styles.sidebarListItem}`}
+                                onClick={() => handleActive("product-series")}
+                                style={{
+                                    backgroundColor:
+                                        activeDiv === "product-series"
+                                            ? "#5a8d26"
+                                            : "",
+                                }}
+                            >
+                                <BarChart className={styles.sidebarIcon} />
+                                Product Series
                             </li>
                         </Link>
                     </ul>
