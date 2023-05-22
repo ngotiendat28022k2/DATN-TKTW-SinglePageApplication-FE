@@ -13,6 +13,7 @@ import infomationPageReducer from "../slice/infomationPage";
 import categoryInformationReducer from "../slice/categoryInformation";
 import voucherReducer from "../slice/vouchersSlice";
 import commentReducer from "../slice/commentSlice";
+import infoUserReducer from "../slice/addressUserSlide";
 
 export const store = configureStore({
   reducer: {
@@ -29,6 +30,7 @@ export const store = configureStore({
     categoryInformation: categoryInformationReducer,
     voucher: voucherReducer,
     comment: commentReducer,
+    infoUser: infoUserReducer,
   },
   middleware: (getDefaultMiddleware) => {
     return getDefaultMiddleware().concat(logger);

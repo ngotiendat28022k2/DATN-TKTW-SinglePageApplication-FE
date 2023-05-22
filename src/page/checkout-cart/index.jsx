@@ -11,7 +11,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import local from "../../utiliti/local/localSesion";
 import helper from "../../utiliti/helper/helper";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import RequestLoading from "../../components/requestLoading/RequestLoading";
 import { Button } from "@mui/material";
 import { Delete } from "@mui/icons-material";
@@ -24,6 +24,7 @@ const CheckoutCart = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [totalPerProduct, setTotalPerProduct] = useState(0);
   const [totalPerProducts, setTotalPerProducts] = useState([]);
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (user) {
@@ -46,8 +47,7 @@ const CheckoutCart = () => {
   useEffect(() => {
     setCarts(cartStore);
   }, [cartStore]);
-  console.log("cartStore", cartStore);
-
+  
   const handleSlected = async (e, id) => {
     const isSelected = e.target.checked ? true : false;
     const data = carts.filter((cart) => cart._id === id);
@@ -61,7 +61,6 @@ const CheckoutCart = () => {
         console.log("error", error);
       }
     } else {
-      console.log("cartToUpdate", cartToUpdate);
       dispatch(updatetoCart(cartToUpdate));
     }
   };
@@ -85,7 +84,6 @@ const CheckoutCart = () => {
       default:
         throw new Error(`Unsupported action: ${action}`);
     }
-    console.log("cartToUpdate", cartToUpdate);
     if (user) {
       try {
         setIsLoading(true);
@@ -132,6 +130,20 @@ const CheckoutCart = () => {
     setTotalPerProduct(totalPrices);
     setTotalPerProducts(totalPrice);
   }, [carts]);
+
+  const saveOrderToLocalStorage = (order) => {
+    const orderWithExpiry = {
+      order,
+      expiry:  Date.now() + 30 * 1000,
+    };
+    localStorage.setItem('pendingOrder', JSON.stringify(orderWithExpiry));
+  };
+  
+  const productPayment = () => {
+    const data =  carts.filter(cart => cart.selected)
+    saveOrderToLocalStorage(data)
+    navigate("/pay")
+  } 
 
   return (
     <div className="">
@@ -382,14 +394,24 @@ const CheckoutCart = () => {
                   </div>
                 </div>
                 <div className="">
-                  <div className=" w-full border-[2px] border-solid border-[#C92127] rounded-[10px] px-[30px] py-[10px] items-center justify-center flex uppercase bg-[#C92127] text-[19px]">
-                    <span className="text-[#fff] font-semibold">
+                  <div className="">
+                  <span style={{ cursor: 'not-allowed' }}>
+                    <Button
+                      color="error"
+                      variant="contained"
+                      sx={{width:"100%"}}
+                      disabled={totalPerProducts <= 0 || !user}  
+                      onClick={productPayment}
+                    >
                       Thanh toán
+                    </Button>
                     </span>
                   </div>
                   <div className="text-[13px] py-[3px]">
-                    <span className="text-[#ff0008]">
-                      (Giảm giá trên web chỉ áp dụng cho bán lẻ)
+                    <span className="text-[#ff0008] capitalize">
+                        {totalPerProducts <= 0 || !user ? "bạn cần" : ""}
+                        {totalPerProducts <= 0 ?  " chọn sản phẩm bạn muốn mua." : ""}
+                        {!user ? " đăng nhập để mua sản phẩm" : ""}
                     </span>
                   </div>
                 </div>
