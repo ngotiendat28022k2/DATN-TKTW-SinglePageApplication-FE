@@ -153,7 +153,7 @@ const Footer = () => {
                         <div className="lg:flex lg:justify-around lg:items-start lg:flex-wrap">
                             {cateInfor.map((eCate) => (
                                 <div
-                                    key={eCate.id}
+                                    key={eCate._id}
                                     className="mt-[10px] lg:mt-[20px]"
                                 >
                                     <h2 className="uppercase text-[#333] text-[18px] font-medium tracking-wide">
