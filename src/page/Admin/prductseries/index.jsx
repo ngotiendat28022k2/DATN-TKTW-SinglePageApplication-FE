@@ -17,6 +17,7 @@ import {
     AddNewProductSeries,
     UpdateProductSeries,
     getAllProductSeries,
+    searchPro,
 } from "../../../slice/productseries";
 import { getAllCategory } from "../../../slice/categorySlice";
 
@@ -29,10 +30,25 @@ export default function ProductSeries() {
     const [isLoading, setIsLoading] = useState(false);
     const [recordForEdit, setRecordForEdit] = useState(null);
     const [optionCategory, setoptionCategory] = useState([]);
+    const [objSearch, setObjSearch] = useState({
+        search: "",
+    });
 
     const productSlice = useSelector((state) => state.productSeries.value);
-    const handleSearch = (e) => {
+    const handleSearch = async (e) => {
         console.log("e.target.value", e.target.value);
+        setObjSearch((prev) => ({ ...prev, search: e.target.value }));
+        if (objSearch.search === "") {
+            setDataSearch([]);
+        } else {
+            try {
+                const { payload } = await dispatch(searchPro(objSearch));
+                console.log("payload", payload.data);
+                setDataSearch(payload.data.data);
+            } catch (error) {
+                console.log("error search product series", error);
+            }
+        }
     };
     const openInPopup = (item) => {
         setOpenPopup(true);
@@ -110,6 +126,7 @@ export default function ProductSeries() {
     useEffect(() => {
         // console.log("productSeries", productSeries);
         setRowsData(productSlice);
+        setDataSearch(productSlice);
     }, [productSlice]);
 
     const columnsData = [
@@ -167,15 +184,27 @@ export default function ProductSeries() {
                 </Toolbar>
 
                 <div className="mt-[30px]">
-                    <CustomPaginationActionsTable
-                        {...{
-                            rowsData,
-                            columnsData,
-                            rowId,
-                            setRowId,
-                            isLoading,
-                        }}
-                    />
+                    {dataSearch.length > 0 ? (
+                        <CustomPaginationActionsTable
+                            {...{
+                                rowsData: dataSearch,
+                                columnsData,
+                                rowId,
+                                setRowId,
+                                isLoading,
+                            }}
+                        />
+                    ) : (
+                        <CustomPaginationActionsTable
+                            {...{
+                                rowsData,
+                                columnsData,
+                                rowId,
+                                setRowId,
+                                isLoading,
+                            }}
+                        />
+                    )}
                 </div>
             </Paper>
 

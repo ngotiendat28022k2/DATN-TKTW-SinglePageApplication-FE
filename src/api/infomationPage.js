@@ -19,6 +19,9 @@ const infomationPageApi = {
     Remove: async (id) => {
         return await instance.delete(`infomationPage/${id}`);
     },
+    SearchInfor: async (data) => {
+        return await instance.get(`search-information?search=${data?.search}`);
+    },
 };
 
 export default infomationPageApi;

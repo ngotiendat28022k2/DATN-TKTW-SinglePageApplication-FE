@@ -14,6 +14,7 @@ import {
     AddNewInfomationPage,
     UpdateInformation,
     getAllInformationPage,
+    searchInfor,
 } from "../../../slice/infomationPage";
 import { useDispatch, useSelector } from "react-redux";
 import FormAddOrEdit from "./FormAddOrEdit/index";
@@ -29,11 +30,26 @@ export default function ProductList() {
     const [recordForEdit, setRecordForEdit] = useState(null);
     const [isLoading, setIsLoading] = useState(null);
     const [optionCategory, setOptionCategory] = useState([]);
+    const [objSearch, setObjSearch] = useState({
+        search: "",
+    });
 
     const informationSlide = useSelector((state) => state.infomationPage.value);
 
     const handleSearch = async (e) => {
         console.log("e.target.value", e.target.value);
+        setObjSearch((prev) => ({ ...prev, search: e.target.value }));
+        if (objSearch.search === "") {
+            setDataSearch([]);
+        } else {
+            try {
+                const { payload } = await dispatch(searchInfor(objSearch));
+                console.log("payload", payload.data);
+                setDataSearch(payload.data.data);
+            } catch (error) {
+                console.log("error search information", error);
+            }
+        }
     };
 
     const openInPopup = (item) => {
@@ -140,6 +156,7 @@ export default function ProductList() {
     }, [informationSlide]);
     useEffect(() => {
         setRowsData(informationSlide);
+        setDataSearch(informationSlide);
     }, [informationSlide]);
     return (
         <>
@@ -165,15 +182,27 @@ export default function ProductList() {
                 </Toolbar>
 
                 <div className="mt-[30px]">
-                    <CustomPaginationActionsTable
-                        {...{
-                            rowsData,
-                            columnsData,
-                            rowId,
-                            setRowId,
-                            isLoading,
-                        }}
-                    />
+                    {dataSearch.length > 0 ? (
+                        <CustomPaginationActionsTable
+                            {...{
+                                rowsData: dataSearch,
+                                columnsData,
+                                rowId,
+                                setRowId,
+                                isLoading,
+                            }}
+                        />
+                    ) : (
+                        <CustomPaginationActionsTable
+                            {...{
+                                rowsData,
+                                columnsData,
+                                rowId,
+                                setRowId,
+                                isLoading,
+                            }}
+                        />
+                    )}
                 </div>
             </Paper>
             <Popup

@@ -17,6 +17,7 @@ import {
     AddNewAuthor,
     UpdateAuthor,
     getAllAuthor,
+    searchAuthor,
 } from "../../../slice/authorSlice";
 
 export default function PublishList() {
@@ -28,9 +29,24 @@ export default function PublishList() {
     const [isLoading, setIsLoading] = useState(false);
     const authorStore = useSelector((state) => state.author.value);
     const [recordForEdit, setRecordForEdit] = useState(null);
+    const [objSearch, setObjSearch] = useState({
+        search: "",
+    });
 
-    const handleSearch = (e) => {
+    const handleSearch = async (e) => {
         console.log("e.target.value", e.target.value);
+        setObjSearch((prev) => ({ ...prev, search: e.target.value }));
+        if (objSearch.search === "") {
+            setDataSearch([]);
+        } else {
+            try {
+                const { payload } = await dispatch(searchAuthor(objSearch));
+                console.log("payload", payload.data);
+                setDataSearch(payload.data.data);
+            } catch (error) {
+                console.log("error search author", error);
+            }
+        }
     };
     const openInPopup = (item) => {
         setOpenPopup(true);
@@ -92,8 +108,9 @@ export default function PublishList() {
         })();
     }, []);
     useEffect(() => {
-        console.log("authorStore", authorStore);
+        // console.log("authorStore", authorStore);
         setRowsData(authorStore);
+        setDataSearch(authorStore);
     }, [authorStore]);
 
     const columnsData = [
@@ -152,15 +169,27 @@ export default function PublishList() {
                 </Toolbar>
 
                 <div className="mt-[30px]">
-                    <CustomPaginationActionsTable
-                        {...{
-                            rowsData,
-                            columnsData,
-                            rowId,
-                            setRowId,
-                            isLoading,
-                        }}
-                    />
+                    {dataSearch.length > 0 ? (
+                        <CustomPaginationActionsTable
+                            {...{
+                                rowsData: dataSearch,
+                                columnsData,
+                                rowId,
+                                setRowId,
+                                isLoading,
+                            }}
+                        />
+                    ) : (
+                        <CustomPaginationActionsTable
+                            {...{
+                                rowsData,
+                                columnsData,
+                                rowId,
+                                setRowId,
+                                isLoading,
+                            }}
+                        />
+                    )}
                 </div>
             </Paper>
 
