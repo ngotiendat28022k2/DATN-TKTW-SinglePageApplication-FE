@@ -127,7 +127,7 @@ const DetailProduct = () => {
         {/* Tiêu đề link đến sản phẩm */}
         <div className="uppercase text-[#000] text-[13px] flex gap-[5px] py-[10px] px-[20px] md:px-[0px]">
           <span className="">Sách</span>
-          <span className="text-[#737373]">&gt;</span>
+          <span className="text-[#737373]"> &gt; </span>
           <span className="">{product?.name}</span>
         </div>
         <div className="bg-[white] grid grid-cols-1 md:flex px-[20px] py-[40px] rounded-[7px]">
