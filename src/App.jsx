@@ -30,6 +30,7 @@ import { ChatBubbleOutline } from "@mui/icons-material";
 import ReportList from "./page/Admin/reportCommentList";
 import CommentList from "./page/Admin/commentList";
 import ProductSeries from "./page/Admin/prductseries";
+import InfomationPage from "./page/Admin/infomation_page";
 
 const DynamicPage = React.lazy(() => import("./page/dynamicPage/DynamicPage"));
 const ProfileAdmin = React.lazy(() =>

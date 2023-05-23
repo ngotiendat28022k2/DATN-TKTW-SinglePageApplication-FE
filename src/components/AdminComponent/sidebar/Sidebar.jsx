@@ -52,9 +52,6 @@ export default function Sidebar() {
             case "supplieres":
                 setActiveDiv(divId);
                 break;
-            case "voucher":
-                setActiveDiv(divId);
-                break;
             case "author":
                 setActiveDiv(divId);
                 break;
