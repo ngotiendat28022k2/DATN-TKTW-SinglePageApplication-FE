@@ -58,10 +58,13 @@ export default function Sidebar() {
             case "infomation":
                 setActiveDiv(divId);
                 break;
-            case "category infomation":
+            case "category-infomation":
                 setActiveDiv(divId);
                 break;
             case "voucher":
+                setActiveDiv(divId);
+                break;
+            case "product-series":
                 setActiveDiv(divId);
                 break;
             default:
@@ -183,6 +186,25 @@ export default function Sidebar() {
                             </li>
                         </Link>
                         <Link
+                            to="/admin/banner"
+                            className={styles.link}
+                            onClick={handleClose}
+                        >
+                            <li
+                                className={`mb-1 ${styles.sidebarListItem}`}
+                                onClick={() => handleActive("banner")}
+                                style={{
+                                    backgroundColor:
+                                        activeDiv === "banner"
+                                            ? "#5a8d26"
+                                            : "",
+                                }}
+                            >
+                                <CategoryIcon className={styles.sidebarIcon} />
+                                Banner Manage
+                            </li>
+                        </Link>
+                        <Link
                             to="/admin/publishs"
                             className={styles.link}
                             onClick={handleClose}
@@ -203,6 +225,56 @@ export default function Sidebar() {
                                 Publishing
                             </li>
                         </Link>
+                        <li
+                            onClick={handleOpen}
+                            className={`mb-1 ${styles.sidebarListItem}`}
+                        >
+                            <PermIdentity className={styles.sidebarIcon} />
+                            Footer
+                        </li>
+                        {/* </Link> */}
+                        <div className={`pl-5 ${open ? "block" : "hidden"}`}>
+                            <div
+                                className={`mb-1 ${styles.sidebarListItem}`}
+                                onClick={() => handleActive("footer-detail")}
+                                style={{
+                                    backgroundColor:
+                                        activeDiv === "footer-detail"
+                                            ? "#5a8d26"
+                                            : "",
+                                }}
+                            >
+                                <Link
+                                    to="/admin/footer/detail"
+                                    className={styles.link}
+                                >
+                                    <PermIdentity
+                                        className={styles.sidebarIcon}
+                                    />
+                                    Footer Detail
+                                </Link>
+                            </div>
+                            <div
+                                className={`mb-1 ${styles.sidebarListItem}`}
+                                onClick={() => handleActive("user-service")}
+                                style={{
+                                    backgroundColor:
+                                        activeDiv === "user-service"
+                                            ? "#5a8d26"
+                                            : "",
+                                }}
+                            >
+                                <Link
+                                    to="/admin/footer/service"
+                                    className={styles.link}
+                                >
+                                    <PermIdentity
+                                        className={styles.sidebarIcon}
+                                    />
+                                    Footer Service
+                                </Link>
+                            </div>
+                        </div>
                         <Link
                             to="/admin/supplieres"
                             className={styles.link}
@@ -222,6 +294,27 @@ export default function Sidebar() {
                                     className={styles.sidebarIcon}
                                 />
                                 Supplieres
+                            </li>
+                        </Link>
+                        <Link
+                            to="/admin/voucher"
+                            className={styles.link}
+                            onClick={handleClose}
+                        >
+                            <li
+                                className={`mb-1 ${styles.sidebarListItem}`}
+                                onClick={() => handleActive("voucher")}
+                                style={{
+                                    backgroundColor:
+                                        activeDiv === "voucher"
+                                            ? "#5a8d26"
+                                            : "",
+                                }}
+                            >
+                                <SupervisorAccountIcon
+                                    className={styles.sidebarIcon}
+                                />
+                                Voucher
                             </li>
                         </Link>
                         <Link to="/admin/author" onClick={handleClose}>
@@ -263,7 +356,7 @@ export default function Sidebar() {
                                 }
                                 style={{
                                     backgroundColor:
-                                        activeDiv === "category Infomation"
+                                        activeDiv === "category infomation"
                                             ? "#5a8d26"
                                             : "",
                                 }}
@@ -285,6 +378,21 @@ export default function Sidebar() {
                             >
                                 <BarChart className={styles.sidebarIcon} />
                                 Infomation Page
+                            </li>
+                        </Link>
+                        <Link to="/admin/product-series" onClick={handleClose}>
+                            <li
+                                className={`mb-1 ${styles.sidebarListItem}`}
+                                onClick={() => handleActive("product-series")}
+                                style={{
+                                    backgroundColor:
+                                        activeDiv === "product-series"
+                                            ? "#5a8d26"
+                                            : "",
+                                }}
+                            >
+                                <BarChart className={styles.sidebarIcon} />
+                                Product Series
                             </li>
                         </Link>
                     </ul>

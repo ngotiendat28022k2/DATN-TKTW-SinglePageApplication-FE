@@ -12,6 +12,7 @@ import ActionUpdate from "./ActionUpdate";
 import {
     AddNewCategory,
     getAllCategory,
+    searchCate,
     UpdateCategory,
 } from "../../../slice/categorySlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,9 +28,24 @@ export default function CategoryList() {
     const [isLoading, setIsLoading] = useState(false);
     const categorys = useSelector((state) => state.category.value);
     const [recordForEdit, setRecordForEdit] = useState(null);
+    const [objSearch, setObjSearch] = useState({
+        search: "",
+    });
 
-    const handleSearch = (e) => {
+    const handleSearch = async (e) => {
         console.log("e.target.value", e.target.value);
+        setObjSearch((prev) => ({ ...prev, search: e.target.value }));
+        if (objSearch.search === "") {
+            setDataSearch([]);
+        } else {
+            try {
+                const { payload } = await dispatch(searchCate(objSearch));
+                console.log("payload", payload.data);
+                setDataSearch(payload.data.data);
+            } catch (error) {
+                console.log("error search category", error);
+            }
+        }
     };
     const openInPopup = (item) => {
         setOpenPopup(true);
@@ -92,6 +108,7 @@ export default function CategoryList() {
     }, []);
     useEffect(() => {
         setRowsData(categorys);
+        setDataSearch(categorys);
     }, [categorys]);
 
     const columnsData = [
@@ -161,15 +178,27 @@ export default function CategoryList() {
                 </Toolbar>
 
                 <div className="mt-[30px]">
-                    <CustomPaginationActionsTable
-                        {...{
-                            rowsData,
-                            columnsData,
-                            rowId,
-                            setRowId,
-                            isLoading,
-                        }}
-                    />
+                    {dataSearch.length > 0 ? (
+                        <CustomPaginationActionsTable
+                            {...{
+                                rowsData: dataSearch,
+                                columnsData,
+                                rowId,
+                                setRowId,
+                                isLoading,
+                            }}
+                        />
+                    ) : (
+                        <CustomPaginationActionsTable
+                            {...{
+                                rowsData,
+                                columnsData,
+                                rowId,
+                                setRowId,
+                                isLoading,
+                            }}
+                        />
+                    )}
                 </div>
             </Paper>
 

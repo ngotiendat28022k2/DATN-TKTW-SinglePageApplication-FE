@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+
 import { FormControlLabel, Grid, Switch } from "@mui/material";
 import Controls from "../../../../components/AdminComponent/controls/Controls";
 import { useForm, Form } from "../../../../components/AdminComponent/useForm";
@@ -31,6 +32,7 @@ export default function NewVoucher({ recordForEdit, addOrEdit, optionUser }) {
         let temp = { ...errors };
         if ("code" in fieldValues)
             temp.code = fieldValues.code ? "" : "Code is required.";
+
         // if ("icon" in fieldValues) {
         //     temp.icon = fieldValues.icon ? "" : "Icon is required.";
         // }
@@ -73,6 +75,7 @@ export default function NewVoucher({ recordForEdit, addOrEdit, optionUser }) {
             addOrEdit(values, resetForm);
         }
     };
+
     // console.log("value", values);
 
     return (

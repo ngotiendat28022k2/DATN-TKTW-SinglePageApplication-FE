@@ -56,18 +56,18 @@ function CommentList({ user, product }) {
             <span className="">Đánh giá sản phẩm</span>
           </div>
           {/* Block main bao gồm 2 block đánh giá phụ  */}
-          <div className="flex max-w-[100%] w-full justify-start gap-[20px] py-[15px]">
+          <div className="md:flex max-w-[100%] w-full justify-start gap-[20px] py-[15px]">
             {/* Block 1 đánh giá */}
             <AverageRating />
             {/* Button viết đánh giá */}
             {user ? (
-              <div className=" max-w-[50%] w-full items-center justify-center flex">
+              <div className=" max-w-[100%] md:max-w-[50%] w-full flex items-center justify-center pt-[20px]">
                 <div
                   onClick={() => {
                     setRecordForEdit(null);
                     setOpenPopup(true);
                   }}
-                  className="hover:bg-red-100 max-w-[60%] w-full border-[2px] border-solid border-[#C92127] rounded-[10px] px-[30px] py-[10px] items-center justify-center flex font-bold cursor-pointer"
+                  className="md:max-w-[60%] w-full border-[2px] border-solid border-[#C92127] rounded-[10px] px-[30px] py-[10px] items-center justify-center flex font-bold cursor-pointer"
                 >
                   <span className="text-[#C92127]  text-[17px]">
                     Viết đánh giá

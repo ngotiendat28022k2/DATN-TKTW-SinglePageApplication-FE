@@ -1,41 +1,40 @@
 import React, { useEffect, useState } from "react";
-import { Add, EditOutlined, Close } from "@mui/icons-material";
+import { Add, EditOutlined, Close, Image } from "@mui/icons-material";
 import { Button, Paper, Toolbar } from "@mui/material";
 import Controls from "../../../components/AdminComponent/controls/Controls";
 import Popup from "../../../components/AdminComponent/MyPopup/MyPopup";
 // Services
 import InputSearch from "../../../components/AdminComponent/inputSearch/inputSearch.component";
 import CustomPaginationActionsTable from "../../../components/AdminComponent/table/table.component";
-import ActionSave from "./ActionSave";
-import ActionDelete from "./ActionDelete";
-import ActionUpdate from "./ActionUpdate";
-import {
-    getInfomationPage,
-    AddNewInfomationPage,
-    UpdateInformation,
-    getAllInformationPage,
-    searchInfor,
-} from "../../../slice/infomationPage";
-import { useDispatch, useSelector } from "react-redux";
-import FormAddOrEdit from "./FormAddOrEdit/index";
-import helper from "../../../utiliti/helper/helper";
-import { getAllCategoryInfor } from "../../../slice/categoryInformation";
+import ActionSave from "../prductseries/ActionSave";
+import ActionDelete from "../prductseries/ActionDelete";
+import ActionUpdate from "../prductseries/ActionUpdate";
 
-export default function InfomationPage() {
+import { useDispatch, useSelector } from "react-redux";
+import FormAddOrEdit from "./AddOrEdit/index";
+import helper from "../../../utiliti/helper/helper";
+import {
+    AddNewProductSeries,
+    UpdateProductSeries,
+    getAllProductSeries,
+    searchPro,
+} from "../../../slice/productseries";
+import { getAllCategory } from "../../../slice/categorySlice";
+
+export default function ProductSeries() {
     const dispatch = useDispatch();
     const [openPopup, setOpenPopup] = useState(false);
     const [dataSearch, setDataSearch] = React.useState([]);
     const [rowId, setRowId] = useState(null);
     const [rowsData, setRowsData] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
     const [recordForEdit, setRecordForEdit] = useState(null);
-    const [isLoading, setIsLoading] = useState(null);
-    const [optionCategory, setOptionCategory] = useState([]);
+    const [optionCategory, setoptionCategory] = useState([]);
     const [objSearch, setObjSearch] = useState({
         search: "",
     });
 
-    const informationSlide = useSelector((state) => state.infomationPage.value);
-
+    const productSlice = useSelector((state) => state.productSeries.value);
     const handleSearch = async (e) => {
         console.log("e.target.value", e.target.value);
         setObjSearch((prev) => ({ ...prev, search: e.target.value }));
@@ -43,61 +42,103 @@ export default function InfomationPage() {
             setDataSearch([]);
         } else {
             try {
-                const { payload } = await dispatch(searchInfor(objSearch));
+                const { payload } = await dispatch(searchPro(objSearch));
                 console.log("payload", payload.data);
                 setDataSearch(payload.data.data);
             } catch (error) {
-                console.log("error search information", error);
+                console.log("error search product series", error);
             }
         }
     };
-
     const openInPopup = (item) => {
         setOpenPopup(true);
+        console.log("item", item);
         setRecordForEdit(item);
     };
 
     const addOrEdit = async (values, resetForm) => {
-        console.log("values", values);
+        // console.log("phuc", values);
         if (!values._id) {
             try {
-                const { payload } = await dispatch(
-                    AddNewInfomationPage(values)
-                );
-                console.log("payload", payload);
+                const { payload } = await dispatch(AddNewProductSeries(values));
                 if (payload?.successCode) {
-                    helper.toast("success", "Add Infomation Page success");
+                    helper.toast("success", "Add success");
                 }
                 if (payload?.errorCode) {
-                    helper.toast("error", "Add Infomation Page false");
+                    helper.toast("error", "Add false");
                 }
             } catch (error) {
                 helper.toast("error", "fetching data false");
             }
-            // setOpenPopup(false);
         } else {
             try {
-                const { payload } = await dispatch(UpdateInformation(values));
+                const { payload } = await dispatch(UpdateProductSeries(values));
+                console.log("payload update", payload);
                 if (payload?.successCode) {
-                    helper.toast("success", "Update information page success");
+                    helper.toast("success", "Update success");
                 }
                 if (payload?.errorCode) {
-                    helper.toast("error", "Update information page false");
+                    helper.toast("error", "Update false");
                 }
-                // setOpenPopup(false);
             } catch (error) {
                 helper.toast("error", "Edit data false");
             }
         }
         resetForm();
         setRecordForEdit(null);
-        // setRecords(records);
         setOpenPopup(false);
     };
+    useEffect(() => {
+        (async () => {
+            try {
+                setIsLoading(true);
+                const { payload } = await dispatch(getAllProductSeries());
+                // console.log(payload);
+                if (payload?.successCode) {
+                    setRowsData(payload.data);
+                }
+                if (payload?.errorCode) {
+                    helper.toast("error", payload.message);
+                }
+                setIsLoading(false);
+            } catch (error) {
+                console.log(error);
+            }
+        })();
+    }, []);
+    useEffect(() => {
+        (async () => {
+            try {
+                const categories = await dispatch(getAllCategory());
+                setoptionCategory(
+                    categories.payload.data.map((a) => ({
+                        ...a,
+                        label: a.name,
+                        value: a.name,
+                    }))
+                );
+            } catch (error) {
+                console.log(error);
+            }
+        })();
+    }, [productSlice]);
+
+    useEffect(() => {
+        // console.log("productSeries", productSeries);
+        setRowsData(productSlice);
+        setDataSearch(productSlice);
+    }, [productSlice]);
 
     const columnsData = [
-        { field: "_id", headerName: "ID", width: 250 },
-        { field: "title", headerName: "Title", width: 500, editable: true },
+        { field: "_id", headerName: "ID", width: 150 },
+        { field: "name", headerName: "Name", width: 350, editable: true },
+        {
+            field: "image",
+            headerName: "Image",
+            width: 280,
+            renderCell: (params) =>
+                params.row.image.map((image) => <img src={image} />),
+        },
         {
             field: "actions",
             headerName: "Actions",
@@ -118,46 +159,7 @@ export default function InfomationPage() {
         },
     ];
 
-    useEffect(() => {
-        (async () => {
-            try {
-                setIsLoading(true);
-                const data = await dispatch(getAllInformationPage());
-                console.log("data", data.payload.data);
-                if (data.payload?.successCode) {
-                    setRowsData(data.payload.data);
-                }
-                if (data.payload?.errorCode) {
-                    helper.toast("error", payload.message);
-                }
-                setIsLoading(false);
-            } catch (error) {
-                helper.toast("error");
-            }
-        })();
-    }, []);
-
-    useEffect(() => {
-        (async () => {
-            try {
-                const categoryInfor = await dispatch(getAllCategoryInfor());
-                console.log("categoryInfor", categoryInfor.payload.data);
-                setOptionCategory(
-                    categoryInfor.payload.data.map((a) => ({
-                        ...a,
-                        label: a.name,
-                        value: a.name,
-                    }))
-                );
-            } catch (error) {
-                console.log(error);
-            }
-        })();
-    }, [informationSlide]);
-    useEffect(() => {
-        setRowsData(informationSlide);
-        setDataSearch(informationSlide);
-    }, [informationSlide]);
+    // console.log("optionCategory", optionCategory);
     return (
         <>
             <Paper
@@ -205,11 +207,10 @@ export default function InfomationPage() {
                     )}
                 </div>
             </Paper>
+
             <Popup
                 title={
-                    recordForEdit
-                        ? "Edit Information Page"
-                        : "Add Information Page"
+                    recordForEdit ? "Edit Product Series" : "Add Product Series"
                 }
                 openPopup={openPopup}
                 setOpenPopup={setOpenPopup}
@@ -217,7 +218,7 @@ export default function InfomationPage() {
                 <FormAddOrEdit
                     recordForEdit={recordForEdit}
                     addOrEdit={addOrEdit}
-                    optioncategoryInfor={optionCategory}
+                    optionCategories={optionCategory}
                 />
             </Popup>
         </>

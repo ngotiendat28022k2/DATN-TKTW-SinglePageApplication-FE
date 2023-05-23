@@ -51,6 +51,14 @@ export const UpdateCategoryInfor = createAsyncThunk(
     }
 );
 
+export const searchCateInfor = createAsyncThunk(
+    "category-information/search",
+    async (data) => {
+        const res = await categogyInformationAPI.SearchCateInfor(data);
+        return res;
+    }
+);
+
 const initialState = {
     value: [],
     search: [],
@@ -81,6 +89,9 @@ export const categoryInformation = createSlice({
             if (action.payload.successCode) {
                 state.value = action.payload.data;
             }
+        });
+        builder.addCase(searchCateInfor.fulfilled, (state, action) => {
+            state.search = action.payload.data.data;
         });
     },
 });
