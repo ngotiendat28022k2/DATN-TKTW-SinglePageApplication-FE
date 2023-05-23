@@ -125,17 +125,17 @@ const DetailProduct = () => {
     <>
       <div className="">
         {/* Tiêu đề link đến sản phẩm */}
-        <div className="uppercase text-[#000] text-[13px] flex gap-[5px] py-[10px]">
+        <div className="uppercase text-[#000] text-[13px] flex gap-[5px] py-[10px] px-[20px] md:px-[0px]">
           <span className="">Sách tiếng việt</span>
           <span className="text-[#737373]">&gt;</span>
           <span className="">Tâm lý - kỹ năng sống</span>
           <span className="text-[#737373]">&gt;</span>
           <span className="">Tâm lý</span>
         </div>
-        <div className="bg-[white] flex px-[20px] py-[40px] rounded-[7px]">
+        <div className="bg-[white] grid grid-cols-1 md:flex px-[20px] py-[40px] rounded-[7px]">
           {/* Hình ảnh sản phẩm */}
           <div className="">
-            <div className="flex">
+            <div className="flex justify-center">
               <div className=" object-contain items-center">
                 <div className="">
                   <WSPGallery galleryImages={product?.productImage} />
@@ -149,19 +149,49 @@ const DetailProduct = () => {
                 />
               </div>
             </div>
-            <div className="flex justify-center gap-[10px] mt-[25px]">
+            <div className="flex md:justify-center md:gap-[10px] mt-[25px] fixed bottom-0 z-[1] md:static ml-[-20px] w-[100%]  shadow-[0px_5px_15px_rgba(0,0,0,0.35)] md:shadow-none md:ml-0">
+              <div className="w-[28%]  border-r-[1px] border-solid border-[#9e9e9e] bg-[#fff] flex items-center justify-center md:hidden custom">
+                <div className="flex items-center justify-center">
+                  <div className="px-[15px]" onClick={() =>
+                    handleQuantity("decrease")
+                  }>
+                    <img
+                      className="w-[72px] h-auto"
+                      src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_minus2x.png"
+                      alt=""
+                    />
+                  </div>
+                  <div className="max-w-[60px] w-full text-[16px] md:text-[18px] font-medium p-[3px]">
+                    <input
+                      className="max-w-[60px] w-full text-center focus-visible:outline-0"
+                      type="text"
+                      defaultValue={1}
+                      value={cart.quantity}
+                    />
+                  </div>
+                  <div className="px-[15px]" onClick={() =>
+                    handleQuantity("increase")
+                  }>
+                    <img
+                      className="w-[72px] h-auto"
+                      src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/ico_plus2x.png"
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </div>
               <div
-                className=" max-w-[220px] w-full border-[2px] border-solid border-[#C92127] hover:bg-red-100 transition-all rounded-[10px] px-[30px] py-[10px] items-center justify-center flex cursor-pointer"
+                className="w-[40%] px-[20px] py-[15px] md:max-w-[220px] md:w-full md:border-[2px] md:border-solid md:border-[#C92127] md:rounded-[10px] md:px-[30px] md:py-[10px] items-center justify-center flex cursor-pointer bg-[#fff]"
                 onClick={handleAddToCart}
               >
-                <span className="text-[#C92127] font-semibold ">
+                <span className="text-[#C92127] font-semibold w-full text-[16px] md:text-[16px] text-center ">
                   Thêm vào giỏ hàng
                 </span>
               </div>
-              <div className="max-w-[220px] w-full border-[2px] border-solid border-[#C92127] hover:bg-[#d3343a] hover:border-[#d3343a] transition-all rounded-[10px] px-[30px] py-[10px] bg-[#C92127] items-center justify-center flex cursor-pointer">
+              <div className="w-[32%] px-[20px] py-[15px] md:max-w-[220px] md:w-full border-[2px] border-solid border-[#C92127] md:rounded-[10px] md:px-[30px] md:py-[10px] bg-[#C92127] items-center justify-center flex cursor-pointer" onClick={handlePayCart}>
                 <span
                   className="text-[#fff] font-semibold "
-                  onClick={handlePayCart}
+                 
                 >
                   Mua ngay
                 </span>
@@ -169,13 +199,13 @@ const DetailProduct = () => {
             </div>
           </div>
           {/* Tên sản phẩm, giá sản phẩm, desc.. */}
-          <div className="w-[70%] pl-[20px]">
-            <div className="pb-[16px]">
+          <div className="md:w-[70%]">
+            <div className="md:pb-[16px] pt-[10px]">
               <span className="text-[23px] text-[#000] font-medium">
                 {product?.name}
               </span>
             </div>
-            <div className="flex justify-between">
+            <div className="md:flex md:justify-between hidden">
               <div className="text-[14px]">
                 <div className="">
                   <span className=" text-[#000]">
@@ -237,8 +267,8 @@ const DetailProduct = () => {
                 </div>
               </div>
             </div>
-            <div className="flex  my-[20px]">
-              <div className="flex justify-center items-center">
+            <div className="flex pb-[15px]">
+              <div className="flex justify-start md:justify-center items-center">
                 {product?.sale !== 0 || product?.sale ? (
                   <>
                     <div className="pr-[20px]">
@@ -273,22 +303,22 @@ const DetailProduct = () => {
             <div className="w-[100%] pb-[10px]">
               <div className="text-[14px]">
                 <div className="flex gap-[30px] pb-[10px]">
-                  <div className="w-[17%]">
+                  <div className="w-[17%]  md:block hidden">
                     <span className=" text-[#000]">Thời gian giao hàng</span>
                   </div>
-                  <div className="w-[75%]">
+                  <div className="w-[100%] md:w-[75%]">
                     <span className=" text-[#000] cursor-pointer">
-                      <span className=" font-semibold pl-[2px]">
+                      <span className=" font-semibold">
                         Từ 3 đến 7 ngày (Tùy thuộc vào địa chỉ của bạn)
                       </span>
                     </span>
                   </div>
                 </div>
                 <div className="flex gap-[30px] ">
-                  <div className="w-[17%]">
+                  <div className="w-[17%] md:block hidden">
                     <span className=" text-[#000]">Chính sách đổi trả</span>
                   </div>
-                  <div className="w-[75%]">
+                  <div className="w-[100%] md:w-[75%]">
                     <span className=" text-[#000]">
                       Đổi trả sản phẩm trong 30 ngày
                     </span>
@@ -296,7 +326,7 @@ const DetailProduct = () => {
                 </div>
               </div>
             </div>
-            <div className="flex gap-[30px] pt-[10px]">
+            <div className="md:flex gap-[30px] pt-[10px] hidden">
               <div className="w-[17%]">
                 <span className="text-[#555555] font-medium text-[18px]">
                   Số lượng:
@@ -504,7 +534,7 @@ const DetailProduct = () => {
                   </tr>
                   {product?.other.map((item) => (
                     <tr className="" key={item.id}>
-                      <td className="w-[25%] p-[4px] text-[#777]">{item.k}</td>
+                      <td className="w-[50%] md:w-[25%] p-[4px] text-[#777]">{item.k}</td>
                       <td className="w-[100%] p-[4px]">{item.v}</td>
                     </tr>
                   ))}
@@ -525,7 +555,7 @@ const DetailProduct = () => {
                 ></div>
                 <div className="items-center justify-center flex cursor-pointer pt-[15px] pb-[8px]">
                   <button
-                    className="w-full text-[#C92127] font-semibold max-w-[220px]  w-full border-[2px] border-solid border-[#C92127] rounded-[10px] px-[30px] py-[10px] items-center justify-center flex"
+                    className=" text-[#C92127] font-semibold max-w-[220px]  w-full border-[2px] border-solid border-[#C92127] rounded-[10px] px-[30px] py-[10px] items-center justify-center flex"
                     onClick={() => setShowFullDescription(!showFullDescription)}
                   >
                     {showFullDescription ? "Rút gọn" : "Xem thêm"}

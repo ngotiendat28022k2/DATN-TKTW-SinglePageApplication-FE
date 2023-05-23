@@ -4,7 +4,7 @@ const SidebarProfile = (props) => {
     const { _id, email, role } = props.user;
     console.log(props.user.role);
     return (
-        <div className="max-w-[280px] w-full border border-solid border-[#e6e6e6] rounded-[2px] bg-[white]">
+        <div className="md: w-full border border-solid border-[#e6e6e6] rounded-[2px] bg-[white] relative z-[1]">
             {role == 1 ? (
                 <div className="">
                     <div className="px-[20px] pt-[18px] border-b-[2px] border-solid border-[#f6f6f6]">

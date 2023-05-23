@@ -21,7 +21,7 @@ import FormAddOrEdit from "./FormAddOrEdit/index";
 import helper from "../../../utiliti/helper/helper";
 import { getAllCategoryInfor } from "../../../slice/categoryInformation";
 
-export default function ProductList() {
+export default function InfomationPage() {
     const dispatch = useDispatch();
     const [openPopup, setOpenPopup] = useState(false);
     const [dataSearch, setDataSearch] = React.useState([]);

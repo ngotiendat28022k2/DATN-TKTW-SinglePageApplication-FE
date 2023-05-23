@@ -4,16 +4,16 @@ import { useSelector } from "react-redux";
 const RatingBar = ({ star, percentage }) => {
   return (
     <div className="flex w-[100%] justify-start items-center gap-[10px]">
-      <div className="">
+      <div className="w-[70px] md:w-auto">
         <span className="text-[18px]">{star} sao</span>
       </div>
-      <div className="max-w-[250px] max-h-[6px] h-full w-full bg-[#e6e6e6]">
+      <div className="max-w-[100px] md:max-w-[250px] max-h-[6px] h-full w-full bg-[#e6e6e6]">
         <span
           className="h-full block bg-[#1f9d55]"
           style={{ width: `${percentage}%` }}
         ></span>
       </div>
-      <div className="text-[18px]">
+      <div className="text-[18px] max-w-[45px] w-full md:max-w-none">
         <span className="">{percentage.toFixed(0)}%</span>
       </div>
     </div>
@@ -50,7 +50,7 @@ const AverageRating = () => {
 
   return (
     <>
-      <div className="w-[12%] ">
+      <div className="w-[25%] md:w-[12%] float-left ">
         <div className="font-bold flex justify-center items-center">
           <span className="text-[53px]">{averageRating.toFixed(1)}</span>
           <span className="text-[27px]">/5</span>
@@ -61,7 +61,7 @@ const AverageRating = () => {
           </span>
         </div>
       </div>
-      <div className="grid grid-cols-1 w-[35%]">
+      <div className="grid grid-cols-1 pl-[26px] w-[65%] md:w-[35%]">
         {ratings.map((rating) => (
           <RatingBar
             key={rating.star}
