@@ -16,6 +16,11 @@ const categoryInformationAPI = {
     Remove: async (id) => {
         return await instance.delete(`/categories-information/${id}`);
     },
+    SearchCateInfor: async (data) => {
+        return await instance.get(
+            `search-categories-information?search=${data?.search}`
+        );
+    },
 };
 
 export default categoryInformationAPI;

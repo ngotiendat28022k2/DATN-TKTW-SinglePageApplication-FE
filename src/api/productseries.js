@@ -16,6 +16,11 @@ const productSeriesApi = {
     Remove: async (id) => {
         return await instance.delete(`product-series/${id}`);
     },
+    SearchPro: async (data) => {
+        return await instance.get(
+            `search-product-series?search=${data?.search}`
+        );
+    },
 };
 
 export default productSeriesApi;

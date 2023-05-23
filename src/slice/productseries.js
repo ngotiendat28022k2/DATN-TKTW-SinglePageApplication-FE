@@ -50,6 +50,14 @@ export const UpdateProductSeries = createAsyncThunk(
     }
 );
 
+export const searchPro = createAsyncThunk(
+    "product-series/search",
+    async (data) => {
+        const res = await productSeriesApi.SearchPro(data);
+        return res;
+    }
+);
+
 const initialState = {
     value: [],
     search: [],
@@ -80,6 +88,9 @@ export const productSeriesSlice = createSlice({
             if (action.payload.successCode) {
                 state.value = action.payload.data;
             }
+        });
+        builder.addCase(searchPro.fulfilled, (state, action) => {
+            state.search = action.payload.data.data;
         });
     },
 });

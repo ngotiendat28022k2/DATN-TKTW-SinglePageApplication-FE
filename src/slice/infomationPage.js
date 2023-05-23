@@ -48,6 +48,15 @@ export const UpdateInformation = createAsyncThunk(
         }
     }
 );
+
+export const searchInfor = createAsyncThunk(
+    "information/search",
+    async (data) => {
+        const res = await infomationPageApi.SearchInfor(data);
+        return res;
+    }
+);
+
 const initialState = {
     value: [],
     search: [],
@@ -82,6 +91,9 @@ export const infomationPageSlice = createSlice({
             if (action.payload.successCode) {
                 state.value = action.payload.data;
             }
+        });
+        builder.addCase(searchInfor.fulfilled, (state, action) => {
+            state.search = action.payload.data.data;
         });
     },
 });

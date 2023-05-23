@@ -12,6 +12,7 @@ import ActionUpdate from "./ActionUpdate";
 import {
     AddNewCategoryInfor,
     getAllCategoryInfor,
+    searchCateInfor,
     UpdateCategoryInfor,
 } from "../../../slice/categoryInformation";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,13 +26,29 @@ export default function CategoryInforList() {
     const [rowId, setRowId] = useState(null);
     const [rowsData, setRowsData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [objSearch, setObjSearch] = useState({
+        search: "",
+    });
+
     const categorysInfor = useSelector(
         (state) => state.categoryInformation.value
     );
     const [recordForEdit, setRecordForEdit] = useState(null);
 
-    const handleSearch = (e) => {
+    const handleSearch = async (e) => {
         console.log("e.target.value", e.target.value);
+        setObjSearch((prev) => ({ ...prev, search: e.target.value }));
+        if (objSearch.search === "") {
+            setDataSearch([]);
+        } else {
+            try {
+                const { payload } = await dispatch(searchCateInfor(objSearch));
+                console.log("payload", payload.data);
+                setDataSearch(payload.data.data);
+            } catch (error) {
+                console.log("error search category information", error);
+            }
+        }
     };
     const openInPopup = (item) => {
         setOpenPopup(true);
@@ -98,6 +115,7 @@ export default function CategoryInforList() {
     }, []);
     useEffect(() => {
         setRowsData(categorysInfor);
+        setDataSearch(categorysInfor);
     }, [categorysInfor]);
 
     const columnsData = [
@@ -155,15 +173,27 @@ export default function CategoryInforList() {
                 </Toolbar>
 
                 <div className="mt-[30px]">
-                    <CustomPaginationActionsTable
-                        {...{
-                            rowsData,
-                            columnsData,
-                            rowId,
-                            setRowId,
-                            isLoading,
-                        }}
-                    />
+                    {dataSearch.length > 0 ? (
+                        <CustomPaginationActionsTable
+                            {...{
+                                rowsData: dataSearch,
+                                columnsData,
+                                rowId,
+                                setRowId,
+                                isLoading,
+                            }}
+                        />
+                    ) : (
+                        <CustomPaginationActionsTable
+                            {...{
+                                rowsData,
+                                columnsData,
+                                rowId,
+                                setRowId,
+                                isLoading,
+                            }}
+                        />
+                    )}
                 </div>
             </Paper>
 
