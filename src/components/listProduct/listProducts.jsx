@@ -41,7 +41,7 @@ export default function ListProduct({ list }) {
                         </div>
                     </div>
                     <div className="bg-white p-2">
-                        <div className="grid md:grid-cols-5 grid-cols-3 gap-2 md:mx-2">
+                        <div className="grid md:grid-cols-5 grid-cols-2 gap-2 md:mx-2">
                             {products &&
                                 products?.map((product) => (
                                     <div className="relative hover:border-2 hover:shadow-md">
