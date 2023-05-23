@@ -1,39 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { Add, EditOutlined, Close, Image } from "@mui/icons-material";
-import { Avatar, Button, Paper, Toolbar } from "@mui/material";
+import { Button, Paper, Toolbar } from "@mui/material";
 import Controls from "../../../components/AdminComponent/controls/Controls";
-import Select from "react-select";
 import Popup from "../../../components/AdminComponent/MyPopup/MyPopup";
 // Services
 import InputSearch from "../../../components/AdminComponent/inputSearch/inputSearch.component";
 import CustomPaginationActionsTable from "../../../components/AdminComponent/table/table.component";
-import ActionSave from "./ActionSave";
-import ActionDelete from "./ActionDelete";
-import ActionUpdate from "./ActionUpdate";
-import {
-  AddNewSupplier,
-  getAllSupplier,
-  UpdateSupplier,
-} from "../../../slice/supplieresSlice";
-import {
-  AddUser,
-  getAllUserClient,
-  UpdateUser,
-} from "../../../slice/userSlice";
+import ActionSave from "../authorList/ActionSave";
+import ActionDelete from "../authorList/ActionDelete";
+import ActionUpdate from "../authorList/ActionUpdate";
+
 import { useDispatch, useSelector } from "react-redux";
 import FormAddOrEdit from "./AddOrEdit/index";
 import helper from "../../../utiliti/helper/helper";
-import { getAllProductsWithComments, getAllProductsWithReports } from "../../../slice/commentSlice";
-import CustomPaginationActionsTableReport from "../../../components/AdminComponent/table/tablereport.component";
+import {
+  AddNewBanner,
+  UpdateBanner,
+  getAllBanner,
+} from "../../../slice/bannerSlice";
 
-export default function ReportList() {
+export default function BannerList() {
   const dispatch = useDispatch();
   const [openPopup, setOpenPopup] = useState(false);
   const [dataSearch, setDataSearch] = React.useState([]);
   const [rowId, setRowId] = useState(null);
   const [rowsData, setRowsData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const userStore = useSelector((state) => state.user.value);
+  const bannerStore = useSelector((state) => state.banner.value);
   const [recordForEdit, setRecordForEdit] = useState(null);
 
   const handleSearch = (e) => {
@@ -44,14 +37,48 @@ export default function ReportList() {
     setRecordForEdit(item);
   };
 
-  // ...
-
+  const addOrEdit = (values, resetForm) => {
+    if (!values._id) {
+      try {
+        (async () => {
+          const { payload } = await dispatch(AddNewBanner(values));
+          console.log(payload);
+          if (payload?.succsessCode) {
+            helper.toast("success", "Add success");
+          }
+          if (payload?.errorCode) {
+            helper.toast("error", "Add false");
+          }
+        })();
+      } catch (error) {
+        helper.toast("error", "fetching data false");
+      }
+    } else {
+      try {
+        (async () => {
+          const { payload } = await dispatch(UpdateBanner(values));
+          console.log("payload update", payload);
+          if (payload?.successCode) {
+            helper.toast("success", "Update success");
+          }
+          if (payload?.errorCode) {
+            helper.toast("error", "Update false");
+          }
+        })();
+      } catch (error) {
+        helper.toast("error", "Edit data false");
+      }
+    }
+    resetForm();
+    setRecordForEdit(null);
+    setOpenPopup(false);
+  };
   useEffect(() => {
     (async () => {
       try {
         setIsLoading(true);
-        const { payload } = await dispatch(getAllProductsWithReports());
-       console.log('payload', payload.data);
+        const { payload } = await dispatch(getAllBanner());
+        console.log(payload);
         if (payload?.successCode) {
           setRowsData(payload.data);
         }
@@ -64,61 +91,29 @@ export default function ReportList() {
       }
     })();
   }, []);
-
   useEffect(() => {
-    setRowsData(userStore);
-  }, [userStore]);
+    console.log("bannerStore", bannerStore);
+    setRowsData(bannerStore);
+  }, [bannerStore]);
 
   const columnsData = [
     {
-      field: "productImage",
-      headerName: "Ảnh sản phẩm",
-      width: 120,
-      renderCell: (params) => <Avatar sx={{ width: 56, height: 56 }} src={params.row._doc?.product?.productImage} />
-    },
-    {
-      field: "name",
-      headerName: "Tên sản phẩm",
+      field: "image",
+      headerName: "Image",
       width: 250,
-      renderCell: (params) => <span>{params.row._doc?.product?.name}</span>,
+      renderCell: (params) =>params.row.image.map((image) => <img src={image} />),
     },
-    {
-      field: "rating",
-      headerName: "Rating",
-      width: 100,
-      renderCell: (params) => <span>{params.row._doc?.rating}</span>,
-    },
-    {
-      field: "content",
-      headerName: "Nội dung",
-      width: 300,
-      editable: true,
-      renderCell: (params) => (
-        <span dangerouslySetInnerHTML={{ __html: params.row._doc?.content }}></span>
-      ),
-    },
-    {
-      field: "email",
-      headerName: "Người bình luận",
-      width: 200,
-      editable: true,
-      renderCell: (params) => <span>{params.row._doc?.user?.email}</span>,
-    },
-    {
-      field: "time",
-      headerName: "Thời gian",
-      width: 200,
-      editable: true,
-      renderCell: (params) => <span>{params.row._doc?.createdAt}</span>,
-    },
+    { field: "link", headerName: "Link", width: 150 },
     {
       field: "actions",
-      headerName: "Hành động",
+      headerName: "Actions",
       type: "actions",
-      width: 100,
+      width: 230,
       renderCell: (params) => {
         return (
           <div className="w-full flex justify-between items-center">
+            <ActionSave {...{ params, rowId, setRowId }} />
+            <ActionUpdate params={params} openInPopup={openInPopup} />
             <ActionDelete params={params} />
           </div>
         );
@@ -152,18 +147,24 @@ export default function ReportList() {
         </Toolbar>
 
         <div className="mt-[30px]">
-          <CustomPaginationActionsTableReport
-            {...{ rowsData, columnsData, rowId, setRowId, isLoading }}
+          <CustomPaginationActionsTable
+            {...{
+              rowsData,
+              columnsData,
+              rowId,
+              setRowId,
+              isLoading,
+            }}
           />
         </div>
       </Paper>
 
       <Popup
-        title={recordForEdit ? "Edit User" : "Add User"}
+        title={recordForEdit ? "Edit Author" : "Add Author"}
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
-
+        <FormAddOrEdit recordForEdit={recordForEdit} addOrEdit={addOrEdit} />
       </Popup>
     </>
   );

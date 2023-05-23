@@ -14,9 +14,10 @@ import { useDispatch, useSelector } from "react-redux";
 import FormAddOrEdit from "./AddOrEdit/index";
 import helper from "../../../utiliti/helper/helper";
 import { AddNewComment, UpdateComment, getAllComment, getAllProductsWithComments } from "../../../slice/commentSlice";
-import { Link } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 
-export default function CommentList() {
+
+export default function CommentDetail() {
   const dispatch = useDispatch();
   const [openPopup, setOpenPopup] = useState(false);
   const [dataSearch, setDataSearch] = React.useState([]);
@@ -25,6 +26,9 @@ export default function CommentList() {
   const [isLoading, setIsLoading] = useState(false);
   const commentStore = useSelector((state) => state.comment.value);
   const [recordForEdit, setRecordForEdit] = useState(null);
+
+  const { id } = useParams();
+  console.log('id', id);
 
   const handleSearch = (e) => {
     console.log("e.target.value", e.target.value);
@@ -70,21 +74,13 @@ export default function CommentList() {
     setRecordForEdit(null);
     setOpenPopup(false);
   };
-
   useEffect(() => {
     (async () => {
       try {
         setIsLoading(true);
-        const { payload } = await dispatch(getAllProductsWithComments());
-        const products = [];
-        for (const comment of payload.data) {
-          if (comment.product && !products.find(product => product._id == comment.product._id)) {
-            products.push({ ...comment.product, id: comment.product._id }); // Add the id property to each row
-          }
-        }
-        console.log('products', products);
+        const { payload } = await dispatch(getAllComment(id));
         if (payload?.successCode) {
-          setRowsData(products);
+          setRowsData(payload.data);
         }
         if (payload?.errorCode) {
           helper.toast("error", payload.message);
@@ -95,36 +91,51 @@ export default function CommentList() {
       }
     })();
   }, []);
-  
   useEffect(() => {
     setRowsData(commentStore);
   }, [commentStore]);
 
   const columnsData = [
-    { field: "_id", headerName: "ID", width: 200 },
-    {
-      field: "product",
-      headerName: "Sản phẩm",
-      width: 100,
-      renderCell: (params) => <Avatar sx={{ width: 56, height: 56 }} src={params.row.productImage}/>
-    },
-    {
-      field: "actions",
-      headerName: "Hành động",
-      type: "actions",
-      width: 230,
-      renderCell: (params) => {
-        return (
-          <div className="w-full flex justify-between items-center">
-             <Link to={`/admin/comment/${params.row._id}`}>Xem thêm</Link>
-          </div>
-        );
-      },
-    },
-  ];
-
-  //   return () => {
-  //   };
+     { field: "_id", headerName: "ID", width: 200 },
+     {
+       field: "product",
+       headerName: "Sản phẩm",
+       width: 100,
+       renderCell: (params) => (
+         <div>
+           <Avatar sx={{ width: 56, height: 56 }} src={params.row.user.avatar} />
+         </div>
+       ),
+     },
+     { field: "rating", headerName: "Đánh giá bình luận", width: 200, editable: true },
+     {
+       field: "content",
+       headerName: "Nội dung bình luận",
+       width: 400,
+       editable: true,
+       renderCell: (params) => (
+         <div dangerouslySetInnerHTML={{ __html: params.value }}></div>
+       ),
+     },
+     {
+       field: "actions",
+       headerName: "Actions",
+       type: "actions",
+       width: 230,
+       renderCell: (params) => (
+         <div className="w-full flex justify-between items-center">
+           <ActionSave {...{ params, rowId, setRowId }} />
+           <ActionUpdate params={params} openInPopup={openInPopup} />
+           <ActionDelete params={params} />
+         </div>
+       ),
+     },
+   ];
+   
+   
+   
+   
+   
   return (
     <>
       <Paper
@@ -136,16 +147,6 @@ export default function CommentList() {
       >
         <Toolbar>
           <InputSearch handleSearch={handleSearch} />
-          <Controls.Button
-            text="Add New"
-            variant="outlined"
-            startIcon={<Add />}
-            sx={{ position: "absolute", right: "10px" }}
-            onClick={() => {
-              setRecordForEdit(null);
-              setOpenPopup(true);
-            }}
-          />
         </Toolbar>
 
         <div className="mt-[30px]">

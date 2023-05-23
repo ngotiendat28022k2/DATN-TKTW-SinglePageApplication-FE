@@ -4,11 +4,9 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ConfirmDialog from "../../../utiliti/Notify/confirmDialog";
 import helper from "../../../utiliti/helper/helper";
-import { RemoveCategory } from "../../../slice/categorySlice";
-import { RemoveComment, getAllComment } from "../../../slice/commentSlice";
+import { RemoveBanner } from "../../../slice/bannerSlice";
 
 const ActionDelete = ({ params }) => {
-  console.log('params', params);
   const dispatch = useDispatch();
   const [dialog, setDialog] = useState({
     isOpen: false,
@@ -21,7 +19,7 @@ const ActionDelete = ({ params }) => {
       isOpen: true,
       title: "You sure remove!",
       subTitle: "you cannot undo this action.",
-      id: params,
+      id: params.id,
     });
   };
 
@@ -33,13 +31,15 @@ const ActionDelete = ({ params }) => {
       <ConfirmDialog
         confirmDialog={dialog}
         setConfirmDialog={setDialog}
-        onConfirm={async (params) => {
-          console.log("id", params);
+        onConfirm={async (id) => {
+          console.log("id", id);
           try {
-            const {payload} = await dispatch(RemoveComment(params.id));
-            if (payload?.success) {
-              helper.toast("success", payload.message);
-              await dispatch(getAllComment(params.row.product._id))
+            const {payload} = await dispatch(RemoveBanner(id));
+            if (payload?.successCode) {
+              helper.toast("success", "Remove SuccessFully!");
+            }
+            if (payload?.errorCode) {
+              helper.toast("error", payload.message);
             }
           } catch (error) {
             helper.toast("error", error.message);

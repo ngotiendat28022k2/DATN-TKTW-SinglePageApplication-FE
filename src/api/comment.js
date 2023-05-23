@@ -1,6 +1,14 @@
 import instance from "./config";
 
 const commentApi = {
+  commentProductsList: async (id) => {
+    return await instance.get(`product-with-comment`);
+  },
+
+  reportProductsList: async (id) => {
+    return await instance.get(`product-with-report`);
+  },
+
   commentList: async (id) => {
     return await instance.get(`comments/${id}`);
   },
@@ -15,6 +23,9 @@ const commentApi = {
   },
   RemoveComment: async (id) => {
     return await instance.delete(`comment/${id}`);
+  },
+  RemoveReport: async (id) => {
+    return await instance.delete(`reportComment/${id}`);
   },
   isCommentReport: async (data) => {
     return await instance.get(
