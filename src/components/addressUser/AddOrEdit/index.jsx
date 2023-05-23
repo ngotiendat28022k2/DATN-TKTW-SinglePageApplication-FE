@@ -7,9 +7,9 @@ import Select from "react-select";
 const initialFValues = {
   name: "",
   numberPhone: "",
-  selectedProvince: undefined,
-  selectedDistrict: undefined,
-  selectedWard: undefined,
+  selectedProvince: "",
+  selectedDistrict: "",
+  selectedWard: "",
   specificAddress: "",
 };
 
@@ -70,26 +70,25 @@ export default function FormAddresUser(props) {
     const [provinces, setProvinces] = useState([]);
     const [districts, setDistricts] = useState([]);
     const [wards, setWards] = useState([]);
-    
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("value")
-    // const provinceName =
-    //   provinces.find((province) => province.code == values.selectedProvince)
-    //     ?.name || "";
-    // const districtName =
-    //   districts.find((district) => district.code == values.selectedDistrict)
-    //     ?.name || "";
-    // const wardName =
-    //   wards.find((ward) => ward.code == values.selectedWard)?.name || "";
-    // const newValue = {
-    //   ...values,
-    //   selectedProvince: provinceName,
-    //   selectedDistrict: districtName,
-    //   selectedWard: wardName,
-    // };
+    const provinceName =
+      provinces.find((province) => province.ProvinceID == values.selectedProvince)
+        ?.ProvinceName || "";
+    const districtName =
+      districts.find((district) => district.DistrictID == values.selectedDistrict)
+        ?.DistrictName || "";
+    const wardName =
+      wards.find((ward) => ward.WardCode == values.selectedWard)?.WardName || "";
+
+    const newValue = {
+      ...values,
+       provinceName,
+       districtName,
+       wardName,
+    };
     if (validate()) {
-      // addOrEdit(newValue, resetForm);
+      addOrEdit(newValue, resetForm);
     }
   };
 
@@ -117,7 +116,7 @@ export default function FormAddresUser(props) {
         },
       })
         .then(response => response.json())
-        .then(data => console.log("data", data))
+        .then(data => setDistricts(data.data))
         .catch(error => console.error(error));
     }
   }, [values.selectedProvince])
@@ -138,8 +137,6 @@ export default function FormAddresUser(props) {
   },[values.selectedDistrict])
 
   
-console.log("values", values)
-  
 
   return (
     <Form onSubmit={handleSubmit}>
@@ -156,7 +153,8 @@ console.log("values", values)
               type="text"
               className="input-pay border border-inherit h-9 md:px-5 px-3 md:w-[500px] w-[420px] rounded-lg"
               placeholder="Nhập họ và tên người nhận"
-            />
+            /><br />
+            <span className="text-red-600 mt-2">{errors.name}</span>
           </div>
         </div>
         <div className="md:flex md:my-2">
@@ -171,7 +169,8 @@ console.log("values", values)
               type="text"
               className="input-pay border border-inherit h-9 md:px-5 px-3 md:w-[500px] w-[420px] rounded-lg"
               placeholder="Ví dụ: 0976890xxx (10 ký tự)"
-            />
+            /><br />
+            <span className="text-red-600 mt-2">{errors.numberPhone}</span>
           </div>
         </div>
         <div className="md:flex md:my-2">
@@ -205,7 +204,8 @@ console.log("values", values)
                   {province.ProvinceName}
                 </option>
               ))}
-            </select>
+            </select><br />
+            <span className="text-red-600 mt-2">{errors.selectedProvince}</span>
           </div>
         </div>
         <div className="md:flex md:my-2">
@@ -227,6 +227,9 @@ console.log("values", values)
                 </option>
               ))}
             </select>
+            <br />
+            <span className="text-red-600 mt-2">{errors.selectedDistrict}</span>
+
           </div>
         </div>
         <div className="md:flex md:my-2">
@@ -247,7 +250,9 @@ console.log("values", values)
                   {ward.WardName}
                 </option>
               ))}
-            </select>
+            </select><br />
+            <span className="text-red-600 mt-2">{errors.selectedWard}</span>
+
           </div>
         </div>
         <div className="md:flex md:my-2 my-2">
@@ -262,6 +267,8 @@ console.log("values", values)
               type="text"
               className="input-pay border border-inherit h-9 md:px-5 px-3 md:w-[500px] w-[420px] rounded-lg"
             />
+            <br />
+            <span className="text-red-600 mt-2">{errors.specificAddress}</span>
           </div>
         </div>
         <Grid item xs={12}>

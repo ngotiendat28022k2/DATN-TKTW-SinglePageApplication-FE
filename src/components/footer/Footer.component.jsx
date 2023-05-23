@@ -151,7 +151,7 @@ const Footer = () => {
 
                     <div className="lg:max-w-[68%] lg:w-full mt-[20px] lg:mt-0">
                         <div className="lg:flex lg:justify-around lg:items-start lg:flex-wrap">
-                            {cateInfor.map((eCate) => (
+                            {cateInfor && cateInfor.map((eCate) => (
                                 <div
                                     key={eCate._id}
                                     className="mt-[10px] lg:mt-[20px]"

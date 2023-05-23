@@ -20,7 +20,9 @@ const PagePay = () => {
   const [infoUser, setInfoUser] = useState(undefined);
   const [totalPerProduct, setTotalPerProduct] = useState(0);
   const [totalPerProducts, setTotalPerProducts] = useState([]);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
+  const [totalMonny, setTotalMonny] = useState(0)
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
+  const [shippingFee, setShippingFee] = useState(0);
   const [orderFromLocalStorage, setOrderFromLocalStorage] = useState(() => {
     const orderWithExpiry = JSON.parse(localStorage.getItem("pendingOrder"));
     if (orderWithExpiry && orderWithExpiry.expiry > Date.now()) {
@@ -28,14 +30,12 @@ const PagePay = () => {
     }
     return null;
   });
-  console.log("totalPerProduct", totalPerProduct);
-  console.log("totalPerProducts", totalPerProducts);
+  
   useEffect(() => {
     if (!user || !orderFromLocalStorage) {
       navigate("/checkout/cart");
     }
   }, [orderFromLocalStorage, user]);
- 
   useEffect(() => {
     (async () => {
       try {
@@ -65,65 +65,52 @@ const PagePay = () => {
   useEffect(() => {
     const data = infoUserStore.filter((infoUser) => infoUser.isActive === true);
     setInfoUser(...data);
+    setTotalMonny(shippingFee + totalPerProducts)
   }, [infoUserStore]);
-
   const handleAddress = () => {
     setOpenPopup(true);
   };
-
-
   const handlePaymentMethodChange = (event) => {
     setSelectedPaymentMethod(event.target.value);
   };
-  console.log("selectedPaymentMethod", selectedPaymentMethod)
 
   const handlepayment = () => {
-    console.log("dia chi", infoUser)
-    console.log("don hang",orderFromLocalStorage)
-  }
+    handleShippingOder();
+  };
 
-  const handleRequest = () => {
+  console.log("infoUser", infoUser)
+
+  const handleShippingOder = () => {
+    const products = orderFromLocalStorage.map(item => ({
+      name: item.product.name,
+      code: item.product.categories[0],
+      quantity: item.quantity,
+      price: item.product.sale || item.product.price ,
+      
+    }))
     const requestData = {
       payment_type_id: 2,
       required_note: "KHONGCHOXEMHANG",
-      // to_name: fullname,
-      // to_phone: phoneNumber,
-      // to_address: address,
-      // to_ward_code: selectedWard,
-      // to_district_id: parseInt(selectedDistrict),
-      // cod_amount: codAmount,
-      to_name: fullname,
-      to_phone: phoneNumber,
-      to_address: address,
-      to_ward_code: selectedWard,
-      to_district_id: parseInt(selectedDistrict),
-      cod_amount: codAmount,
-      content: productshortDescription,
-      weight: Number(weight.split('(')[0]),
+      to_name: infoUser?.name,
+      to_phone: infoUser?.numberPhone,
+      to_address: infoUser?.specificAddress,
+      to_ward_code: infoUser?.selectedWard,
+      to_district_id: infoUser?.selectedDistrict,
+      cod_amount: 0,
+      content: "",
+      weight: 2000,
       length: 1,
       width: 14,
       height: 20,
-      cod_failed_amount: codAmount,
+      cod_failed_amount: 0,
       deliver_station_id: null,
-      insurance_value: grandTotal,
+      insurance_value: totalMonny,
       service_id: 100039,
       service_type_id: 2,
       coupon: null,
-      items: [
-        {
-          name: productName,
-          code: productCategory,
-          quantity: productQuantity,
-          price: productSale,
-          width: 14,
-          height: 20,
-          category: {
-            level1: productCategory
-          }
-        }
-      ]
+      items: products
     };
-  
+
     fetch("https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/create", {
       method: 'POST',
       headers: {
@@ -135,14 +122,57 @@ const PagePay = () => {
     })
     .then(response => response.json())
     .then(data => {
-      // Xử lý phản hồi từ API
       console.log(data);
+      if(data.message === "Success"){
+        navigate("/thanks")
+      }
     })
     .catch(error => {
       // Xử lý lỗi
       console.error(error);
     });
   };
+
+  useEffect(() => {
+    if (infoUser?.selectedDistrict && infoUser?.selectedWard) {
+      const requestData = {
+        service_id: 100039,
+        service_type_id: 2,
+        from_district_id: 3440,
+        to_district_id: parseInt(infoUser?.selectedDistrict),
+        to_ward_code: infoUser?.selectedWard,
+        weight: 2000,
+        cod_amount: 0,
+        length: 0,
+        width: 0,
+        height: 0,
+        coupon: "",
+        insurance_value: 0,
+      };
+
+      fetch(
+        `https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            ShopId: "4152116",
+            Token: "6918bfab-f625-11ed-a281-3aa62a37e0a5",
+          },
+          body: JSON.stringify(requestData),
+        }
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          const formattedTotal = data.data.total;
+          setShippingFee(formattedTotal)
+         
+        })
+        .catch((error) => console.error(error));
+
+    }
+  }, [infoUser]);
+
   return (
     <div>
       <div className="bg-white md:m-5 m-3">
@@ -155,7 +185,7 @@ const PagePay = () => {
               <span className="capitalize">{`${infoUser?.name} - ${infoUser?.numberPhone}. `}</span>
               <span className="capitalize text-[#333]">
                 Address:{" "}
-                {`${infoUser?.specificAddress} ${infoUser?.selectedWard} ${infoUser?.selectedDistrict} ${infoUser?.selectedProvince}`}
+                {`${infoUser?.specificAddress} ${infoUser?.wardName} ${infoUser?.districtName} ${infoUser?.provinceName}`}
               </span>
               <span className="border-[1px] text-[10px] py-[3px] px-[7px] ml-[10px] border-[#c7232b] text-[#c7232b]">
                 Mặc Định
@@ -177,7 +207,7 @@ const PagePay = () => {
           <div className="font-bold text-lg p-2">MÃ KHUYẾN MÃI/MÃ QUÀ TẶNG</div>
           <div className="mx-2 border-b-2"></div>
           <div className="p-2">
-            <div className="flex my-3">
+            <div className="flex my-3 ">
               <label className="mr-10 leading-8">Mã KM/Quà tặng</label>
               <div>
                 <input
@@ -244,45 +274,49 @@ const PagePay = () => {
       </div>
 
       <div className="bg-white md:m-5 m-3">
-      <div className="md:p-5 p-3">
-        <div className="font-bold text-lg p-2">PHƯƠNG THỨC THANH TOÁN</div>
-        <div className="mx-2 border-b-2"></div>
-        <div className="p-2">
-          <div className="flex my-3">
-            <input
-              type="radio"
-              className="w-5 h-5 mt-[2px]"
-              value="VNPAY"
-              checked={selectedPaymentMethod === 'VNPAY'}
-              onChange={handlePaymentMethodChange}
-            />
-            <img
-              className="ml-2"
-              src="https://cdn0.fahasa.com/skin/frontend/base/default/images/payment_icon/ico_vnpay.svg?q=102103"
-              alt=""
-            />
-            <div className="text-base pl-2 h-6">VNPAY</div>
-          </div>
-          <div className="flex">
-            <input
-              type="radio"
-              className="w-5 h-5 mt-[2px]"
-              value="COD"
-              checked={selectedPaymentMethod === 'COD'}
-              onChange={handlePaymentMethodChange}
-            />
-            <img
-              className="ml-2"
-              src="https://cdn0.fahasa.com/skin/frontend/base/default/images/payment_icon/ico_cashondelivery.svg?q=102103"
-              alt=""
-            />
-            <div className="text-base pl-2 h-6">
-              Thanh toán bằng tiền mặt khi nhận hàng
+        <div className="md:p-5 p-3">
+          <div className="font-bold text-lg p-2">PHƯƠNG THỨC THANH TOÁN</div>
+          <div className="mx-2 border-b-2"></div>
+          <div className="p-2">
+            <div className="flex my-3 block">
+              <input
+                type="radio"
+                className="w-5 h-5 mt-[2px]"
+                value="PAYPAL"
+                id="PAYPAL"
+                checked={selectedPaymentMethod === "PAYPAL"}
+                onChange={handlePaymentMethodChange}
+              />
+              <img
+                className="ml-2 w-full max-w-[40px]"
+                src="https://img.freepik.com/free-icon/paypal_318-674245.jpg"
+                alt=""
+              />
+              <label htmlFor="PAYPAL" className="text-base pl-2 h-6">PAYPAL</label>
+            </div>
+            <div className="flex block">
+              <input
+                type="radio"
+                className="w-5 h-5 mt-[2px]"
+                value="COD"
+                id="COD"
+                checked={selectedPaymentMethod === "COD"}
+                onChange={handlePaymentMethodChange}
+              />
+              <label htmlFor="COD" className="">
+              <img
+                className="ml-2 inline-block"
+                src="https://cdn0.fahasa.com/skin/frontend/base/default/images/payment_icon/ico_cashondelivery.svg?q=102103"
+                alt=""
+              />
+              <span className="pl-2 h-6 text-[15px]">
+                Thanh toán bằng tiền mặt khi nhận hàng
+              </span>
+              </label>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
       <div className="bg-white md:m-5 m-3">
         <div className="md:p-5 p-3">
@@ -290,16 +324,20 @@ const PagePay = () => {
             <div>
               <div className="flex md:justify-end mb-1 justify-between">
                 <div>Thành tiền</div>
-                <div className="text-right w-40">198.400 đ</div>
+                <div className="text-right w-40">
+                  {helper.maskValuePrice(totalPerProducts)}
+                </div>
               </div>
               <div className="flex md:justify-end justify-between mb-1">
                 <div>Phí vận chuyển (Giao hàng tiêu chuển)</div>
-                <div className="text-right w-40">20.000 đ</div>
+                <div className="text-right w-40">
+                  {helper.maskValuePrice(shippingFee)}
+                </div>
               </div>
               <div className="flex md:justify-end justify-between mb-1">
                 <div className="font-bold">Tổng số tiền (Gồm VAT)</div>
                 <div className="font-bold text-lg text-[#F39801] text-right w-40">
-                  216.400 đ
+                  {helper.maskValuePrice(totalMonny)}
                 </div>
               </div>
             </div>
@@ -324,13 +362,21 @@ const PagePay = () => {
               </Button>
             </Link>
             <div className="flex">
-              <Button color="error" variant="contained" onClick={handlepayment}>
+              {selectedPaymentMethod === "COD" && <Button color="error" variant="contained" onClick={handlepayment}>
                 Xác nhận thanh toán
-              </Button>
+              </Button>}
+              
             </div>
           </div>
         </div>
       </div>
+      <Popup
+        title="Địa Chỉ Của Tôi"
+        openPopup={openPopup}
+        setOpenPopup={setOpenPopup}
+      >
+        <AddressListUser setOpen={setOpenPopup} />
+      </Popup>
       <Popup
         title="Địa Chỉ Của Tôi"
         openPopup={openPopup}

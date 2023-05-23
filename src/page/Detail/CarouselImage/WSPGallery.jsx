@@ -1,13 +1,6 @@
 import { useState } from 'react'
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faCircleChevronLeft, 
-  faCircleChevronRight, 
-  faCircleXmark
-} from '@fortawesome/free-solid-svg-icons'
-
 import './styles.css'
+import { Button } from '@mui/material'
 
 const WSPGallery = ({galleryImages}) => {
   const [slideNumber, setSlideNumber] = useState(0)
@@ -49,9 +42,9 @@ const WSPGallery = ({galleryImages}) => {
 
       {openModal && 
         <div className='sliderWrap'>
-          <FontAwesomeIcon icon={faCircleXmark} className='btnClose' onClick={handleCloseModal}  />
-          <FontAwesomeIcon icon={faCircleChevronLeft} className='btnPrev' onClick={prevSlide} />
-          <FontAwesomeIcon icon={faCircleChevronRight} className='btnNext' onClick={nextSlide} />
+          <Button className='btnClose' onClick={handleCloseModal}><i className="fa-solid fa-xmark"></i></Button>
+          <Button className='btnPrev' onClick={prevSlide}><i className="fa-solid fa-arrow-left"></i></Button>
+          <Button className='btnNext' onClick={nextSlide}><i class="fa-solid fa-arrow-right"></i></Button>
           <div className='fullScreenImage'>
             <img src={galleryImages[slideNumber]} alt='' />
           </div>

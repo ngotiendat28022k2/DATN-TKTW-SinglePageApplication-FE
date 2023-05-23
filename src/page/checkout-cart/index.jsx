@@ -130,7 +130,9 @@ const CheckoutCart = () => {
     setTotalPerProduct(totalPrices);
     setTotalPerProducts(totalPrice);
   }, [carts]);
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const saveOrderToLocalStorage = (order) => {
     const orderWithExpiry = {
       order,

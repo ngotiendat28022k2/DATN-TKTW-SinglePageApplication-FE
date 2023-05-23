@@ -137,7 +137,7 @@ const AddressListUser = ({ setOpen }) => {
                 {formatPhoneNumber(infoUser.numberPhone)}
               </span>
               <span className="text-[#333] capitalize block">
-               address:{`${infoUser.specificAddress}, ${infoUser.selectedWard}, ${infoUser.selectedDistrict}, ${infoUser.selectedProvince}`}
+               address:{`${infoUser.specificAddress}, ${infoUser.wardName}, ${infoUser.districtName}, ${infoUser.provinceName}`}
               </span>
 
               <ActionDelete params={infoUser}/>

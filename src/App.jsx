@@ -29,10 +29,15 @@ import ChatBox from "./components/chatbot";
 import { ChatBubbleOutline } from "@mui/icons-material";
 import ReportList from "./page/Admin/reportCommentList";
 import CommentList from "./page/Admin/commentList";
+import ProductOder from "./page/Admin/voucherList copy";
 
 const DynamicPage = React.lazy(() => import("./page/dynamicPage/DynamicPage"));
 const ProfileAdmin = React.lazy(() =>
     import("./page/Admin/Profile/Profile.admin")
+);
+
+const Thank = React.lazy(() =>
+import("./page/pay/Thank/Thank")
 );
 const ProfileAddress = React.lazy(() =>
     import("./page/profile/Profile-Address")
@@ -152,9 +157,11 @@ function App() {
                         />
                         <Route path="report-comment" element={<ReportList />} />
                         <Route path="comment" element={<CommentList />} />
+                        <Route path="productOder" element={<ProductOder />} />
                     </Route>
 
                     <Route path="/login" element={<Login />} />
+                    <Route path="/thanks" element={<Thank />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>

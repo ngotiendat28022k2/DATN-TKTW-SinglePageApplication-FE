@@ -1,6 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const ProfileMyProduct = () => {
+
+  useEffect(() => {
+
+    // fetch("https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/create", {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'ShopId': '4152116',
+    //     'Token': '6918bfab-f625-11ed-a281-3aa62a37e0a5'
+    //   },
+    //   body: JSON.stringify(requestData)
+    // })
+    // .then(response => response.json())
+    // .then(data => {
+    //   console.log(data);
+    //   if(data.message === "Success"){
+    //     navigate("/thanks")
+    //   }
+    // })
+    // .catch(error => {
+    //   // Xử lý lỗi
+    //   console.error(error);
+    // });
+  }, [])
   return (
     <div className="container-profile border border-solid border-[#e6e6e6] rounded-[2px] bg-[white]">
       <div className=" h-auto">
